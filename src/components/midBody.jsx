@@ -8,8 +8,8 @@ class MidBody extends Component {
   render() {
     return (
       <React.Fragment>
-        <CreatePost />
-        <Posts />
+        <CreatePost user={this.props.user} />
+        <Posts user={this.props.user} />
       </React.Fragment>
     );
   }

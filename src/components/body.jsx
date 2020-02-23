@@ -13,10 +13,10 @@ class Body extends Component {
             <LeftSidebar />
           </div>
           <div className="col-6 text-center">
-            <MidBody />
+            <MidBody user={this.props.user} />
           </div>
           <div className="col-3">
-            <RightSidebar />
+            <RightSidebar user={this.props.user} />
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ class Home extends Component {
     return (
       <React.Fragment>
         <Navbar user={this.props.user} />
-        <Body />
+        <Body user={this.props.user} />
       </React.Fragment>
     );
   }

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import { getCities } from "../services/cityService";
+import { submitPost } from "../services/postService";
 
 class CreatePost extends Component {
   state = {
@@ -43,8 +45,17 @@ class CreatePost extends Component {
     return false;
   };
 
-  handleClick = () => {
-    // Submit the post
+  handleClick = async () => {
+    const response = await submitPost({
+      ..._.pick(this.state, ["postBody", "location", "amountSpend"]),
+      _id: this.props.user._id,
+      postBy: this.props.user._id
+    });
+    if (response) {
+      console.log("post created successfully");
+    } else {
+      console.log("error creating a post");
+    }
   };
 
   render() {

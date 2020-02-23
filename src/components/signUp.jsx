@@ -42,7 +42,7 @@ class SignUp extends Form {
 
     // register the user
     const { year, month, date } = this.state.data.birthday;
-    this.state.data.birthday = `${year}-${month}-${date}`;
+    this.state.data.birthday = `${date}-${month}-${year}`;
     const response = await userService.register(
       _.pick(this.state.data, [
         "name",

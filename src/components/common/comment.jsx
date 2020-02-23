@@ -4,6 +4,8 @@ import { NavLink } from "react-router-dom";
 class Comment extends Component {
   state = {};
   render() {
+    const { commentBody, commentBy } = this.props.comment;
+
     return (
       <div className="d-flex flex-row mb-3">
         <img
@@ -13,17 +15,9 @@ class Comment extends Component {
         />
         <div className="text-justify comment">
           <NavLink className="userName mr-2" to="/">
-            Username
+            {commentBy.name}
           </NavLink>
-          <span id="commentBody">
-            the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book. It has survived not only
-            five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
-          </span>
+          <span>{commentBody}</span>
         </div>
       </div>
     );

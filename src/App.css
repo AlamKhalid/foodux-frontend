@@ -6,6 +6,10 @@ nav {
   background-color: #22bf6c;
 }
 
+.app-color {
+  color: #22bf6c;
+}
+
 .navbar-brand {
   font-size: 2rem !important;
   color: white !important;
@@ -128,7 +132,7 @@ nav {
   text-decoration: underline;
 }
 
-.postTime {
+.postDetails {
   font-size: 0.83rem;
 }
 
