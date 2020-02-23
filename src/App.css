@@ -1,0 +1,230 @@
+body {
+  background-color: #e9ebee !important;
+}
+
+nav {
+  background-color: #22bf6c;
+}
+
+.navbar-brand {
+  font-size: 2rem !important;
+  color: white !important;
+  letter-spacing: 4px;
+}
+
+.text-box:focus {
+  border-color: #22bf6c !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 0.2rem #22bf6c !important;
+}
+
+#loginBtn,
+#signUpBtn,
+.voteBtn {
+  background-color: #22bf6c;
+  color: #f8f9fa;
+}
+
+#loginBtn:hover,
+#signUpBtn:hover,
+#createPostBtn:hover,
+.voteBtn:hover {
+  background-color: #1da15a;
+}
+
+.initial {
+  font-size: 1.5rem !important;
+  color: white;
+  letter-spacing: 2px;
+  border: 1px solid white;
+  padding: 0 3px;
+  border-radius: 5px;
+}
+
+.initial:hover {
+  cursor: pointer;
+  color: #22bf6c;
+  text-decoration: none;
+  background-color: white;
+  letter-spacing: 2px;
+}
+
+.nav-link {
+  color: white !important;
+  font-size: 1.1rem;
+  padding: 0 20px !important;
+}
+
+.nav-link:hover {
+  background-color: #1da15a !important;
+}
+
+.searchBox {
+  width: 30vw;
+  padding: 2px 10px;
+  border-radius: 5px 0 0 5px;
+  border: 1px solid #c0c0ba;
+}
+
+.searchBox:focus {
+  outline: none;
+  border-radius: 5px 0 0 5px;
+  border: 1px solid #7c7e7d;
+}
+
+.searchBtn {
+  padding: 2px 10px;
+  border-radius: 0 5px 5px 0;
+  border: 1px solid #c0c0ba;
+}
+
+.searchBtn:hover {
+  background-color: #e8e8e8;
+}
+
+.b-right {
+  border-right: 1px solid white;
+}
+
+.active-side {
+  color: white !important;
+  background-color: #22bf6c !important;
+  border-color: #1da15a !important;
+}
+
+.createPostBody {
+  width: 100%;
+  height: 10vh;
+  padding: 5px 10px;
+  resize: none;
+  border-radius: 10px;
+}
+
+.createPostBody:focus {
+  outline: none !important;
+  border: 2px solid #22bf6c;
+}
+
+#createPostBtn {
+  background-color: #22bf6c;
+  color: white;
+}
+
+.displayPostPicture {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.userName {
+  color: black;
+  font-weight: bolder;
+}
+
+.userName:hover {
+  color: black;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.postTime {
+  font-size: 0.83rem;
+}
+
+.postBtns {
+  border-top: 1px solid #e9ebee;
+  border-bottom: 1px solid #e9ebee;
+}
+
+.postBtn {
+  width: 100%;
+  padding: 5px 0;
+}
+
+.postBtn:hover {
+  cursor: pointer;
+  background-color: #e9ebee;
+}
+
+.fa-ellipsis-v {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.fa-ellipsis-v:hover {
+  color: black !important;
+}
+
+.commentPic {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.commentField {
+  width: 90%;
+  border-radius: 30px;
+  padding: 3px 10px;
+  border: 1px solid #c0c0ba;
+}
+
+.commentField:focus {
+  outline: none;
+  border-radius: 30px;
+  border: 1px solid #22bf6c;
+}
+
+.comment {
+  background-color: #e9ebee;
+  padding: 3px 10px;
+  border-radius: 30px;
+}
+
+.fixed {
+  width: 17vw;
+  position: fixed;
+}
+
+.right-box {
+  background-color: white;
+  border-radius: 10px;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.location-icon {
+  background: #ededed url("./icons/pin.png") no-repeat 9px center;
+}
+
+.dollar-icon {
+  background: #ededed url("./icons/dollar.png") no-repeat 9px center;
+}
+
+.expand {
+  outline: none;
+  box-sizing: content-box;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 50%;
+  width: 12px;
+  height: 10px;
+  color: transparent;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.expand:focus {
+  width: 11vw;
+  background-color: #fff;
+  border-color: #22bf6c;
+  padding-left: 32px;
+  cursor: auto;
+  color: #000;
+  border-radius: 15px;
+}
+
+.expand:hover {
+  background-color: #fff;
+}
