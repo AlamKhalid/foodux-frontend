@@ -9,10 +9,10 @@ class LandingBody extends Component {
     return (
       <div className="container">
         <div className="row my-3">
-          <div className="col-6 pr-5">
+          <div className="d-none d-md-block col-md-6 pr-md-5">
             <About />
           </div>
-          <div className="col-6">
+          <div className="col-md-6 col-12">
             {this.props.login ? <Login /> : <SignUp />}
           </div>
         </div>

@@ -5,9 +5,8 @@ class RightSidebar extends Component {
 
   render() {
     return (
-      <div className="fixed">
+      <div className="">
         <h6 className="text-center right-box">Vote for your favourite</h6>
-
         <div className="right-box">
           <p>What you like the most?</p>
           <input type="radio" name="choice" />

@@ -83,9 +83,15 @@ class SignUp extends Form {
           <br />
           <h4 className="text-muted">Birthday</h4>
           <div className="row pl-4">
-            <div className="col-3">{this.renderSelect("date", "Date")}</div>
-            <div className="col-3">{this.renderSelect("month", "Month")}</div>
-            <div className="col-3">{this.renderSelect("year", "Year")}</div>
+            <div className="col-4 col-lg-3">
+              {this.renderSelect("date", "Date")}
+            </div>
+            <div className="col-4 col-lg-3">
+              {this.renderSelect("month", "Month")}
+            </div>
+            <div className="col-4 col-lg-3">
+              {this.renderSelect("year", "Year")}
+            </div>
           </div>
           {error && <div className="alert alert-danger">{error}</div>}
           <br />

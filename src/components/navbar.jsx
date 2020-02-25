@@ -9,15 +9,24 @@ class Navbar extends Component {
     $('[data-toggle="tooltip"]').tooltip();
   }
 
+  handleClick = () => {};
+
   render() {
     return (
-      <nav className="navbar sticky-top navbar-expand-lg navbar-light">
-        <div className="container">
+      <nav className="navbar sticky-top navbar-expand navbar-light">
+        <div className="container-fluid container-lg">
           <div className="d-flex">
-            <NavLink className="initial mr-3" to="/home">
+            <NavLink className="d-none d-lg-block initial mr-3" to="/home">
               FD
             </NavLink>
-            <form className="form-inline">
+            <button
+              className="d-block d-lg-none btn btn-outline-light mr-3"
+              onClick={this.handleClick}
+            >
+              <i className="fa fa-bars"></i>
+            </button>
+            <input type="text" className="d-md-none expand search-icon" />
+            <form className="d-none d-md-block form-inline mt-1">
               <input type="text" className="searchBox" placeholder="Search" />
               <button type="submit" className="searchBtn">
                 <i className="fa fa-search"></i>

@@ -1,0 +1,21 @@
+@media screen and (max-width: 1200px) {
+  .fixed {
+    width: 210px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .fixed {
+    width: 150px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .navbar-brand {
+    font-size: 1.5rem !important;
+  }
+
+  .fixed {
+    width: 105px;
+  }
+}

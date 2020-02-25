@@ -5,7 +5,7 @@ class About extends Component {
   render() {
     return (
       <React.Fragment>
-        <h2 className="mt-5">
+        <h2 className="mt-1">
           Always enjoy your appetite with any amount in your pocket
         </h2>
         <br />

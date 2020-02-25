@@ -187,7 +187,7 @@ nav {
 }
 
 .fixed {
-  width: 17vw;
+  width: 255px; /* 17% or 17vw */
   position: fixed;
 }
 
@@ -204,6 +204,10 @@ nav {
 
 .dollar-icon {
   background: #ededed url("./icons/dollar.png") no-repeat 9px center;
+}
+
+.search-icon {
+  background: #ededed url("./icons/search.png") no-repeat 9px center;
 }
 
 .expand {
@@ -231,4 +235,23 @@ nav {
 
 .expand:hover {
   background-color: #fff;
+}
+
+input[type="radio"]:after,
+input[type="radio"]:checked:after {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  top: -2px;
+  left: -1px;
+  position: relative;
+  content: "";
+  display: inline-block;
+  background-color: white;
+  visibility: visible;
+  border: 2px solid white;
+}
+
+input[type="radio"]:checked:after {
+  background-color: #22bf6c;
 }

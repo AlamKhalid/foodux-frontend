@@ -5,6 +5,7 @@ import LandingPage from "./components/landingPage";
 import Home from "./components/home";
 import Logout from "./components/logout";
 import "./App.css";
+import "./AppMediaQueries.css";
 
 class App extends Component {
   state = {
