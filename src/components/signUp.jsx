@@ -2,6 +2,7 @@ import React from "react";
 import _ from "lodash";
 import Form from "./common/form";
 import * as userService from "../services/userService";
+import { toast } from "react-toastify";
 
 class SignUp extends Form {
   state = {
@@ -11,33 +12,44 @@ class SignUp extends Form {
       password: "",
       confirmPassword: "",
       birthday: {
-        date: "none",
-        month: "none",
-        year: "none"
+        date: "",
+        month: "",
+        year: ""
       },
       gender: ""
-    },
-    errors: {}
+    }
+  };
+
+  calculateAge = () => {
+    const { date, month, year } = this.state.data.birthday;
+    const todayDate = new Date();
+    const tDate = todayDate.getDate();
+    const tMonth = todayDate.getMonth() + 1;
+    const tYear = todayDate.getFullYear();
+    let age = tYear - year;
+    if (tMonth - month < 0) return age - 1;
+    if (tDate - date < 0) return age - 1;
+    return age;
   };
 
   validate = () => {
-    const errors = {};
-    const { password, confirmPassword, birthday } = this.state.data;
-    const { date, month, year } = birthday;
-    if (password !== confirmPassword)
-      errors.confirmPassword = "Password did not match";
-    if (date === "none" || month === "none" || year === "none")
-      errors.birthday = "Birthday is required";
-    // if (calculateAge() < 13)
-    //   errors.birthday = "You must be atleast 13 years old";
-    return Object.keys(errors).length > 0 ? errors : false;
+    const { password, confirmPassword } = this.state.data;
+
+    if (password !== confirmPassword) {
+      toast.error("Password did not match");
+      return true;
+    }
+    if (this.calculateAge() < 13) {
+      toast.error("You must be at least 13 years old");
+      return true;
+    }
+    return false;
   };
 
   handleSubmit = async event => {
     event.preventDefault();
 
     const errors = this.validate();
-    this.setState({ errors });
     if (errors) return;
 
     // register the user
@@ -53,9 +65,7 @@ class SignUp extends Form {
       ])
     );
     if (!response) {
-      const errors = {};
-      errors.email = "Email already registered";
-      this.setState({ errors });
+      toast.error("Email already registered");
     } else {
       localStorage.setItem("token", response.headers["x-auth-token"]);
       window.location = "/home";
@@ -63,23 +73,17 @@ class SignUp extends Form {
   };
 
   render() {
-    const error = this.state.errors.birthday;
     return (
       <React.Fragment>
         <h1 className="mb-4">Sign Up</h1>
         <form method="post" onSubmit={this.handleSubmit}>
           {this.renderInput("text", "Name", "name")}
           <br />
-          {this.renderInput("email", "Email", "email", this.state.errors.email)}
+          {this.renderInput("email", "Email", "email")}
           <br />
           {this.renderInput("password", "New Password", "password")}
           <br />
-          {this.renderInput(
-            "password",
-            "Confirm Password",
-            "confirmPassword",
-            this.state.errors.confirmPassword
-          )}
+          {this.renderInput("password", "Confirm Password", "confirmPassword")}
           <br />
           <h4 className="text-muted">Birthday</h4>
           <div className="row pl-4">
@@ -93,7 +97,6 @@ class SignUp extends Form {
               {this.renderSelect("year", "Year")}
             </div>
           </div>
-          {error && <div className="alert alert-danger">{error}</div>}
           <br />
           <h4 className="text-muted">Gender</h4>
           {this.renderRadioButton("gender", "female", "Female")}

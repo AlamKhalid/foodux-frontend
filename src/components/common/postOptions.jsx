@@ -1,8 +1,13 @@
 import React, { Component } from "react";
+import OtherPostOptions from "./othersPostOptions";
+import OwnPostOptions from "./ownPostOptions";
 
 class PostOptions extends Component {
   state = {};
+
   render() {
+    const { postBy, user } = this.props;
+
     return (
       <div>
         <i
@@ -13,18 +18,7 @@ class PostOptions extends Component {
           aria-haspopup="true"
           aria-expanded="false"
         ></i>
-        <div className="dropdown-menu" aria-labelledby="postOptions">
-          <span className="dropdown-item">
-            <i className="fa fa-bookmark-o mr-2"></i>Save Post
-          </span>
-          <span className="dropdown-item">
-            <i className="fa fa-eye-slash mr-2"></i>Hide Post
-          </span>
-          <div className="dropdown-divider"></div>
-          <span className="dropdown-item">
-            <i className="fa fa-ban mr-2"></i>Unfollow User
-          </span>
-        </div>
+        {postBy._id === user ? <OwnPostOptions /> : <OtherPostOptions />}
       </div>
     );
   }

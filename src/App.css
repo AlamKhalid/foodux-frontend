@@ -56,7 +56,6 @@ nav {
 .nav-link {
   color: white !important;
   font-size: 1.1rem;
-  padding: 0 20px !important;
 }
 
 .nav-link:hover {
@@ -144,6 +143,7 @@ nav {
 .postBtn {
   width: 100%;
   padding: 5px 0;
+  text-align: center;
 }
 
 .postBtn:hover {
@@ -154,6 +154,10 @@ nav {
 .fa-ellipsis-v {
   cursor: pointer;
   padding: 10px;
+}
+
+.fa-ellipsis-h:hover {
+  cursor: pointer;
 }
 
 .fa-ellipsis-v:hover {
@@ -187,7 +191,7 @@ nav {
 }
 
 .fixed {
-  width: 255px; /* 17% or 17vw */
+  width: 255px;
   position: fixed;
 }
 
@@ -202,12 +206,23 @@ nav {
   background: #ededed url("./icons/pin.png") no-repeat 9px center;
 }
 
+input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
 .dollar-icon {
   background: #ededed url("./icons/dollar.png") no-repeat 9px center;
 }
 
 .search-icon {
+  background: #22bf6c url("./icons/search-light.png") no-repeat 9px center;
+  border: 1px solid white !important;
+  border-radius: 0.25rem !important;
+}
+
+.search-icon:focus {
   background: #ededed url("./icons/search.png") no-repeat 9px center;
+  width: 20vw !important;
 }
 
 .expand {
@@ -254,4 +269,50 @@ input[type="radio"]:checked:after {
 
 input[type="radio"]:checked:after {
   background-color: #22bf6c;
+}
+
+.sidebar {
+  position: fixed;
+  z-index: 1;
+  height: 100vh;
+  width: 40vw;
+  padding-top: 3rem;
+}
+
+.sidebar-brand {
+  width: 80%;
+  color: black;
+  text-align: center;
+  letter-spacing: 4px;
+  font-size: 1.5rem;
+  border-bottom: 1px solid black;
+}
+
+.sidebar-item {
+  margin: 15px 0;
+  color: #dedede;
+  width: 80%;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #dedede;
+}
+
+.sidebar-item:hover {
+  color: black;
+  border-color: black;
+}
+
+.sidebar-item-active,
+.sidebar-item-active:hover {
+  color: #22bf6c;
+  border-color: #22bf6c;
+}
+
+.postLikeComment:hover {
+  color: black !important;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.tooltip-inner {
+  white-space: pre-wrap;
 }

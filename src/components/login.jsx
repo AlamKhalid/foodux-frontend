@@ -1,26 +1,22 @@
 import React from "react";
 import Form from "./common/form";
 import { login } from "../services/authService";
+import { toast } from "react-toastify";
 
 class Login extends Form {
   state = {
     data: {
       email: "",
       password: ""
-    },
-    errors: {}
+    }
   };
 
   handleSubmit = async event => {
     event.preventDefault();
     const response = await login(this.state.data);
     if (!response) {
-      const errors = {};
-      errors.password = "Invalid email or password";
-      this.setState({ errors });
+      toast.error("Invalid Email or Password");
     } else {
-      const errors = {};
-      this.setState({ errors });
       const jwt = response.data;
       localStorage.setItem("token", jwt);
       window.location = "/home";
@@ -34,12 +30,7 @@ class Login extends Form {
         <form method="post" onSubmit={this.handleSubmit}>
           {this.renderInput("email", "Email", "email")}
           <br />
-          {this.renderInput(
-            "password",
-            "Password",
-            "password",
-            this.state.errors.password
-          )}
+          {this.renderInput("password", "Password", "password")}
           <br />
           {this.renderButton("Login", "loginBtn")}
         </form>

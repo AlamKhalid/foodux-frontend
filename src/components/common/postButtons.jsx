@@ -1,15 +1,37 @@
 import React, { Component } from "react";
+import { toast } from "react-toastify";
+import { like, unlike } from "../../services/likeService";
 
 class PostButtons extends Component {
   state = {
-    likeBtn: false,
-    likeBtnClass: "-o"
+    likeBtnClass: ""
   };
 
-  handleClick = () => {
-    const likeBtn = !this.state.likeBtn;
-    const likeBtnClass = this.state.likeBtn ? " app-color" : "-o";
-    this.setState({ likeBtnClass, likeBtn });
+  componentDidMount() {
+    let likeBtnClass = "";
+    if (this.props.liked) likeBtnClass = " app-color";
+    else likeBtnClass = "-o";
+    this.setState({ likeBtnClass });
+  }
+
+  handleClick = async () => {
+    let likeBtnClass;
+    const body = { postId: this.props.post, userId: this.props.user };
+    if (this.state.likeBtnClass === "-o") {
+      const response = await like(body);
+      if (response) likeBtnClass = " app-color";
+      else {
+        toast.error("Error liking post");
+      }
+    } else {
+      const response = await unlike(body);
+      if (response) likeBtnClass = "-o";
+      else {
+        toast.error("Error unliking post");
+      }
+    }
+    this.setState({ likeBtnClass });
+    this.props.reRenderPost();
   };
 
   render() {

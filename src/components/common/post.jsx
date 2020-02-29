@@ -1,15 +1,65 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+import $ from "jquery";
 import Comment from "./comment";
 import AddComment from "./addComment";
 import PostButtons from "./postButtons";
 import PostOptions from "./postOptions";
+import { getPost } from "../../services/postService";
 
 class Post extends Component {
-  state = {};
+  state = {
+    comments: [],
+    likes: []
+  };
+
+  componentDidMount() {
+    const { comments, likes } = this.props.post;
+    this.setState({ comments, likes });
+    $('[data-toggle="tooltip"]').tooltip({ html: true });
+  }
+
+  reRenderPost = async () => {
+    const { data: post } = await getPost(this.props.post._id);
+    this.setState({ comments: post.comments, likes: post.likes });
+  };
+
+  getLikesName = () => {
+    const { likes } = this.state;
+    let likers = "",
+      counter = 0;
+    this.state.likes.forEach(function(like) {
+      if (counter < 5) {
+        likers += like.name + "<br/>";
+        counter++;
+      }
+    });
+    if (likes.length > 5) likers += "and" + (likes.length - 5) + " more...";
+    return likers;
+  };
+
+  getCommentsName = () => {
+    const { comments } = this.state;
+    let commentators = "",
+      ids = [],
+      counter = 0;
+    comments.forEach(function(comment) {
+      if (ids.indexOf(comment.commentBy._id) === -1 && counter < 5) {
+        commentators += comment.commentBy.name + "<br/>";
+        ids.push(comment.commentBy._id);
+        counter++;
+      }
+    });
+    if (comments.length > 5 && counter >= 5)
+      commentators += "and " + (comments.length - 5) + " more...";
+    return commentators;
+  };
 
   render() {
-    const { post, userId } = this.props;
+    const { post, userId, liked } = this.props;
+    const { comments, likes } = this.state;
+    const likers = this.getLikesName();
+    const commentators = this.getCommentsName();
 
     return (
       <div className="bg-light pt-3 px-3 pb-2 my-2">
@@ -43,18 +93,43 @@ class Post extends Component {
               </div>
             </div>
           </div>
-          <PostOptions />
+          <PostOptions postBy={post.postBy} user={userId} />
         </div>
         <div className="text-left postBody my-3">{post.postBody}</div>
         <div className="d-flex justify-content-between mb-2">
-          <span className="text-muted">{post.likes.length} Likes</span>
-          <span className="text-muted">{post.comments.length} Comments</span>
+          <span
+            className="text-muted postLikeComment"
+            role="button"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            data-original-title={likers}
+          >
+            {likes.length} Likes
+          </span>
+          <span
+            className="text-muted postLikeComment"
+            role="button"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            data-original-title={commentators}
+          >
+            {comments.length} Comments
+          </span>
         </div>
-        <PostButtons />
-        {post.comments.map(comment => (
-          <Comment key={comment._id} comment={comment} />
+        <PostButtons
+          post={post._id}
+          user={userId}
+          liked={liked}
+          reRenderPost={this.reRenderPost}
+        />
+        {comments.map(comment => (
+          <Comment key={comment._id} comment={comment} user={userId} />
         ))}
-        <AddComment postId={post._id} userId={userId} />
+        <AddComment
+          postId={post._id}
+          userId={userId}
+          reRenderPost={this.reRenderPost}
+        />
       </div>
     );
   }

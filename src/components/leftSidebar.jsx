@@ -4,7 +4,7 @@ class LeftSidebar extends Component {
   state = {};
   render() {
     return (
-      <div className="list-group">
+      <div className="list-group fixed">
         <button
           type="button"
           className="list-group-item list-group-item-action active-side"
@@ -21,7 +21,7 @@ class LeftSidebar extends Component {
           type="button"
           className="list-group-item list-group-item-action bg-light"
         >
-          Food News
+          Deals & Discounts
         </button>
       </div>
     );

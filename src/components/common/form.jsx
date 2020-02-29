@@ -21,7 +21,7 @@ class Form extends Component {
     );
   };
 
-  renderInput = (type, placeholder, name, error) => {
+  renderInput = (type, placeholder, name) => {
     return (
       <React.Fragment>
         <input
@@ -34,7 +34,6 @@ class Form extends Component {
           className="form-control text-box"
           required
         />
-        {error && <div className="alert alert-danger">{error}</div>}
       </React.Fragment>
     );
   };
@@ -82,8 +81,9 @@ class Form extends Component {
           onChange={this.handleChange}
           value={this.state.data.birthday[name]}
           className="form-control text-box"
+          required
         >
-          <option value="none">{label}</option>
+          <option value="">{label}</option>
           {arr.map(option => (
             <option
               key={option}

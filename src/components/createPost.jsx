@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import _ from "lodash";
 import { getCities } from "../services/cityService";
 import { submitPost } from "../services/postService";
+import { toast } from "react-toastify";
 
 class CreatePost extends Component {
   state = {
@@ -52,9 +53,9 @@ class CreatePost extends Component {
       postBy: this.props.user._id
     });
     if (response) {
-      console.log("post created successfully");
+      window.location = "/home";
     } else {
-      console.log("error creating a post");
+      toast.error("Error creating a post");
     }
   };
 

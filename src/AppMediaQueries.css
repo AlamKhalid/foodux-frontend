@@ -6,7 +6,7 @@
 
 @media screen and (max-width: 992px) {
   .fixed {
-    width: 150px;
+    width: 220px;
   }
 }
 
@@ -16,6 +16,16 @@
   }
 
   .fixed {
-    width: 105px;
+    display: none;
+  }
+
+  .sidebar {
+    width: 50vw;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .b-right {
+    border: 0;
   }
 }
