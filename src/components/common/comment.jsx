@@ -6,26 +6,29 @@ import OtherCommentOptions from "./otherCommentOptions";
 
 class Comment extends Component {
   state = {
-    commentOptionClass: "d-none"
+    commentOptionClass: "d-none" // hides the comment's options, show them only on hover
   };
 
   componentDidMount() {
-    $('[data-toggle-second="tooltip"]').tooltip();
+    $('[data-toggle-second="tooltip"]').tooltip(); // for data-toggle = tooltip
   }
 
   showOptions = () => {
+    // function to show comment's option on hover
     const commentOptionClass = "";
     this.setState({ commentOptionClass });
   };
 
   hideOptions = () => {
+    // function to hide comment's option on hover out
     const commentOptionClass = "d-none";
     this.setState({ commentOptionClass });
   };
 
   render() {
-    const { commentBody, commentBy } = this.props.comment;
-    const { user } = this.props;
+    // destructuring props and props.comment
+    const { commentBody, commentBy, _id } = this.props.comment;
+    const { user, post } = this.props;
 
     return (
       <div
@@ -58,9 +61,14 @@ class Comment extends Component {
           }
         ></i>
         {commentBy._id === user ? (
-          <OwnCommentOptions />
+          <OwnCommentOptions
+            comment={_id}
+            commentBody={commentBody}
+            post={post}
+            reRenderPost={this.props.reRenderPost}
+          />
         ) : (
-          <OtherCommentOptions />
+          <OtherCommentOptions reRenderPost={this.props.reRenderPost} />
         )}
       </div>
     );

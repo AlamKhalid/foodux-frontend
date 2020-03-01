@@ -316,3 +316,17 @@ input[type="radio"]:checked:after {
 .tooltip-inner {
   white-space: pre-wrap;
 }
+
+.red-btn {
+  background-color: red !important;
+}
+
+.title-popup {
+  color: #666;
+  font-size: 2.5rem;
+}
+
+.msg-popup {
+  color: #666;
+  font-size: 1rem;
+}

@@ -61,7 +61,7 @@ class CreatePost extends Component {
 
   render() {
     return (
-      <div className="bg-light p-2">
+      <div className="bg-light p-2 rounded-lg">
         <h6 className="text-left text-muted mb-3">Create Review</h6>
         <textarea
           className="createPostBody"

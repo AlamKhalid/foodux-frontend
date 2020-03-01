@@ -14,17 +14,17 @@ class PostButtons extends Component {
     this.setState({ likeBtnClass });
   }
 
-  handleClick = async () => {
-    let likeBtnClass;
+  handleLike = async () => {
+    let likeBtnClass, response;
     const body = { postId: this.props.post, userId: this.props.user };
     if (this.state.likeBtnClass === "-o") {
-      const response = await like(body);
+      response = await like(body);
       if (response) likeBtnClass = " app-color";
       else {
         toast.error("Error liking post");
       }
     } else {
-      const response = await unlike(body);
+      response = await unlike(body);
       if (response) likeBtnClass = "-o";
       else {
         toast.error("Error unliking post");
@@ -37,7 +37,7 @@ class PostButtons extends Component {
   render() {
     return (
       <div className="d-flex justify-content-around postBtns mb-2">
-        <span className="postBtn" onClick={this.handleClick}>
+        <span className="postBtn" onClick={this.handleLike}>
           <i className={`fa mr-3 fa-heart${this.state.likeBtnClass}`}></i>Like
         </span>
         <span className="postBtn">

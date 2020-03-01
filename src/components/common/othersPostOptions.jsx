@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 class OthersPostOptions extends Component {
   state = {};
+
+  // returns the post options that are posted by others
   render() {
     return (
       <div

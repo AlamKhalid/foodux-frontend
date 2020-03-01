@@ -7,12 +7,14 @@ class Form extends Component {
   };
 
   handleChange = ({ target }) => {
+    // update the state of the component on change of any input field (text, radio, etc.)
     const { name, value } = target;
     const data = { ...this.state.data };
     _.set(data, name, value);
     this.setState({ data });
   };
 
+  // returns the button markup
   renderButton = (label, id) => {
     return (
       <button className="form-control" id={id}>
@@ -21,6 +23,7 @@ class Form extends Component {
     );
   };
 
+  // returns the input markup, mainly for type = text
   renderInput = (type, placeholder, name) => {
     return (
       <React.Fragment>
@@ -38,6 +41,7 @@ class Form extends Component {
     );
   };
 
+  // returns the radio button markup
   renderRadioButton = (name, value, label) => {
     return (
       <React.Fragment>
@@ -55,6 +59,7 @@ class Form extends Component {
     );
   };
 
+  // return the array of containing the days, months, or years
   generateArray = name => {
     let arr = [];
     const { year, month } = this.state.birthday || { year: 2020, month: 1 };
@@ -71,6 +76,7 @@ class Form extends Component {
     return arr;
   };
 
+  // returns the select markup, for birthday on sign up page
   renderSelect = (name, label) => {
     const arr = this.generateArray(name);
 

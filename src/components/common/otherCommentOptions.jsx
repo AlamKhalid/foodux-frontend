@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 class OtherCommentOptions extends Component {
   state = {};
+
+  // returns the comment options that are posted by others
   render() {
     return (
       <div

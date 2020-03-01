@@ -10,6 +10,10 @@ export function getPost(id) {
   return http.get(`${endPointUrl}/${id}`);
 }
 
+export function deletePost(post) {
+  return http.delete(endPointUrl, { data: post });
+}
+
 export function submitPost(post) {
   return http.post(endPointUrl, post);
 }

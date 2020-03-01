@@ -9,25 +9,29 @@ import { getPost } from "../../services/postService";
 
 class Post extends Component {
   state = {
-    comments: [],
-    likes: []
+    comments: [], // stores the comments array on a single post
+    likes: [] // stores the likes array for a single post
   };
 
   componentDidMount() {
+    // updates the state with the props passed to this component
     const { comments, likes } = this.props.post;
     this.setState({ comments, likes });
     $('[data-toggle="tooltip"]').tooltip({ html: true });
   }
 
   reRenderPost = async () => {
+    // re-render the post if a user either likes it or comments on it to show real-time changes
     const { data: post } = await getPost(this.props.post._id);
     this.setState({ comments: post.comments, likes: post.likes });
   };
 
+  // function to get the names of all likers of a post, to show them as tooltip
   getLikesName = () => {
     const { likes } = this.state;
     let likers = "",
       counter = 0;
+    // only shows 5 likers, rest remaining as numbers
     this.state.likes.forEach(function(like) {
       if (counter < 5) {
         likers += like.name + "<br/>";
@@ -38,12 +42,15 @@ class Post extends Component {
     return likers;
   };
 
+  // function to get the names of all commentators of a post, to show them as tooltip
   getCommentsName = () => {
-    const { comments } = this.state;
+    const { comments } = this.state || [];
     let commentators = "",
       ids = [],
       counter = 0;
+    // only shows 5 commentators, rest remaining as numbers
     comments.forEach(function(comment) {
+      // show unique commentators names, by matching the ids
       if (ids.indexOf(comment.commentBy._id) === -1 && counter < 5) {
         commentators += comment.commentBy.name + "<br/>";
         ids.push(comment.commentBy._id);
@@ -56,13 +63,14 @@ class Post extends Component {
   };
 
   render() {
+    // destructuring the props and state objects
     const { post, userId, liked } = this.props;
     const { comments, likes } = this.state;
     const likers = this.getLikesName();
     const commentators = this.getCommentsName();
 
     return (
-      <div className="bg-light pt-3 px-3 pb-2 my-2">
+      <div className="bg-light pt-3 px-3 pb-2 my-2 rounded-lg">
         <div className="d-flex justify-content-between">
           <div className="d-flex">
             <img
@@ -93,7 +101,12 @@ class Post extends Component {
               </div>
             </div>
           </div>
-          <PostOptions postBy={post.postBy} user={userId} />
+          <PostOptions
+            postBy={post.postBy}
+            userId={userId}
+            postId={post._id}
+            reRenderPosts={this.props.reRenderPosts}
+          />
         </div>
         <div className="text-left postBody my-3">{post.postBody}</div>
         <div className="d-flex justify-content-between mb-2">
@@ -123,7 +136,13 @@ class Post extends Component {
           reRenderPost={this.reRenderPost}
         />
         {comments.map(comment => (
-          <Comment key={comment._id} comment={comment} user={userId} />
+          <Comment
+            key={comment._id}
+            comment={comment}
+            user={userId}
+            post={post._id}
+            reRenderPost={this.reRenderPost}
+          />
         ))}
         <AddComment
           postId={post._id}

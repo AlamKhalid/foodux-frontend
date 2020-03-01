@@ -6,7 +6,7 @@ class PostOptions extends Component {
   state = {};
 
   render() {
-    const { postBy, user } = this.props;
+    const { postBy, userId, postId, reRenderPosts } = this.props;
 
     return (
       <div>
@@ -18,7 +18,15 @@ class PostOptions extends Component {
           aria-haspopup="true"
           aria-expanded="false"
         ></i>
-        {postBy._id === user ? <OwnPostOptions /> : <OtherPostOptions />}
+        {postBy._id === userId ? (
+          <OwnPostOptions
+            postId={postId}
+            userId={userId}
+            reRenderPosts={reRenderPosts}
+          />
+        ) : (
+          <OtherPostOptions />
+        )}
       </div>
     );
   }

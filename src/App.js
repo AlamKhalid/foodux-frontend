@@ -6,6 +6,7 @@ import LandingPage from "./components/landingPage";
 import Home from "./components/home";
 import Logout from "./components/logout";
 import "react-toastify/dist/ReactToastify.css";
+import "react-confirm-alert/src/react-confirm-alert.css";
 import "./App.css";
 import "./AppMediaQueries.css";
 
