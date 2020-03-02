@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import CreatePost from "./createPost";
 import Posts from "./posts";
 
-class MidBody extends Component {
+class Newsfeed extends Component {
   state = {};
 
   render() {
@@ -15,4 +15,4 @@ class MidBody extends Component {
   }
 }
 
-export default MidBody;
+export default Newsfeed;

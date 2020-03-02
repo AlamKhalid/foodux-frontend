@@ -330,3 +330,18 @@ input[type="radio"]:checked:after {
   color: #666;
   font-size: 1rem;
 }
+
+.hidden-comment {
+  opacity: 0.4;
+}
+
+.unhide {
+  font-size: 0.9rem;
+  margin-top: 6px;
+  cursor: pointer;
+}
+
+.unhide:hover {
+  color: blue !important;
+  text-decoration: underline;
+}

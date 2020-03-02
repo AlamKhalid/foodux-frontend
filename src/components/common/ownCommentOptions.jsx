@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { toast } from "react-toastify";
 import { confirmAlert } from "react-confirm-alert";
 import ConfirmDeleteMarkup from "./confirmDeleteMarkup";
-import { updateComment } from "../../services/commentService";
-import { deleteComment } from "../../services/commentService";
+import { updateComment, deleteComment } from "../../services/commentService";
 
 class OwnCommentOptions extends Component {
   state = {
@@ -21,17 +20,21 @@ class OwnCommentOptions extends Component {
   };
 
   handleUpdate = async () => {
-    const comment = {
-      commentId: this.props.comment,
-      postId: this.props.post,
-      commentBody: this.state.editedComment
-    };
-    const response = await updateComment(comment);
-    if (response) {
-      toast.info("Comment has been updated");
-      this.props.reRenderPost();
+    if (this.state.editedComment.length > 0) {
+      const comment = {
+        commentId: this.props.comment,
+        postId: this.props.post,
+        commentBody: this.state.editedComment
+      };
+      const response = await updateComment(comment);
+      if (response) {
+        toast.info("Comment has been updated");
+        this.props.reRenderPost();
+      } else {
+        toast.error("Error editing comment");
+      }
     } else {
-      toast.error("Error editing comment");
+      toast.error("Comment's length cannot be zero");
     }
   };
 

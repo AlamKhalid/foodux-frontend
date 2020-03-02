@@ -1,16 +1,21 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import $ from "jquery";
+import { toast } from "react-toastify";
 import OwnCommentOptions from "./ownCommentOptions";
 import OtherCommentOptions from "./otherCommentOptions";
+import { unhideComment } from "./../../services/userService";
 
 class Comment extends Component {
   state = {
-    commentOptionClass: "d-none" // hides the comment's options, show them only on hover
+    commentOptionClass: "d-none", // hides the comment's options, show them only on hover
+    hiddenCommentClass: "" // shows hidden comments with low opacity
   };
 
   componentDidMount() {
     $('[data-toggle-second="tooltip"]').tooltip(); // for data-toggle = tooltip
+    const hiddenCommentClass = this.props.hidden ? "hidden-comment" : ""; // to show hidden comments as hidden
+    this.setState({ hiddenCommentClass });
   }
 
   showOptions = () => {
@@ -25,52 +30,89 @@ class Comment extends Component {
     this.setState({ commentOptionClass });
   };
 
+  reRenderComment = () => {
+    this.setState({ hiddenCommentClass: "hidden-comment" });
+  };
+
+  handleUnhide = async () => {
+    const response = await unhideComment({
+      userId: this.props.user,
+      commentId: this.props.comment._id
+    });
+    if (response) {
+      this.props.reRenderPost();
+      this.setState({ hiddenCommentClass: "" });
+      toast.info("Comment unhidden");
+    } else {
+      toast.error("Error unhiding comment");
+    }
+  };
+
   render() {
     // destructuring props and props.comment
     const { commentBody, commentBy, _id } = this.props.comment;
-    const { user, post } = this.props;
+    const { user, post, hidden } = this.props;
 
     return (
-      <div
-        className="d-flex flex-row mb-3"
-        onMouseEnter={this.showOptions}
-        onMouseLeave={this.hideOptions}
-      >
-        <img
-          className="commentPic"
-          src="https://icons-for-free.com/iconfiles/png/512/business+costume+male+man+office+user+icon-1320196264882354682.png"
-          alt=""
-        />
-        <div className="text-justify comment">
-          <NavLink className="userName mr-2" to="/">
-            {commentBy.name}
-          </NavLink>
-          <span>{commentBody}</span>
+      <React.Fragment>
+        <div className="d-flex">
+          <div
+            className={`d-flex flex-row mb-3 ${this.state.hiddenCommentClass}`}
+            onMouseEnter={this.showOptions}
+            onMouseLeave={this.hideOptions}
+          >
+            <img
+              className="commentPic"
+              src="https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg?w=1200"
+              alt=""
+            />
+            <div className="text-justify comment">
+              <NavLink className="userName mr-2" to="/">
+                {commentBy.name}
+              </NavLink>
+              <span>{commentBody}</span>
+            </div>
+            {!hidden && (
+              <i
+                className={`${this.state.commentOptionClass} fa fa-ellipsis-h my-auto ml-2`}
+                id="commentOptions"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                data-toggle-second="tooltip"
+                data-placement="top"
+                title={
+                  commentBy._id === user
+                    ? "Edit or delete comment"
+                    : "Hide comment"
+                }
+              ></i>
+            )}
+            {commentBy._id === user ? (
+              <OwnCommentOptions
+                comment={_id}
+                commentBody={commentBody}
+                post={post}
+                reRenderPost={this.props.reRenderPost}
+              />
+            ) : (
+              <OtherCommentOptions
+                reRenderPost={this.props.reRenderPost}
+                reRenderComment={this.reRenderComment}
+                commentId={_id}
+                userId={user}
+                hidden={hidden}
+              />
+            )}
+          </div>
+          {hidden && (
+            <div className="unhide ml-2 text-muted" onClick={this.handleUnhide}>
+              Unhide
+            </div>
+          )}
         </div>
-        <i
-          className={`${this.state.commentOptionClass} fa fa-ellipsis-h my-auto ml-2`}
-          id="commentOptions"
-          role="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-          data-toggle-second="tooltip"
-          data-placement="top"
-          title={
-            commentBy._id === user ? "Edit or delete comment" : "Hide comment"
-          }
-        ></i>
-        {commentBy._id === user ? (
-          <OwnCommentOptions
-            comment={_id}
-            commentBody={commentBody}
-            post={post}
-            reRenderPost={this.props.reRenderPost}
-          />
-        ) : (
-          <OtherCommentOptions reRenderPost={this.props.reRenderPost} />
-        )}
-      </div>
+      </React.Fragment>
     );
   }
 }

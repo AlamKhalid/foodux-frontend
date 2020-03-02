@@ -67,7 +67,7 @@ class AddComment extends Component {
       <div className="d-flex flex-row">
         <img
           className="commentPic"
-          src="https://icons-for-free.com/iconfiles/png/512/business+costume+male+man+office+user+icon-1320196264882354682.png"
+          src="https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg?w=1200"
           alt=""
         />
         <input

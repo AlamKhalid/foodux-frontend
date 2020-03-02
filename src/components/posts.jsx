@@ -2,27 +2,32 @@ import React, { Component } from "react";
 import Post from "./common/post";
 import { getPosts } from "../services/postService";
 import { getAllLikedPosts } from "../services/likeService";
+import { getHiddenPosts } from "../services/userService";
 
 class Posts extends Component {
   state = {
     posts: [],
-    likedPosts: []
+    likedPosts: [],
+    hiddenPosts: []
   };
 
   async componentDidMount() {
     const { data: posts } = await getPosts();
+    const { data: hiddenPosts } = await getHiddenPosts(this.props.user._id);
     const { data: likedPosts } = await getAllLikedPosts(this.props.user._id);
-    this.setState({ posts, likedPosts });
+    this.setState({ posts, likedPosts, hiddenPosts });
   }
 
   reRenderPosts = async () => {
     const { data: posts } = await getPosts();
+    const { data: hiddenPosts } = await getHiddenPosts(this.props.user._id);
     const { data: likedPosts } = await getAllLikedPosts(this.props.user._id);
-    this.setState({ posts, likedPosts });
+    this.setState({ posts, likedPosts, hiddenPosts });
   };
 
   render() {
-    const { posts, likedPosts } = this.state;
+    let { posts, likedPosts, hiddenPosts } = this.state;
+    posts = posts.filter(post => hiddenPosts.indexOf(post._id) === -1);
 
     return (
       <React.Fragment>

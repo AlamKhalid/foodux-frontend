@@ -6,24 +6,32 @@ import AddComment from "./addComment";
 import PostButtons from "./postButtons";
 import PostOptions from "./postOptions";
 import { getPost } from "../../services/postService";
+import { getHiddenComments } from "./../../services/userService";
 
 class Post extends Component {
   state = {
     comments: [], // stores the comments array on a single post
+    hiddenComments: [], // stores the hidden comments ids for a single user
     likes: [] // stores the likes array for a single post
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     // updates the state with the props passed to this component
+    const { data: hiddenComments } = await getHiddenComments(this.props.userId);
     const { comments, likes } = this.props.post;
-    this.setState({ comments, likes });
+    this.setState({ comments, likes, hiddenComments });
     $('[data-toggle="tooltip"]').tooltip({ html: true });
   }
 
   reRenderPost = async () => {
     // re-render the post if a user either likes it or comments on it to show real-time changes
     const { data: post } = await getPost(this.props.post._id);
-    this.setState({ comments: post.comments, likes: post.likes });
+    const { data: hiddenComments } = await getHiddenComments(this.props.userId);
+    this.setState({
+      comments: post.comments,
+      likes: post.likes,
+      hiddenComments
+    });
   };
 
   // function to get the names of all likers of a post, to show them as tooltip
@@ -65,7 +73,7 @@ class Post extends Component {
   render() {
     // destructuring the props and state objects
     const { post, userId, liked } = this.props;
-    const { comments, likes } = this.state;
+    const { comments, likes, hiddenComments } = this.state;
     const likers = this.getLikesName();
     const commentators = this.getCommentsName();
 
@@ -75,7 +83,7 @@ class Post extends Component {
           <div className="d-flex">
             <img
               className="displayPostPicture"
-              src="https://icons-for-free.com/iconfiles/png/512/business+costume+male+man+office+user+icon-1320196264882354682.png"
+              src="https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg?w=1200"
               alt=""
             />
             <div className="d-flex flex-column align-items-start">
@@ -105,6 +113,9 @@ class Post extends Component {
             postBy={post.postBy}
             userId={userId}
             postId={post._id}
+            postBody={post.postBody}
+            location={post.location}
+            amountSpend={post.amountSpend}
             reRenderPosts={this.props.reRenderPosts}
           />
         </div>
@@ -141,6 +152,7 @@ class Post extends Component {
             comment={comment}
             user={userId}
             post={post._id}
+            hidden={hiddenComments.indexOf(comment._id) > -1 ? true : false}
             reRenderPost={this.reRenderPost}
           />
         ))}

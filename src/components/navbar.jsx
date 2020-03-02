@@ -9,7 +9,10 @@ class Navbar extends Component {
   };
 
   componentDidMount() {
-    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle-second="tooltip"]').tooltip({ trigger: "hover" });
+    $('[data-toggle-second="tooltip"]').on("click", function() {
+      $(this).tooltip("hide");
+    });
   }
 
   handleClick = () => {
@@ -53,37 +56,45 @@ class Navbar extends Component {
             </div>
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a
+                <NavLink
                   className="nav-link b-right py-0 px-1 px-sm-3"
-                  href="/home"
-                  data-toggle="tooltip"
+                  to="/home"
+                  data-toggle-second="tooltip"
                   data-placement="bottom"
                   title="Newsfeed"
                 >
                   Home
-                </a>
+                </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink
                   className="nav-link b-right py-0 px-1 px-sm-3"
-                  to="/user/:id"
-                  data-toggle="tooltip"
+                  to={`/user/${this.props.user._id}`}
+                  data-toggle-second="tooltip"
                   data-placement="bottom"
                   title="Profile"
                 >
                   {this.props.user.name || "Name"}
                 </NavLink>
               </li>
-              <li className="nav-item">
+              <li className="nav-item dropdown">
                 <NavLink
                   className="nav-link b-right py-0 px-1 px-sm-3"
-                  to="/user/:id/activity"
-                  data-toggle="tooltip"
+                  to="#"
+                  role="button"
+                  id="notifications"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  data-toggle-second="tooltip"
                   data-placement="bottom"
                   title="Recent Activity"
                 >
                   Notifications
                 </NavLink>
+                <div className="dropdown-menu" aria-labelledby="notifications">
+                  <span className="dropdown-item">1 Notifications</span>
+                </div>
               </li>
               <li className="nav-item dropdown">
                 <NavLink

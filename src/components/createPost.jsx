@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import _ from "lodash";
-import { getCities } from "../services/cityService";
-import { submitPost } from "../services/postService";
 import { toast } from "react-toastify";
+import CreatePostDetails from "./common/createPostDetails";
+import { submitPost } from "../services/postService";
+import { getCities } from "../services/cityService";
 
 class CreatePost extends Component {
   state = {
@@ -43,6 +44,7 @@ class CreatePost extends Component {
       amountSpend.length === 0
     )
       return true;
+    if (this.state.cities.indexOf(this.state.location) === -1) return true;
     return false;
   };
 
@@ -72,26 +74,13 @@ class CreatePost extends Component {
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
         ></textarea>
-        <div className={this.state.postPopupsClasses} id="postPopups">
+        <div className={this.state.postPopupsClasses}>
           <div className="mt-1">
-            <input
-              name="location"
-              list="locations"
-              value={this.state.location}
-              className="expand location-icon mr-1"
+            <CreatePostDetails
+              location={this.state.location}
+              amountSpend={this.state.amountSpend}
               onChange={this.handleChange}
-            />
-            <datalist id="locations">
-              {this.state.cities.map(city => (
-                <option key={city} value={city} />
-              ))}
-            </datalist>
-            <input
-              type="text"
-              name="amountSpend"
-              value={this.state.amountSpend}
-              className="expand dollar-icon"
-              onChange={this.handleChange}
+              cities={this.state.cities}
             />
           </div>
           <div>
