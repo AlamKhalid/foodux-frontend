@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+import _ from "lodash";
 import { ToastContainer } from "react-toastify";
 import LandingPage from "./components/landingPage";
 import Home from "./components/home";
@@ -18,7 +19,7 @@ class App extends Component {
     user: {}
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     // In case of invalid or no jwt
     try {
       const jwt = localStorage.getItem("token");
@@ -29,6 +30,7 @@ class App extends Component {
 
   render() {
     const { user } = this.state;
+    const isUserLoggedIn = !_.isEmpty(user);
 
     return (
       <React.Fragment>
@@ -36,22 +38,57 @@ class App extends Component {
         <Switch>
           <Route
             path="/home"
-            render={props => <Home {...props} user={user} />}
+            render={props =>
+              isUserLoggedIn ? (
+                <Home {...props} user={user} />
+              ) : (
+                <Redirect to="/" />
+              )
+            }
           />
           <Route
             path="/foodblog"
-            render={props => <FoodBlog {...props} user={user} />}
+            render={props =>
+              isUserLoggedIn ? (
+                <FoodBlog {...props} user={user} />
+              ) : (
+                <Redirect to="/" />
+              )
+            }
           />
           <Route
             path="/deals-and-discounts"
-            render={props => <DealsAndDiscounts {...props} user={user} />}
+            render={props =>
+              isUserLoggedIn ? (
+                <DealsAndDiscounts {...props} user={user} />
+              ) : (
+                <Redirect to="/" />
+              )
+            }
           />
           <Route
             path={`/user/${user._id}/`}
-            render={props => <Profile {...props} user={user} />}
+            render={props =>
+              isUserLoggedIn ? (
+                <Profile {...props} user={user} />
+              ) : (
+                <Redirect to="/" />
+              )
+            }
           />
           <Route path="/logout" component={Logout} />
-          <Route path="/" exact component={LandingPage} />;
+
+          <Route
+            path="/"
+            exact
+            render={props =>
+              isUserLoggedIn ? (
+                <Redirect to="/home" />
+              ) : (
+                <LandingPage {...props} />
+              )
+            }
+          />
         </Switch>
       </React.Fragment>
     );

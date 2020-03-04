@@ -26,6 +26,13 @@ export function hideComment(body) {
   return http.post(`${endPointUrl}/hiddencomment/add`, body);
 }
 
+export function getAllUserPosts(id) {
+  return http.get(`${endPointUrl}/${id}/posts`);
+}
+
 export function unhideComment(body) {
   return http.post(`${endPointUrl}/hiddencomment/remove`, body);
+}
+export function getUser(id) {
+  return http.get(`${endPointUrl}/${id}`);
 }

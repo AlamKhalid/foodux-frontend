@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import Post from "./common/post";
-import { getPosts } from "../services/postService";
 import { getAllLikedPosts } from "../services/likeService";
 import { getHiddenPosts } from "../services/userService";
+import { getPosts } from "../services/postService";
+import { getAllUserPosts } from "./../services/userService";
 
 class Posts extends Component {
   state = {
     posts: [],
     likedPosts: [],
-    hiddenPosts: []
+    hiddenPosts: [],
+    userPosts: []
   };
 
   async componentDidMount() {
@@ -25,9 +27,20 @@ class Posts extends Component {
     this.setState({ posts, likedPosts, hiddenPosts });
   };
 
+  postsForProfile = async () => {
+    const { data: userPosts } = await getAllUserPosts(this.props.user._id);
+    this.setState({ userPosts });
+  };
+
   render() {
-    let { posts, likedPosts, hiddenPosts } = this.state;
+    let { posts, likedPosts, hiddenPosts, userPosts } = this.state;
+    const { profile } = this.props;
     posts = posts.filter(post => hiddenPosts.indexOf(post._id) === -1);
+
+    if (profile) {
+      this.postsForProfile();
+      posts = posts.filter(post => userPosts.indexOf(post._id) > -1);
+    }
 
     return (
       <React.Fragment>

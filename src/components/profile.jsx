@@ -1,14 +1,17 @@
 import React, { Component } from "react";
-import Navbar from "./navbar";
 import LeftSidebar from "./leftSidebar";
-import { getCategories } from "./../services/categories";
+import Navbar from "./navbar";
+import MyProfile from "./myProfile";
+import CreatePost from "./createPost";
+import Posts from "./posts";
+import { getUser } from "../services/userService";
 
 class Profile extends Component {
-  state = { categories: [], active: "" };
+  state = { active: -1, user: {} };
 
   async componentDidMount() {
-    const { data: categories } = await getCategories();
-    this.setState({ categories });
+    const { data: user } = await getUser(this.props.user._id);
+    this.setState({ user });
   }
 
   render() {
@@ -20,13 +23,12 @@ class Profile extends Component {
         <div className="container my-3">
           <div className="row">
             <div className="col-3">
-              <LeftSidebar
-                categories={this.state.categories}
-                active={this.state.active}
-              />
+              <LeftSidebar active={this.state.active} />
             </div>
             <div className="col-9">
-              <h1>This will user's profile!</h1>
+              <MyProfile user={this.state.user} />
+              <CreatePost user={user} />
+              <Posts user={user} profile={true} />
             </div>
           </div>
         </div>

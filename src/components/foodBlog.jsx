@@ -1,16 +1,9 @@
 import React, { Component } from "react";
-import Navbar from "./navbar";
 import LeftSidebar from "./leftSidebar";
-import { getCategories } from "./../services/categories";
+import Navbar from "./navbar";
 
 class FoodBlog extends Component {
-  state = { categories: [], active: "" };
-
-  async componentDidMount() {
-    const { data: categories } = await getCategories();
-    const active = categories[1]._id;
-    this.setState({ categories, active });
-  }
+  state = { active: 1 };
 
   render() {
     const { user } = this.props;
@@ -21,10 +14,7 @@ class FoodBlog extends Component {
         <div className="container my-3">
           <div className="row">
             <div className="col-3">
-              <LeftSidebar
-                categories={this.state.categories}
-                active={this.state.active}
-              />
+              <LeftSidebar active={this.state.active} />
             </div>
             <div className="col-9">
               <h1>This will be food blog soon!</h1>

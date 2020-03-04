@@ -55,7 +55,7 @@ class CreatePost extends Component {
       postBy: this.props.user._id
     });
     if (response) {
-      window.location = "/home";
+      window.location.reload();
     } else {
       toast.error("Error creating a post");
     }

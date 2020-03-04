@@ -9,7 +9,7 @@ class Newsfeed extends Component {
     return (
       <React.Fragment>
         <CreatePost user={this.props.user} />
-        <Posts user={this.props.user} />
+        <Posts user={this.props.user} profile={false} />
       </React.Fragment>
     );
   }

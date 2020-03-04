@@ -345,3 +345,19 @@ input[type="radio"]:checked:after {
   color: blue !important;
   text-decoration: underline;
 }
+
+.profile-pic,
+.profile-pic-div {
+  border-radius: 50%;
+  height: 160px;
+  width: 160px;
+}
+
+.profile-pic:hover {
+  opacity: 0.6;
+}
+
+.profile-name {
+  font-size: 1.7rem;
+  font-weight: bolder;
+}
