@@ -2,22 +2,50 @@ import React, { Component } from "react";
 
 class ConfirmHideMarkup extends Component {
   render() {
+    const { title, message, handleHide } = this.props;
+
     return (
-      <div className="custom-ui">
-        <h1 className="title-popup mb-3">{this.props.title}</h1>
-        <p className="msg-popup">{this.props.message}</p>
-        <button
-          className="btn btn-primary btn-sm mr-2"
-          onClick={() => {
-            this.props.handleHide();
-            this.props.onClose();
-          }}
-        >
-          Hide
-        </button>
-        <button className="btn btn-dark btn-sm" onClick={this.props.onClose}>
-          Cancel
-        </button>
+      <div
+        class="modal fade"
+        id="confirmHide"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="confirmHideTitle"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">{title}</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">{message}</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-dismiss="modal"
+                onClick={handleHide}
+              >
+                Hide
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

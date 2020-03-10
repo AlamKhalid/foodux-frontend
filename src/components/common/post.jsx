@@ -87,7 +87,7 @@ class Post extends Component {
               alt=""
             />
             <div className="d-flex flex-column align-items-start">
-              <NavLink className="userName" to="/">
+              <NavLink className="userName" to={`/user/${post.postBy._id}`}>
                 {post.postBy.name}
               </NavLink>
               <div className="d-flex justify-content-between">

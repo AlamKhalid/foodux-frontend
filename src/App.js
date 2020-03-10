@@ -67,7 +67,7 @@ class App extends Component {
             }
           />
           <Route
-            path={`/user/${user._id}/`}
+            path={`/user/:id/`}
             render={props =>
               isUserLoggedIn ? (
                 <Profile {...props} user={user} />

@@ -110,7 +110,7 @@ class Navbar extends Component {
                   className="dropdown-menu dropdown-menu-right"
                   aria-labelledby="navbarDropdown"
                 >
-                  <NavLink className="dropdown-item" to="/user/:id/settings">
+                  <NavLink className="dropdown-item" to=" ">
                     <i className="fa fa-cog mr-2"></i>Settings
                   </NavLink>
                   <NavLink className="dropdown-item" to="/user/:id/problem">

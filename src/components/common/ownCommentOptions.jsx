@@ -1,88 +1,11 @@
 import React, { Component } from "react";
 import { toast } from "react-toastify";
-import { confirmAlert } from "react-confirm-alert";
 import ConfirmDeleteMarkup from "./confirmDeleteMarkup";
-import { updateComment, deleteComment } from "../../services/commentService";
+import { deleteComment } from "../../services/commentService";
+import ConfirmUpdateMarkupComment from "./confirmUpdateMarkupComment";
 
 class OwnCommentOptions extends Component {
-  state = {
-    comment: "",
-    editedComment: ""
-  };
-
-  componentDidMount() {
-    this.setState({ comment: this.props.commentBody });
-  }
-
-  handleChange = ({ target }) => {
-    const { name, value } = target;
-    this.setState({ [name]: value });
-  };
-
-  handleUpdate = async () => {
-    if (this.state.editedComment.length > 0) {
-      const comment = {
-        commentId: this.props.comment,
-        postId: this.props.post,
-        commentBody: this.state.editedComment
-      };
-      const response = await updateComment(comment);
-      if (response) {
-        toast.info("Comment has been updated");
-        this.props.reRenderPost();
-      } else {
-        toast.error("Error editing comment");
-      }
-    } else {
-      toast.error("Comment's length cannot be zero");
-    }
-  };
-
-  confirmEdit = () => {
-    confirmAlert({
-      customUI: ({ onClose }) => {
-        return (
-          <div className="custom-ui">
-            <h1 className="title-popup mb-3">Edit Comment</h1>
-            <textarea
-              className="createPostBody h-auto mb-2"
-              name="editedComment"
-              defaultValue={this.state.comment}
-              onChange={this.handleChange}
-              autoFocus
-            ></textarea>
-            <button
-              className="btn btn-warning btn-sm mr-2"
-              onClick={() => {
-                this.handleUpdate();
-                onClose();
-              }}
-            >
-              Update
-            </button>
-            <button className="btn btn-dark btn-sm" onClick={onClose}>
-              Cancel
-            </button>
-          </div>
-        );
-      }
-    });
-  };
-
-  confirmDelete = () => {
-    confirmAlert({
-      customUI: ({ onClose }) => {
-        return (
-          <ConfirmDeleteMarkup
-            title="Delete Comment"
-            message="Are you sure you want to delete it?"
-            onClose={onClose}
-            handleDelete={this.handleDelete}
-          />
-        );
-      }
-    });
-  };
+  state = {};
 
   handleDelete = async () => {
     const response = await deleteComment({
@@ -99,19 +22,42 @@ class OwnCommentOptions extends Component {
 
   // returns the own comment options
   render() {
+    const { commentBody, reRenderPost, comment, post } = this.props;
+
     return (
-      <div
-        className="dropdown-menu overflow-hidden"
-        aria-labelledby="commentOptions"
-      >
-        <span className="dropdown-item" onClick={this.confirmEdit}>
-          <i className="fa fa-pencil mr-2"></i>Edit Comment
-        </span>
-        <div className="dropdown-divider"></div>
-        <span className="dropdown-item" onClick={this.confirmDelete}>
-          <i className="fa fa-trash mr-2"></i>Delete Comment
-        </span>
-      </div>
+      <React.Fragment>
+        <div
+          className="dropdown-menu overflow-hidden"
+          aria-labelledby="commentOptions"
+        >
+          <span
+            className="dropdown-item"
+            data-toggle="modal"
+            data-target="#confirmUpdateComment"
+          >
+            <i className="fa fa-pencil mr-2"></i>Edit Comment
+          </span>
+          <div className="dropdown-divider"></div>
+          <span
+            className="dropdown-item"
+            data-toggle="modal"
+            data-target="#confirmDelete"
+          >
+            <i className="fa fa-trash mr-2"></i>Delete Comment
+          </span>
+        </div>
+        <ConfirmUpdateMarkupComment
+          commentBody={commentBody}
+          reRenderPost={reRenderPost}
+          comment={comment}
+          post={post}
+        />
+        <ConfirmDeleteMarkup
+          title="Delete Comment"
+          message="Are you sure you want to delete it?"
+          handleDelete={this.handleDelete}
+        />
+      </React.Fragment>
     );
   }
 }

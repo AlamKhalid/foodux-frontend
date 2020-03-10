@@ -27,7 +27,7 @@ class MyProfile extends Component {
 
   render() {
     const { settingsClass } = this.state;
-    const { user } = this.props;
+    const { user, profile } = this.props;
     const isUserEmpty = _.isEmpty(user);
 
     return (
@@ -41,21 +41,24 @@ class MyProfile extends Component {
             />
           </div>
           <div className="d-flex flex-column ml-4">
-            <span className="profile-name">Alam Khalid</span>
+            <span className="profile-name">{isUserEmpty ? "" : user.name}</span>
             <span>Posts: {isUserEmpty ? 0 : user.posts.length}</span>
             <span>Followers: {isUserEmpty ? 0 : user.followers.length}</span>
             <span>Following: {isUserEmpty ? 0 : user.following.length}</span>
+            {profile && <button className="btn btn-info mt-2">Follow</button>}
           </div>
         </div>
-        <i
-          className={`fa fa-cog fa-2x mr-4 ${settingsClass}`}
-          onMouseEnter={this.handleFocus}
-          onMouseLeave={this.handleBlur}
-          data-toggle="tooltip"
-          data-placement="top"
-          title="Settings"
-          onClick={this.handleClick}
-        ></i>
+        {!profile && (
+          <i
+            className={`fa fa-cog fa-2x mr-4 ${settingsClass}`}
+            onMouseEnter={this.handleFocus}
+            onMouseLeave={this.handleBlur}
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Settings"
+            onClick={this.handleClick}
+          ></i>
+        )}
       </div>
     );
   }

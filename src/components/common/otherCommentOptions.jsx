@@ -1,26 +1,10 @@
 import React, { Component } from "react";
 import ConfirmHideMarkup from "./confirmHideMarkup";
-import { confirmAlert } from "react-confirm-alert";
 import { toast } from "react-toastify";
 import { hideComment } from "./../../services/userService";
 
 class OtherCommentOptions extends Component {
   state = {};
-
-  confirmHideComment = () => {
-    confirmAlert({
-      customUI: ({ onClose }) => {
-        return (
-          <ConfirmHideMarkup
-            onClose={onClose}
-            title="Hide Comment"
-            message="Are you sure you want to hide it?"
-            handleHide={this.handleHide}
-          />
-        );
-      }
-    });
-  };
 
   handleHide = async () => {
     const response = await hideComment({
@@ -42,14 +26,25 @@ class OtherCommentOptions extends Component {
 
     return (
       !hidden && (
-        <div
-          className="dropdown-menu overflow-hidden"
-          aria-labelledby="commentOptions"
-        >
-          <span className="dropdown-item" onClick={this.confirmHideComment}>
-            <i className="fa fa-times mr-2"></i>Hide Comment
-          </span>
-        </div>
+        <React.Fragment>
+          <div
+            className="dropdown-menu overflow-hidden"
+            aria-labelledby="commentOptions"
+          >
+            <span
+              className="dropdown-item"
+              data-toggle="modal"
+              data-target="#confirmHide"
+            >
+              <i className="fa fa-times mr-2"></i>Hide Comment
+            </span>
+          </div>
+          <ConfirmHideMarkup
+            title="Hide Comment"
+            message="Are you sure you want to hide it?"
+            handleHide={this.handleHide}
+          />
+        </React.Fragment>
       )
     );
   }

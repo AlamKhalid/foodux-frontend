@@ -4,18 +4,21 @@ import Navbar from "./navbar";
 import MyProfile from "./myProfile";
 import CreatePost from "./createPost";
 import Posts from "./posts";
+import ProfileNav from "./profileNav";
 import { getUser } from "../services/userService";
 
 class Profile extends Component {
-  state = { active: -1, user: {} };
+  state = { active: -1, userProfile: {} };
 
   async componentDidMount() {
-    const { data: user } = await getUser(this.props.user._id);
-    this.setState({ user });
+    const id = this.props.location.pathname.substring(6);
+    const { data: userProfile } = await getUser(id);
+    this.setState({ userProfile });
   }
 
   render() {
     const { user } = this.props;
+    const { userProfile, active } = this.state;
 
     return (
       <React.Fragment>
@@ -23,12 +26,27 @@ class Profile extends Component {
         <div className="container my-3">
           <div className="row">
             <div className="col-3">
-              <LeftSidebar active={this.state.active} />
+              <LeftSidebar active={active} />
             </div>
             <div className="col-9">
-              <MyProfile user={this.state.user} />
-              <CreatePost user={user} />
-              <Posts user={user} profile={true} />
+              <MyProfile
+                user={userProfile}
+                profile={userProfile._id === user._id ? false : true}
+              />
+
+              <ProfileNav />
+
+              <div className="row">
+                <div className="col-4 d-flex flex-column">
+                  <div>About</div>
+                  <div>Followers</div>
+                  <div>Following</div>
+                </div>
+                <div className="col-8">
+                  {userProfile._id === user._id && <CreatePost user={user} />}
+                  <Posts user={userProfile} profile={true} />
+                </div>
+              </div>
             </div>
           </div>
         </div>

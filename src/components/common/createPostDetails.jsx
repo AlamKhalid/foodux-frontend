@@ -9,7 +9,7 @@ class CreatePostDetails extends Component {
         <input
           name="location"
           list="locations"
-          defaultValue={this.props.location}
+          value={this.props.location}
           className="expand location-icon mr-1"
           onChange={this.props.onChange}
         />
@@ -21,7 +21,7 @@ class CreatePostDetails extends Component {
         <input
           type="text"
           name="amountSpend"
-          defaultValue={this.props.amountSpend}
+          value={this.props.amountSpend}
           className="expand dollar-icon"
           onChange={this.props.onChange}
         />

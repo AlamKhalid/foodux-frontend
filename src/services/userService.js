@@ -7,23 +7,23 @@ export function register(user) {
 }
 
 export function getHiddenPosts(id) {
-  return http.get(`${endPointUrl}/${id}/hiddenposts`);
+  return http.get(`${endPointUrl}/${id}/hidden-posts`);
 }
 
 export function getHiddenComments(id) {
-  return http.get(`${endPointUrl}/${id}/hiddencomments`);
+  return http.get(`${endPointUrl}/${id}/hidden-comments`);
 }
 
 export function hidePost(body) {
-  return http.post(`${endPointUrl}/hiddenpost/add`, body);
+  return http.post(`${endPointUrl}/hidden-post/add`, body);
 }
 
 export function unhidePost(body) {
-  return http.post(`${endPointUrl}/hiddenpost/remove`, body);
+  return http.post(`${endPointUrl}/hidden-post/remove`, body);
 }
 
 export function hideComment(body) {
-  return http.post(`${endPointUrl}/hiddencomment/add`, body);
+  return http.post(`${endPointUrl}/hidden-comment/add`, body);
 }
 
 export function getAllUserPosts(id) {
@@ -31,7 +31,7 @@ export function getAllUserPosts(id) {
 }
 
 export function unhideComment(body) {
-  return http.post(`${endPointUrl}/hiddencomment/remove`, body);
+  return http.post(`${endPointUrl}/hidden-comment/remove`, body);
 }
 export function getUser(id) {
   return http.get(`${endPointUrl}/${id}`);
