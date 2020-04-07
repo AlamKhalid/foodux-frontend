@@ -22,7 +22,13 @@ class OwnPostOptions extends Component {
 
   // returns the own post options
   render() {
-    const { postBody, location, amountSpend, reRenderPosts } = this.props;
+    const {
+      postBody,
+      location,
+      amountSpend,
+      reRenderPosts,
+      postId
+    } = this.props;
 
     return (
       <React.Fragment>
@@ -51,6 +57,7 @@ class OwnPostOptions extends Component {
           location={location}
           amountSpend={amountSpend}
           reRenderPosts={reRenderPosts}
+          postId={postId}
         />
         <ConfirmDeleteMarkup
           title="Delete Post"

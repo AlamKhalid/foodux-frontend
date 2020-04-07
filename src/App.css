@@ -370,8 +370,21 @@ input[type="radio"]:checked:after {
   font-weight: bolder;
 }
 
-.profile-item:hover,
+.profile-item:hover {
+  background-color: #dedcdc;
+  cursor: pointer;
+}
+
 .active-profile-item {
-  background-color: #22bf6c;
-  color: white;
+  background-color: #22bf6c !important;
+  color: white !important;
+}
+
+.foodux-link {
+  color: #22bf6c;
+  cursor: pointer;
+}
+
+.foodux-link:hover {
+  text-decoration: underline;
 }

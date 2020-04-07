@@ -5,6 +5,9 @@ import MyProfile from "./myProfile";
 import CreatePost from "./createPost";
 import Posts from "./posts";
 import ProfileNav from "./profileNav";
+import ProfileAbout from "./profileAbout";
+import ProfileRestaurantVisited from "./profileRestaurantVisited";
+import UploadedPhotos from "./uploadedPhotos";
 import { getUser } from "../services/userService";
 
 class Profile extends Component {
@@ -38,9 +41,9 @@ class Profile extends Component {
 
               <div className="row">
                 <div className="col-4 d-flex flex-column">
-                  <div>About</div>
-                  <div>Followers</div>
-                  <div>Following</div>
+                  <ProfileAbout />
+                  <ProfileRestaurantVisited />
+                  <UploadedPhotos />
                 </div>
                 <div className="col-8">
                   {userProfile._id === user._id && <CreatePost user={user} />}

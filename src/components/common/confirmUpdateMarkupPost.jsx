@@ -37,28 +37,22 @@ class ConfirmUpdateMarkup extends Component {
   handleUpdate = async () => {
     const { postBody, location, amountSpend } = this.state;
 
-    if (
-      postBody.length === 0 ||
-      location.length === 0 ||
-      amountSpend.length === 0
-    ) {
-      toast.error("Error updating post...");
-      setTimeout(function() {
-        toast.error("Some values are missing");
-      }, 1000);
+    const body = {
+      postBody: postBody,
+      location: location,
+      amountSpend: amountSpend
+    };
+    const response = await updatePost(this.props.postId, body);
+    if (response) {
+      toast.info("Post has been updated");
+      this.props.reRenderPosts();
+      this.setState({
+        oPostBody: postBody,
+        oLocation: location,
+        oAmountSpend: amountSpend
+      });
     } else {
-      const body = {
-        postBody: postBody,
-        location: location,
-        amountSpend: amountSpend
-      };
-      const response = await updatePost(this.props.postId, body);
-      if (response) {
-        toast.info("Post has been updated");
-        this.props.reRenderPosts();
-      } else {
-        toast.error("Error updating post");
-      }
+      toast.error("Error updating post");
     }
   };
 

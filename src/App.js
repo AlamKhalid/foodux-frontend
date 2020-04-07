@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import _ from "lodash";
 import { ToastContainer } from "react-toastify";
+import ProtectedRoute from "./components/common/protectedRoute";
 import LandingPage from "./components/landingPage";
 import Home from "./components/home";
 import FoodBlog from "./components/foodBlog";
@@ -16,7 +17,7 @@ import "./AppMediaQueries.css";
 
 class App extends Component {
   state = {
-    user: {}
+    user: {},
   };
 
   componentDidMount() {
@@ -36,52 +37,35 @@ class App extends Component {
       <React.Fragment>
         <ToastContainer />
         <Switch>
-          <Route
+          <ProtectedRoute
             path="/home"
-            render={props =>
-              isUserLoggedIn ? (
-                <Home {...props} user={user} />
-              ) : (
-                <Redirect to="/" />
-              )
-            }
+            component={Home}
+            isUserLoggedIn={isUserLoggedIn}
+            user={user}
           />
-          <Route
+          <ProtectedRoute
             path="/foodblog"
-            render={props =>
-              isUserLoggedIn ? (
-                <FoodBlog {...props} user={user} />
-              ) : (
-                <Redirect to="/" />
-              )
-            }
+            component={FoodBlog}
+            isUserLoggedIn={isUserLoggedIn}
+            user={user}
           />
-          <Route
+          <ProtectedRoute
             path="/deals-and-discounts"
-            render={props =>
-              isUserLoggedIn ? (
-                <DealsAndDiscounts {...props} user={user} />
-              ) : (
-                <Redirect to="/" />
-              )
-            }
+            component={DealsAndDiscounts}
+            isUserLoggedIn={isUserLoggedIn}
+            user={user}
           />
-          <Route
-            path={`/user/:id/`}
-            render={props =>
-              isUserLoggedIn ? (
-                <Profile {...props} user={user} />
-              ) : (
-                <Redirect to="/" />
-              )
-            }
+          <ProtectedRoute
+            path="/user/:id/"
+            component={Profile}
+            isUserLoggedIn={isUserLoggedIn}
+            user={user}
           />
           <Route path="/logout" component={Logout} />
-
           <Route
             path="/"
             exact
-            render={props =>
+            render={(props) =>
               isUserLoggedIn ? (
                 <Redirect to="/home" />
               ) : (
