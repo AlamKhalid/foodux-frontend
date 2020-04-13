@@ -18,6 +18,15 @@ class Profile extends Component {
     this.setState({ userProfile });
   }
 
+  refreshProfile = async (id) => {
+    if (id !== this.state.userProfile._id) {
+      const { data: userProfile } = await getUser(id);
+      this.setState({ userProfile, navProfileActive: 1 });
+    } else {
+      this.setState({ navProfileActive: 1 });
+    }
+  };
+
   changeNav = (index) => {
     this.setState({ navProfileActive: index });
   };
@@ -35,7 +44,13 @@ class Profile extends Component {
         toShow = <ProfileNavOption userProfile={userProfile} user={user} />;
         break;
       case 2:
-        toShow = <FollowersNavOption userProfile={userProfile} user={user} />;
+        toShow = (
+          <FollowersNavOption
+            userProfile={userProfile}
+            user={user}
+            refreshProfile={this.refreshProfile}
+          />
+        );
         break;
       case 3:
         toShow = <FollowingNavOption userProfile={userProfile} user={user} />;
@@ -53,7 +68,8 @@ class Profile extends Component {
             </div>
             <div className="col-9">
               <MyProfile
-                user={userProfile}
+                userProfile={userProfile}
+                user={user}
                 profile={userProfile._id === user._id ? false : true}
               />
 

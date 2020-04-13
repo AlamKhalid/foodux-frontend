@@ -319,10 +319,6 @@ input[type="radio"]:checked:after {
   white-space: pre-wrap;
 }
 
-.red-btn {
-  background-color: red !important;
-}
-
 .title-popup {
   color: #666;
   font-size: 2.5rem;
@@ -389,7 +385,7 @@ input[type="radio"]:checked:after {
 
 .foodux-link:hover {
   text-decoration: underline;
-  color: #22bf6c;
+  color: #1da15a;
 }
 
 .i-lg {

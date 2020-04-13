@@ -44,3 +44,7 @@ export function getFollowers(id) {
 export function getFollowing(id) {
   return http.get(`${endPointUrl}/${id}/following`);
 }
+
+export function startFollowing(id, body) {
+  return http.post(`${endPointUrl}/${id}/add-following`, body);
+}

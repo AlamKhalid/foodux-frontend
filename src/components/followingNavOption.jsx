@@ -5,21 +5,35 @@ import { getFollowing } from "../services/userService";
 
 const FollowingNavOption = ({ userProfile, user }) => {
   const [following, setFollowing] = useState([]);
+  const [currentUserFollowing, setCurrentUserFollowing] = useState([]);
 
   useEffect(() => {
     async function getData() {
       if (!_.isEmpty(userProfile)) {
-        const { data: obj } = await getFollowing(userProfile._id);
-        setFollowing(obj.following);
+        const { data: obj1 } = await getFollowing(userProfile._id);
+        if (userProfile._id !== user._id) {
+          const { data: obj2 } = await getFollowing(user._id);
+          setCurrentUserFollowing(obj2.following);
+        } else {
+          setCurrentUserFollowing(obj1.following);
+        }
+        setFollowing(obj1.following);
       }
     }
     getData();
-  }, [userProfile]);
+  }, [userProfile, user]);
 
   return following.length > 0 ? (
     <div className="row mx-2">
       {following.map((follow) => (
-        <OtherProfileCard key={follow._id} user={follow} />
+        <OtherProfileCard
+          key={follow._id}
+          user={follow}
+          currentUser={user}
+          following={currentUserFollowing.find(
+            (item) => item._id === follow._id
+          )}
+        />
       ))}
     </div>
   ) : (

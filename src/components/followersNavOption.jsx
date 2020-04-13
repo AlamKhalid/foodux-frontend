@@ -3,9 +3,9 @@ import _ from "lodash";
 import OtherProfileCard from "./common/otherProfileCard";
 import { getFollowers, getFollowing } from "../services/userService";
 
-const FollowersNavOption = ({ userProfile, user }) => {
+const FollowersNavOption = ({ userProfile, user, refreshProfile }) => {
   const [followers, setFollowers] = useState([]);
-  const [following, setFollowing] = useState([]);
+  const [currentUserFollowing, setCurrentUserFollowing] = useState([]);
 
   useEffect(() => {
     async function getData() {
@@ -13,7 +13,7 @@ const FollowersNavOption = ({ userProfile, user }) => {
         const { data: obj1 } = await getFollowers(userProfile._id);
         const { data: obj2 } = await getFollowing(user._id);
         setFollowers(obj1.followers);
-        setFollowing(obj2.following);
+        setCurrentUserFollowing(obj2.following);
       }
     }
     getData();
@@ -25,7 +25,11 @@ const FollowersNavOption = ({ userProfile, user }) => {
         <OtherProfileCard
           key={follower._id}
           user={follower}
-          following={following.indexOf(follower) > -1 ? true : false}
+          currentUser={user}
+          refreshProfile={refreshProfile}
+          following={currentUserFollowing.find(
+            (item) => item._id === follower._id
+          )}
         />
       ))}
     </div>
