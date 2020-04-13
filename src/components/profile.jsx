@@ -2,16 +2,15 @@ import React, { Component } from "react";
 import LeftSidebar from "./leftSidebar";
 import Navbar from "./navbar";
 import MyProfile from "./myProfile";
-import CreatePost from "./createPost";
-import Posts from "./posts";
+import ProfileNavOption from "./profileNavOption";
 import ProfileNav from "./profileNav";
-import ProfileAbout from "./profileAbout";
-import ProfileRestaurantVisited from "./profileRestaurantVisited";
-import UploadedPhotos from "./uploadedPhotos";
 import { getUser } from "../services/userService";
+import AboutNavOption from "./aboutNavOption";
+import FollowersNavOption from "./followersNavOption";
+import FollowingNavOption from "./followingNavOption";
 
 class Profile extends Component {
-  state = { active: -1, userProfile: {} };
+  state = { active: -1, userProfile: {}, navProfileActive: 1 };
 
   async componentDidMount() {
     const id = this.props.location.pathname.substring(6);
@@ -19,9 +18,30 @@ class Profile extends Component {
     this.setState({ userProfile });
   }
 
+  changeNav = (index) => {
+    this.setState({ navProfileActive: index });
+  };
+
   render() {
     const { user } = this.props;
-    const { userProfile, active } = this.state;
+    const { userProfile, active, navProfileActive } = this.state;
+    let toShow;
+
+    switch (navProfileActive) {
+      case 0:
+        toShow = <AboutNavOption />;
+        break;
+      case 1:
+        toShow = <ProfileNavOption userProfile={userProfile} user={user} />;
+        break;
+      case 2:
+        toShow = <FollowersNavOption userProfile={userProfile} user={user} />;
+        break;
+      case 3:
+        toShow = <FollowingNavOption userProfile={userProfile} user={user} />;
+        break;
+      default:
+    }
 
     return (
       <React.Fragment>
@@ -37,19 +57,12 @@ class Profile extends Component {
                 profile={userProfile._id === user._id ? false : true}
               />
 
-              <ProfileNav />
+              <ProfileNav
+                active={navProfileActive}
+                changeNav={this.changeNav}
+              />
 
-              <div className="row">
-                <div className="col-4 d-flex flex-column">
-                  <ProfileAbout />
-                  <ProfileRestaurantVisited />
-                  <UploadedPhotos />
-                </div>
-                <div className="col-8">
-                  {userProfile._id === user._id && <CreatePost user={user} />}
-                  <Posts user={userProfile} profile={true} />
-                </div>
-              </div>
+              {toShow}
             </div>
           </div>
         </div>

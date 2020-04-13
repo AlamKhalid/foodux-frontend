@@ -5,7 +5,7 @@ import { postComment } from "../../services/commentService";
 class AddComment extends Component {
   state = {
     enterCommentBtnClass: "d-none", // specifies the class for enter comment button which is paper-plane
-    commentBody: "" // the comment that user enters in the comment textbox
+    commentBody: "", // the comment that user enters in the comment textbox
   };
 
   handleChange = ({ target }) => {
@@ -28,7 +28,7 @@ class AddComment extends Component {
     }
   };
 
-  handleKeyDown = e => {
+  handleKeyDown = (e) => {
     // for user's convenience, can also press enter to submit comment along with pressing paper-plane button
     if (e.key === "Enter") {
       this.handleClick();
@@ -42,7 +42,7 @@ class AddComment extends Component {
       const comment = {
         commentBody: this.state.commentBody,
         postId: this.props.postId,
-        userId: this.props.userId
+        userId: this.props.userId,
       }; // defines the comment object with necessary keys to be send to backend server
       const response = await postComment(comment); // call backend to post comment
       if (response) {
@@ -61,7 +61,8 @@ class AddComment extends Component {
 
   render() {
     // destructuring the state of the class
-    const { enterCommentBtnClass } = this.state;
+    const { enterCommentBtnClass, commentBody } = this.state;
+    const { commentInputRef } = this.props;
 
     return (
       <div className="d-flex flex-row">
@@ -72,9 +73,10 @@ class AddComment extends Component {
         />
         <input
           className="commentField mr-2"
+          ref={commentInputRef}
           type="text"
           name="commentBody"
-          value={this.state.commentBody}
+          value={commentBody}
           onChange={this.handleChange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}

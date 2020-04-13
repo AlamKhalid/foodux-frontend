@@ -10,6 +10,7 @@ import FoodBlog from "./components/foodBlog";
 import DealsAndDiscounts from "./components/dealsAndDiscounts";
 import Profile from "./components/profile";
 import Logout from "./components/logout";
+import Verify from "./components/verify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./App.css";
@@ -38,6 +39,12 @@ class App extends Component {
         <ToastContainer />
         <Switch>
           <ProtectedRoute
+            path="/user/:id/"
+            component={Profile}
+            isUserLoggedIn={isUserLoggedIn}
+            user={user}
+          />
+          <ProtectedRoute
             path="/home"
             component={Home}
             isUserLoggedIn={isUserLoggedIn}
@@ -55,12 +62,7 @@ class App extends Component {
             isUserLoggedIn={isUserLoggedIn}
             user={user}
           />
-          <ProtectedRoute
-            path="/user/:id/"
-            component={Profile}
-            isUserLoggedIn={isUserLoggedIn}
-            user={user}
-          />
+          <Route path="/verify" render={() => <Verify user={user} />} />
           <Route path="/logout" component={Logout} />
           <Route
             path="/"

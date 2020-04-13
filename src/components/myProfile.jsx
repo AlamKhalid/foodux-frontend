@@ -4,7 +4,7 @@ import _ from "lodash";
 
 class MyProfile extends Component {
   state = {
-    settingsClass: "text-muted"
+    settingsClass: "text-muted",
   };
 
   componentDidMount() {
@@ -45,7 +45,7 @@ class MyProfile extends Component {
             <span>Posts: {isUserEmpty ? 0 : user.posts.length}</span>
             <span>Followers: {isUserEmpty ? 0 : user.followers.length}</span>
             <span>Following: {isUserEmpty ? 0 : user.following.length}</span>
-            {profile && <button className="btn btn-info mt-2">Follow</button>}
+            {profile && <button className="btn foodux-btn mt-2">Follow</button>}
           </div>
         </div>
         {!profile && (

@@ -5,7 +5,7 @@ import { updateComment } from "../../services/commentService";
 class ConfirmUpdateMarkupComment extends Component {
   state = {
     comment: "",
-    editedComment: ""
+    editedComment: "",
   };
 
   componentDidMount() {
@@ -24,7 +24,7 @@ class ConfirmUpdateMarkupComment extends Component {
       const comment = {
         commentId: this.props.comment,
         postId: this.props.post,
-        commentBody: editedComment
+        commentBody: editedComment,
       };
       const response = await updateComment(comment);
       if (response) {
@@ -54,22 +54,22 @@ class ConfirmUpdateMarkupComment extends Component {
   render() {
     return (
       <div
-        class="modal fade"
+        className="modal fade"
         id="confirmUpdateComment"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="confirmUpdateCommentTitle"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLongTitle">
                 Edit Comment
               </h5>
               <button
                 type="button"
-                class="close"
+                className="close"
                 data-dismiss="modal"
                 aria-label="Close"
                 onClick={this.restoreState}
@@ -77,7 +77,7 @@ class ConfirmUpdateMarkupComment extends Component {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
+            <div className="modal-body">
               <textarea
                 className="createPostBody h-auto"
                 name="editedComment"
@@ -85,10 +85,10 @@ class ConfirmUpdateMarkupComment extends Component {
                 onChange={this.handleChange}
               ></textarea>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 data-dismiss="modal"
                 onClick={this.restoreState}
               >
@@ -96,7 +96,7 @@ class ConfirmUpdateMarkupComment extends Component {
               </button>
               <button
                 type="button"
-                class="btn btn-warning"
+                className="btn btn-warning"
                 data-dismiss="modal"
                 disabled={this.handleDisable()}
                 onClick={this.handleUpdate}

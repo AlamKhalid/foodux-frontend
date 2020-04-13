@@ -12,7 +12,7 @@ class ConfirmUpdateMarkup extends Component {
     cities: [],
     oPostBody: "",
     oLocation: "",
-    oAmountSpend: ""
+    oAmountSpend: "",
   };
 
   async componentDidMount() {
@@ -25,7 +25,7 @@ class ConfirmUpdateMarkup extends Component {
       cities,
       oPostBody: postBody,
       oLocation: location,
-      oAmountSpend: amountSpend
+      oAmountSpend: amountSpend,
     });
   }
 
@@ -40,7 +40,7 @@ class ConfirmUpdateMarkup extends Component {
     const body = {
       postBody: postBody,
       location: location,
-      amountSpend: amountSpend
+      amountSpend: amountSpend,
     };
     const response = await updatePost(this.props.postId, body);
     if (response) {
@@ -49,7 +49,7 @@ class ConfirmUpdateMarkup extends Component {
       this.setState({
         oPostBody: postBody,
         oLocation: location,
-        oAmountSpend: amountSpend
+        oAmountSpend: amountSpend,
       });
     } else {
       toast.error("Error updating post");
@@ -63,7 +63,7 @@ class ConfirmUpdateMarkup extends Component {
       oLocation,
       postBody,
       location,
-      amountSpend
+      amountSpend,
     } = this.state;
     if (
       oPostBody === postBody &&
@@ -85,29 +85,29 @@ class ConfirmUpdateMarkup extends Component {
     this.setState({
       postBody: oPostBody,
       location: oLocation,
-      amountSpend: oAmountSpend
+      amountSpend: oAmountSpend,
     });
   };
 
   render() {
     return (
       <div
-        class="modal fade"
+        className="modal fade"
         id="confirmUpdatePost"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="confirmUpdatePostTitle"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLongTitle">
                 Edit Post
               </h5>
               <button
                 type="button"
-                class="close"
+                className="close"
                 data-dismiss="modal"
                 aria-label="Close"
                 onClick={this.restoreState}
@@ -115,7 +115,7 @@ class ConfirmUpdateMarkup extends Component {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
+            <div className="modal-body">
               <textarea
                 className="createPostBody mb-1"
                 name="postBody"
@@ -132,10 +132,10 @@ class ConfirmUpdateMarkup extends Component {
                 />
               </div>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 data-dismiss="modal"
                 onClick={this.restoreState}
               >
@@ -143,7 +143,7 @@ class ConfirmUpdateMarkup extends Component {
               </button>
               <button
                 type="button"
-                class="btn btn-warning"
+                className="btn btn-warning"
                 data-dismiss="modal"
                 disabled={this.handleDisable()}
                 onClick={this.handleUpdate}

@@ -1,18 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
 import CreatePost from "./createPost";
 import Posts from "./posts";
 
-class Newsfeed extends Component {
-  state = {};
-
-  render() {
-    return (
-      <React.Fragment>
-        <CreatePost user={this.props.user} />
-        <Posts user={this.props.user} profile={false} />
-      </React.Fragment>
-    );
-  }
-}
+const Newsfeed = ({ user }) => {
+  return (
+    <React.Fragment>
+      <CreatePost user={user} />
+      <Posts userId={user._id} profile={false} />
+    </React.Fragment>
+  );
+};
 
 export default Newsfeed;

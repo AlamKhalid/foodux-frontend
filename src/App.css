@@ -24,16 +24,18 @@ nav {
 
 #loginBtn,
 #signUpBtn,
-.voteBtn {
-  background-color: #22bf6c;
-  color: #f8f9fa;
+.voteBtn,
+.foodux-btn {
+  background-color: #22bf6c !important;
+  color: #f8f9fa !important;
 }
 
 #loginBtn:hover,
 #signUpBtn:hover,
 #createPostBtn:hover,
-.voteBtn:hover {
-  background-color: #1da15a;
+.voteBtn:hover,
+.foodux-btn:hover {
+  background-color: #1da15a !important;
 }
 
 .initial {
@@ -387,4 +389,19 @@ input[type="radio"]:checked:after {
 
 .foodux-link:hover {
   text-decoration: underline;
+  color: #22bf6c;
+}
+
+.i-lg {
+  font-size: 250px !important;
+}
+
+.verify-heading {
+  font-size: 50px;
+  font-weight: bolder;
+}
+
+.card-img-top {
+  width: 100px;
+  height: 150px;
 }

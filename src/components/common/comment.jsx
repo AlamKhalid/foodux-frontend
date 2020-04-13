@@ -9,7 +9,7 @@ import { unhideComment } from "./../../services/userService";
 class Comment extends Component {
   state = {
     commentOptionClass: "d-none", // hides the comment's options, show them only on hover
-    hiddenCommentClass: "" // shows hidden comments with low opacity
+    hiddenCommentClass: "", // shows hidden comments with low opacity
   };
 
   componentDidMount() {
@@ -36,8 +36,8 @@ class Comment extends Component {
 
   handleUnhide = async () => {
     const response = await unhideComment({
-      userId: this.props.user,
-      commentId: this.props.comment._id
+      userId: this.props.userId,
+      commentId: this.props.comment._id,
     });
     if (response) {
       this.props.reRenderPost();
@@ -51,7 +51,7 @@ class Comment extends Component {
   render() {
     // destructuring props and props.comment
     const { commentBody, commentBy, _id } = this.props.comment;
-    const { user, post, hidden } = this.props;
+    const { userId, post, hidden } = this.props;
 
     return (
       <React.Fragment>
@@ -83,13 +83,13 @@ class Comment extends Component {
                 data-toggle-second="tooltip"
                 data-placement="top"
                 title={
-                  commentBy._id === user
+                  commentBy._id === userId
                     ? "Edit or delete comment"
                     : "Hide comment"
                 }
               ></i>
             )}
-            {commentBy._id === user ? (
+            {commentBy._id === userId ? (
               <OwnCommentOptions
                 comment={_id}
                 commentBody={commentBody}
@@ -101,7 +101,7 @@ class Comment extends Component {
                 reRenderPost={this.props.reRenderPost}
                 reRenderComment={this.reRenderComment}
                 commentId={_id}
-                userId={user}
+                userId={userId}
                 hidden={hidden}
               />
             )}

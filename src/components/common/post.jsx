@@ -9,10 +9,15 @@ import { getPost } from "../../services/postService";
 import { getHiddenComments } from "./../../services/userService";
 
 class Post extends Component {
+  constructor(props) {
+    super(props);
+    this.commentInputRef = React.createRef();
+  }
+
   state = {
     comments: [], // stores the comments array on a single post
     hiddenComments: [], // stores the hidden comments ids for a single user
-    likes: [] // stores the likes array for a single post
+    likes: [], // stores the likes array for a single post
   };
 
   async componentDidMount() {
@@ -30,7 +35,7 @@ class Post extends Component {
     this.setState({
       comments: post.comments,
       likes: post.likes,
-      hiddenComments
+      hiddenComments,
     });
   };
 
@@ -40,7 +45,7 @@ class Post extends Component {
     let likers = "",
       counter = 0;
     // only shows 5 likers, rest remaining as numbers
-    this.state.likes.forEach(function(like) {
+    this.state.likes.forEach(function (like) {
       if (counter < 5) {
         likers += like.name + "<br/>";
         counter++;
@@ -57,7 +62,7 @@ class Post extends Component {
       ids = [],
       counter = 0;
     // only shows 5 commentators, rest remaining as numbers
-    comments.forEach(function(comment) {
+    comments.forEach(function (comment) {
       // show unique commentators names, by matching the ids
       if (ids.indexOf(comment.commentBy._id) === -1 && counter < 5) {
         commentators += comment.commentBy.name + "<br/>";
@@ -72,7 +77,7 @@ class Post extends Component {
 
   render() {
     // destructuring the props and state objects
-    const { post, userId, liked } = this.props;
+    const { post, userId, liked, reRenderPosts } = this.props;
     const { comments, likes, hiddenComments } = this.state;
     const likers = this.getLikesName();
     const commentators = this.getCommentsName();
@@ -116,7 +121,7 @@ class Post extends Component {
             postBody={post.postBody}
             location={post.location}
             amountSpend={post.amountSpend}
-            reRenderPosts={this.props.reRenderPosts}
+            reRenderPosts={reRenderPosts}
           />
         </div>
         <div className="text-left postBody my-3">{post.postBody}</div>
@@ -141,22 +146,24 @@ class Post extends Component {
           </span>
         </div>
         <PostButtons
+          commentInputRef={this.commentInputRef}
           post={post._id}
-          user={userId}
+          userId={userId}
           liked={liked}
           reRenderPost={this.reRenderPost}
         />
-        {comments.map(comment => (
+        {comments.map((comment) => (
           <Comment
             key={comment._id}
             comment={comment}
-            user={userId}
+            userId={userId}
             post={post._id}
             hidden={hiddenComments.indexOf(comment._id) > -1 ? true : false}
             reRenderPost={this.reRenderPost}
           />
         ))}
         <AddComment
+          commentInputRef={this.commentInputRef}
           postId={post._id}
           userId={userId}
           reRenderPost={this.reRenderPost}

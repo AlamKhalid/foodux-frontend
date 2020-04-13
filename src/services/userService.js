@@ -36,3 +36,11 @@ export function unhideComment(body) {
 export function getUser(id) {
   return http.get(`${endPointUrl}/${id}`);
 }
+
+export function getFollowers(id) {
+  return http.get(`${endPointUrl}/${id}/followers`);
+}
+
+export function getFollowing(id) {
+  return http.get(`${endPointUrl}/${id}/following`);
+}

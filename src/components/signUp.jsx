@@ -14,10 +14,10 @@ class SignUp extends Form {
       birthday: {
         date: "",
         month: "",
-        year: ""
+        year: "",
       },
-      gender: ""
-    }
+      gender: "",
+    },
   };
 
   calculateAge = () => {
@@ -46,7 +46,7 @@ class SignUp extends Form {
     return false;
   };
 
-  handleSubmit = async event => {
+  handleSubmit = async (event) => {
     event.preventDefault();
 
     const errors = this.validate();
@@ -61,14 +61,14 @@ class SignUp extends Form {
         "email",
         "password",
         "birthday",
-        "gender"
+        "gender",
       ])
     );
     if (!response) {
       toast.error("Email already registered");
     } else {
       localStorage.setItem("token", response.headers["x-auth-token"]);
-      window.location = "/home";
+      window.location = "/verify";
     }
   };
 

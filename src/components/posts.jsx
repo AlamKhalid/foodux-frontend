@@ -10,46 +10,47 @@ class Posts extends Component {
     posts: [],
     likedPosts: [],
     hiddenPosts: [],
-    userPosts: []
+    userPosts: [],
   };
 
   async componentDidMount() {
+    const { userId, profile } = this.props;
     const { data: posts } = await getPosts();
-    const { data: hiddenPosts } = await getHiddenPosts(this.props.user._id);
-    const { data: likedPosts } = await getAllLikedPosts(this.props.user._id);
-    this.setState({ posts, likedPosts, hiddenPosts });
+    const { data: hiddenPosts } = await getHiddenPosts(userId);
+    const { data: likedPosts } = await getAllLikedPosts(userId);
+    let userPosts = [];
+    if (profile) {
+      const { data } = await getAllUserPosts(userId);
+      userPosts = data;
+    }
+    this.setState({ posts, likedPosts, hiddenPosts, userPosts });
   }
 
   reRenderPosts = async () => {
+    const { userId } = this.props;
     const { data: posts } = await getPosts();
-    const { data: hiddenPosts } = await getHiddenPosts(this.props.user._id);
-    const { data: likedPosts } = await getAllLikedPosts(this.props.user._id);
+    const { data: hiddenPosts } = await getHiddenPosts(userId);
+    const { data: likedPosts } = await getAllLikedPosts(userId);
     this.setState({ posts, likedPosts, hiddenPosts });
-  };
-
-  postsForProfile = async () => {
-    const { data: userPosts } = await getAllUserPosts(this.props.user._id);
-    this.setState({ userPosts });
   };
 
   render() {
     let { posts, likedPosts, hiddenPosts, userPosts } = this.state;
-    const { profile } = this.props;
-    posts = posts.filter(post => hiddenPosts.indexOf(post._id) === -1);
+    const { profile, userId } = this.props;
+    posts = posts.filter((post) => hiddenPosts.indexOf(post._id) === -1);
 
     if (profile) {
-      this.postsForProfile();
-      posts = posts.filter(post => userPosts.indexOf(post._id) > -1);
+      posts = posts.filter((post) => userPosts.indexOf(post._id) > -1);
     }
 
     return (
       <React.Fragment>
         {posts.length > 0 ? (
-          posts.map(post => (
+          posts.map((post) => (
             <Post
               key={post._id}
               post={post}
-              userId={this.props.user._id}
+              userId={userId}
               liked={likedPosts.indexOf(post._id) > -1 ? true : false}
               reRenderPosts={this.reRenderPosts}
             />

@@ -11,7 +11,7 @@ class CreatePost extends Component {
     postBody: "",
     location: "",
     amountSpend: "",
-    cities: []
+    cities: [],
   };
 
   async componentDidMount() {
@@ -25,7 +25,9 @@ class CreatePost extends Component {
   };
 
   handleBlur = () => {
-    if (this.state.postBody.length === 0) {
+    const { postBody } = this.state;
+
+    if (postBody.length === 0) {
       const classes = "d-none";
       this.setState({ postPopupsClasses: classes });
     }
@@ -37,22 +39,23 @@ class CreatePost extends Component {
   };
 
   disableButton = () => {
-    const { postBody, location, amountSpend } = this.state;
+    const { postBody, location, amountSpend, cities } = this.state;
     if (
       postBody.length === 0 ||
       location.length === 0 ||
       amountSpend.length === 0
     )
       return true;
-    if (this.state.cities.indexOf(this.state.location) === -1) return true;
+    if (cities.indexOf(location) === -1) return true;
     return false;
   };
 
   handleClick = async () => {
+    const { user } = this.props;
     const response = await submitPost({
       ..._.pick(this.state, ["postBody", "location", "amountSpend"]),
-      _id: this.props.user._id,
-      postBy: this.props.user._id
+      _id: user._id,
+      postBy: user._id,
     });
     if (response) {
       window.location.reload();
@@ -62,6 +65,13 @@ class CreatePost extends Component {
   };
 
   render() {
+    const {
+      postBody,
+      postPopupsClasses,
+      location,
+      cities,
+      amountSpend,
+    } = this.state;
     return (
       <div className="bg-light p-2 rounded-lg">
         <h6 className="text-left text-muted mb-3">Create Review</h6>
@@ -69,18 +79,18 @@ class CreatePost extends Component {
           className="createPostBody"
           placeholder="What you had today?"
           name="postBody"
-          value={this.state.postBody}
+          value={postBody}
           onChange={this.handleChange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
         ></textarea>
-        <div className={this.state.postPopupsClasses}>
+        <div className={postPopupsClasses}>
           <div className="mt-1">
             <CreatePostDetails
-              location={this.state.location}
-              amountSpend={this.state.amountSpend}
+              location={location}
+              amountSpend={amountSpend}
               onChange={this.handleChange}
-              cities={this.state.cities}
+              cities={cities}
             />
           </div>
           <div>

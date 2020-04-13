@@ -4,7 +4,7 @@ import { like, unlike } from "../../services/likeService";
 
 class PostButtons extends Component {
   state = {
-    likeBtnClass: ""
+    likeBtnClass: "",
   };
 
   componentDidMount() {
@@ -16,7 +16,7 @@ class PostButtons extends Component {
 
   handleLike = async () => {
     let likeBtnClass, response;
-    const body = { postId: this.props.post, userId: this.props.user };
+    const body = { postId: this.props.post, userId: this.props.userId };
     if (this.state.likeBtnClass === "-o") {
       response = await like(body);
       if (response) likeBtnClass = " app-color";
@@ -34,13 +34,17 @@ class PostButtons extends Component {
     this.props.reRenderPost();
   };
 
+  handleFocus = () => {
+    this.props.commentInputRef.current.focus();
+  };
+
   render() {
     return (
       <div className="d-flex justify-content-around postBtns mb-2">
         <span className="postBtn" onClick={this.handleLike}>
           <i className={`fa mr-3 fa-heart${this.state.likeBtnClass}`}></i>Like
         </span>
-        <span className="postBtn">
+        <span className="postBtn" onClick={this.handleFocus}>
           <i className="fa fa-comment-o mr-3"></i>Add on
         </span>
       </div>
