@@ -1,110 +1,72 @@
 import React, { Component } from "react";
-import _ from "lodash";
-import { toast } from "react-toastify";
-import CreatePostDetails from "./common/createPostDetails";
-import { submitPost } from "../services/postService";
-import { getCities } from "../services/cityService";
+import AddReviewPopup from "./addReviewPopup";
+import AddDealPopup from "./addDealPopup";
+import AddAnnouncementPopup from "./addAnnouncementPopup";
+import AddAskRecommendationPopup from "./addAskRecommendationPopup";
+import WhatYouCanEatPopup from "./whatYouCanEatPopup";
 
 class CreatePost extends Component {
-  state = {
-    postPopupsClasses: "d-none",
-    postBody: "",
-    location: "",
-    amountSpend: "",
-    cities: [],
-  };
-
-  async componentDidMount() {
-    const { data: cities } = await getCities();
-    this.setState({ cities });
-  }
-
-  handleFocus = () => {
-    const postPopupsClasses = "d-flex justify-content-between";
-    this.setState({ postPopupsClasses });
-  };
-
-  handleBlur = () => {
-    const { postBody } = this.state;
-
-    if (postBody.length === 0) {
-      const classes = "d-none";
-      this.setState({ postPopupsClasses: classes });
-    }
-  };
-
-  handleChange = ({ target }) => {
-    const { name, value } = target;
-    this.setState({ [name]: value });
-  };
-
-  disableButton = () => {
-    const { postBody, location, amountSpend, cities } = this.state;
-    if (
-      postBody.length === 0 ||
-      location.length === 0 ||
-      amountSpend.length === 0
-    )
-      return true;
-    if (cities.indexOf(location) === -1) return true;
-    return false;
-  };
-
-  handleClick = async () => {
-    const { user } = this.props;
-    const response = await submitPost({
-      ..._.pick(this.state, ["postBody", "location", "amountSpend"]),
-      _id: user._id,
-      postBy: user._id,
-    });
-    if (response) {
-      window.location.reload();
-    } else {
-      toast.error("Error creating a post");
-    }
-  };
-
   render() {
-    const {
-      postBody,
-      postPopupsClasses,
-      location,
-      cities,
-      amountSpend,
-    } = this.state;
-    return (
-      <div className="bg-light p-2 rounded-lg">
-        <h6 className="text-left text-muted mb-3">Create Review</h6>
-        <textarea
-          className="createPostBody"
-          placeholder="What you had today?"
-          name="postBody"
-          value={postBody}
-          onChange={this.handleChange}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-        ></textarea>
-        <div className={postPopupsClasses}>
-          <div className="mt-1">
-            <CreatePostDetails
-              location={location}
-              amountSpend={amountSpend}
-              onChange={this.handleChange}
-              cities={cities}
-            />
-          </div>
-          <div>
-            <button
-              className="btn"
-              id="createPostBtn"
-              disabled={this.disableButton()}
-              onClick={this.handleClick}
+    const { user } = this.props;
+    return this.props.user.isRestaurant ? (
+      <React.Fragment>
+        <div className="bg-light p-2 rounded-lg">
+          <h6 className="text-left text-muted py-1 pl-2">Add Post</h6>
+          <div className="create-post-body d-flex align-items-center justify-content-around">
+            <span
+              className="foodux-link"
+              data-toggle="modal"
+              data-target="#addDeal"
             >
-              Post
-            </button>
+              Add a Deal/Discount
+            </span>
+            <span>|</span>
+            <span
+              className="foodux-link"
+              data-toggle="modal"
+              data-target="#addAnnouncement"
+            >
+              Make Announcement
+            </span>
           </div>
         </div>
-      </div>
+        <AddDealPopup user={user} />
+        <AddAnnouncementPopup user={user} />
+      </React.Fragment>
+    ) : (
+      <React.Fragment>
+        <div className="bg-light p-2 rounded-lg">
+          <h6 className="text-left text-muted py-1 pl-2">Create Post</h6>
+          <div className="create-post-body d-flex align-items-center justify-content-between">
+            <span
+              className="foodux-link"
+              data-toggle="modal"
+              data-target="#addReview"
+            >
+              Add Review
+            </span>
+            <span>|</span>
+            <span
+              className="foodux-link"
+              data-toggle="modal"
+              data-target="#addRecommendation"
+            >
+              Ask Recommendations
+            </span>
+            <span>|</span>
+            <span
+              className="foodux-link"
+              data-toggle="modal"
+              data-target="#addWhat"
+            >
+              What you can eat in?
+            </span>
+          </div>
+        </div>
+        <AddReviewPopup user={user} />
+        <AddAskRecommendationPopup user={user} />
+        <WhatYouCanEatPopup user={user} />
+      </React.Fragment>
     );
   }
 }

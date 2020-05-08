@@ -28,7 +28,7 @@ class ConfirmUpdateMarkupComment extends Component {
       };
       const response = await updateComment(comment);
       if (response) {
-        toast.info("Comment has been updated");
+        toast("Comment has been updated");
         this.setState({ comment: editedComment });
         this.props.reRenderPost();
       } else {
@@ -79,7 +79,7 @@ class ConfirmUpdateMarkupComment extends Component {
             </div>
             <div className="modal-body">
               <textarea
-                className="createPostBody h-auto"
+                className="create-post-body h-auto"
                 name="editedComment"
                 value={this.state.editedComment}
                 onChange={this.handleChange}

@@ -1,6 +1,19 @@
 import React from "react";
+import { toast } from "react-toastify";
+import { stopFollowing } from "./../../services/userService";
 
-const ConfirmUnfollowUser = ({ user }) => {
+const ConfirmUnfollowUser = ({ user, currentUser, refreshProfile }) => {
+  const handleUnfollow = async () => {
+    const response = await stopFollowing(currentUser._id, {
+      userId: user._id,
+    });
+    if (response) {
+      refreshProfile(-1);
+    } else {
+      toast.error("Error unfollowing the user");
+    }
+  };
+
   return (
     <div
       className="modal fade"
@@ -39,6 +52,7 @@ const ConfirmUnfollowUser = ({ user }) => {
               type="button"
               className="btn btn-warning"
               data-dismiss="modal"
+              onClick={handleUnfollow}
             >
               Unfollow
             </button>

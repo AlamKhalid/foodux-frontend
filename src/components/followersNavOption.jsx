@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import _ from "lodash";
 import OtherProfileCard from "./common/otherProfileCard";
 import { getFollowers, getFollowing } from "../services/userService";
 
@@ -9,34 +8,43 @@ const FollowersNavOption = ({ userProfile, user, refreshProfile }) => {
 
   useEffect(() => {
     async function getData() {
-      if (!_.isEmpty(userProfile)) {
-        const { data: obj1 } = await getFollowers(userProfile._id);
-        const { data: obj2 } = await getFollowing(user._id);
-        setFollowers(obj1.followers);
-        setCurrentUserFollowing(obj2.following);
-      }
+      const { data: obj1 } = await getFollowers(userProfile._id);
+      const { data: obj2 } = await getFollowing(user._id);
+      setFollowers(obj1.followers);
+      setCurrentUserFollowing(obj2.following);
     }
     getData();
   }, [userProfile, user]);
 
-  return followers.length > 0 ? (
-    <div className="row mx-2">
-      {followers.map((follower) => (
-        <OtherProfileCard
-          key={follower._id}
-          user={follower}
-          currentUser={user}
-          refreshProfile={refreshProfile}
-          following={currentUserFollowing.find(
-            (item) => item._id === follower._id
-          )}
-        />
-      ))}
-    </div>
-  ) : (
-    <p className="bg-light pt-3 px-3 pb-2 my-2 rounded-lg text-center text-muted">
-      No followers to show
-    </p>
+  return (
+    <React.Fragment>
+      <input
+        type="text"
+        className="expand search-icon circle mt-1"
+        placeholder="   Search user..."
+      />
+      {followers.length > 0 ? (
+        <React.Fragment>
+          <div className="row mx-2 mt-2">
+            {followers.map((follower) => (
+              <OtherProfileCard
+                key={follower._id}
+                user={follower}
+                currentUser={user}
+                refreshProfile={refreshProfile}
+                following={currentUserFollowing.find(
+                  (item) => item._id === follower._id
+                )}
+              />
+            ))}
+          </div>
+        </React.Fragment>
+      ) : (
+        <p className="bg-light pt-3 px-3 pb-2 my-3 rounded-lg text-center text-muted">
+          No followers to show
+        </p>
+      )}
+    </React.Fragment>
   );
 };
 

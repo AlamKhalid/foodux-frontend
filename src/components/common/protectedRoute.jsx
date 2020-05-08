@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
-import _ from "lodash";
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { getUser } from "../../services/userService";
 
 const ProtectedRoute = ({
   isUserLoggedIn,
@@ -10,29 +8,22 @@ const ProtectedRoute = ({
   render,
   ...rest
 }) => {
-  const [isVerified, setIsVerified] = useState("false");
-
-  useEffect(() => {
-    async function getData() {
-      if (!_.isEmpty(user)) {
-        const { data: userObj } = await getUser(user._id);
-        setIsVerified(userObj.isVerified);
-      }
-    }
-    getData();
-  });
+  const isVerified = localStorage.getItem("isVerified").length > 0;
+  const loggedIn = localStorage.getItem("isLoggedIn");
+  const detailsFilled = localStorage.getItem("filledDetails").length > 0;
 
   return (
     <Route
       {...rest}
       render={(props) =>
-        isUserLoggedIn && isVerified ? (
+        loggedIn && isVerified && detailsFilled ? (
           Component ? (
             <Component {...props} user={user} />
           ) : (
             render(props)
           )
-        ) : isUserLoggedIn && !isVerified ? (
+        ) : (loggedIn && !isVerified) ||
+          (loggedIn && isVerified && !detailsFilled) ? (
           <Redirect to="/verify" />
         ) : (
           <Redirect to="/" />

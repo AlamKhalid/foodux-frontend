@@ -3,7 +3,13 @@ import { NavLink } from "react-router-dom";
 import FollowButton from "./followButton";
 import ConfirmUnfollowUser from "./confirmUnfollowUser";
 
-const OtherProfileCard = ({ user, following, currentUser, refreshProfile }) => {
+const OtherProfileCard = ({
+  user,
+  following,
+  currentUser,
+  refreshProfile,
+  changeState,
+}) => {
   return (
     <React.Fragment>
       <div className="col-3 card">
@@ -15,7 +21,12 @@ const OtherProfileCard = ({ user, following, currentUser, refreshProfile }) => {
         <div className="card-body text-center">
           <h5 className="card-title">{user.name}</h5>
           {user._id !== currentUser._id && (
-            <FollowButton following={following} />
+            <FollowButton
+              following={following}
+              user={user}
+              currentUser={currentUser}
+              refreshProfile={refreshProfile}
+            />
           )}
           <br />
           <NavLink
@@ -29,7 +40,11 @@ const OtherProfileCard = ({ user, following, currentUser, refreshProfile }) => {
           </NavLink>
         </div>
       </div>
-      <ConfirmUnfollowUser user={user} />
+      <ConfirmUnfollowUser
+        user={user}
+        currentUser={currentUser}
+        refreshProfile={refreshProfile}
+      />
     </React.Fragment>
   );
 };

@@ -51,10 +51,10 @@ class AddComment extends Component {
         const enterCommentBtnClass = "d-none";
         this.setState({ commentBody, enterCommentBtnClass });
         this.props.reRenderPost();
-        toast.info("Comment added successfully");
+        toast("Comment added successfully");
       } else {
         // toast any error if there is a problem submitting the comment
-        toast.error("Error submitting comment");
+        toast.error("Error adding comment");
       }
     }
   };

@@ -2,18 +2,20 @@ import React, { Component } from "react";
 import { toast } from "react-toastify";
 import ConfirmDeleteMarkup from "./confirmDeleteMarkup";
 import { deletePost } from "../../services/postService";
-import ConfirmUpdateMarkupPost from "./confirmUpdateMarkupPost";
 
 class OwnPostOptions extends Component {
   state = {};
 
   handleDelete = async () => {
-    const response = await deletePost({
+    let response;
+
+    response = await deletePost({
       userId: this.props.userId,
-      postId: this.props.postId
+      postId: this.props.post._id,
     });
+
     if (response) {
-      toast.info("Post has been deleted");
+      toast("Post has been deleted");
       this.props.reRenderPosts();
     } else {
       toast.error("Error deleting post");
@@ -22,13 +24,7 @@ class OwnPostOptions extends Component {
 
   // returns the own post options
   render() {
-    const {
-      postBody,
-      location,
-      amountSpend,
-      reRenderPosts,
-      postId
-    } = this.props;
+    const { id, post } = this.props;
 
     return (
       <React.Fragment>
@@ -39,7 +35,8 @@ class OwnPostOptions extends Component {
           <span
             className="dropdown-item"
             data-toggle="modal"
-            data-target="#confirmUpdatePost"
+            data-target={`#${id}`}
+            onClick={() => localStorage.setItem("post", JSON.stringify(post))}
           >
             <i className="fa fa-pencil mr-2"></i>Edit Post
           </span>
@@ -47,21 +44,15 @@ class OwnPostOptions extends Component {
           <span
             className="dropdown-item"
             data-toggle="modal"
-            data-target="#confirmDelete"
+            data-target="#confirmDeletePost"
           >
             <i className="fa fa-trash mr-2"></i>Delete Post
           </span>
         </div>
-        <ConfirmUpdateMarkupPost
-          postBody={postBody}
-          location={location}
-          amountSpend={amountSpend}
-          reRenderPosts={reRenderPosts}
-          postId={postId}
-        />
         <ConfirmDeleteMarkup
           title="Delete Post"
           message="Are you sure you want to delete it?"
+          id="confirmDeletePost"
           handleDelete={this.handleDelete}
         />
       </React.Fragment>

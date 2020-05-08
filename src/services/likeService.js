@@ -11,5 +11,5 @@ export function unlike(body) {
 }
 
 export function getAllLikedPosts(userId) {
-  return http.get(`${endPointUrl}/${userId}/posts`);
+  return http.post(`${endPointUrl}/${userId}/posts`);
 }

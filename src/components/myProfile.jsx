@@ -17,8 +17,9 @@ class MyProfile extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     if (
-      this.props.userProfile._id !== nextProps.userProfile._id ||
-      this.state.following !== nextState.following
+      this.props.userProfile !== nextProps.userProfile ||
+      this.state.following !== nextState.following ||
+      this.state.settingsClass !== nextState.settingsClass
     )
       return true;
     return false;
@@ -33,7 +34,7 @@ class MyProfile extends Component {
   }
 
   handleClick = () => {
-    window.location = "/user/:id/settings";
+    window.location = `/user/${this.props.userProfile._id}/settings`;
   };
 
   handleFocus = () => {
@@ -50,7 +51,6 @@ class MyProfile extends Component {
     const { settingsClass, following } = this.state;
     const { userProfile, profile } = this.props;
     const isUserEmpty = _.isEmpty(userProfile);
-
     return (
       <React.Fragment>
         <div className="d-flex justify-content-between bg-light rounded-lg p-3 mb-2">
@@ -88,7 +88,7 @@ class MyProfile extends Component {
             ></i>
           )}
         </div>
-        <ConfirmUnfollowUser user={userProfile} />
+        {profile && <ConfirmUnfollowUser user={userProfile} />}
       </React.Fragment>
     );
   }

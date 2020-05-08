@@ -16,7 +16,11 @@ class PostButtons extends Component {
 
   handleLike = async () => {
     let likeBtnClass, response;
-    const body = { postId: this.props.post, userId: this.props.userId };
+    const body = {
+      postId: this.props.post,
+      userId: this.props.user._id,
+      isRestaurant: this.props.user.isRestaurant,
+    };
     if (this.state.likeBtnClass === "-o") {
       response = await like(body);
       if (response) likeBtnClass = " app-color";

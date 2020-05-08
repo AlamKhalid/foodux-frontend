@@ -3,10 +3,16 @@ import CreatePost from "./createPost";
 import Posts from "./posts";
 
 const Newsfeed = ({ user }) => {
+  const isVerified = localStorage.getItem("isVerified").length > 0;
+
   return (
     <React.Fragment>
-      <CreatePost user={user} />
-      <Posts userId={user._id} profile={false} />
+      {isVerified ? (
+        <React.Fragment>
+          <CreatePost user={user} />
+          <Posts user={user} profile={false} />
+        </React.Fragment>
+      ) : null}
     </React.Fragment>
   );
 };

@@ -3,7 +3,7 @@ import _ from "lodash";
 
 class Form extends Component {
   state = {
-    data: {}
+    data: {},
   };
 
   handleChange = ({ target }) => {
@@ -15,12 +15,8 @@ class Form extends Component {
   };
 
   // returns the button markup
-  renderButton = (label, id) => {
-    return (
-      <button className="form-control" id={id}>
-        {label}
-      </button>
-    );
+  renderButton = (label) => {
+    return <button className="form-control foodux-btn">{label}</button>;
   };
 
   // returns the input markup, mainly for type = text
@@ -31,7 +27,6 @@ class Form extends Component {
           type={type}
           placeholder={placeholder}
           name={name}
-          id={name}
           value={this.state.data[name]}
           onChange={this.handleChange}
           className="form-control text-box"
@@ -60,7 +55,7 @@ class Form extends Component {
   };
 
   // return the array of containing the days, months, or years
-  generateArray = name => {
+  generateArray = (name) => {
     let arr = [];
     const { year, month } = this.state.birthday || { year: 2020, month: 1 };
 
@@ -90,7 +85,7 @@ class Form extends Component {
           required
         >
           <option value="">{label}</option>
-          {arr.map(option => (
+          {arr.map((option) => (
             <option
               key={option}
               value={typeof option === String ? option.toLowerCase() : option}

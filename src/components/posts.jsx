@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import Post from "./common/post";
 import { getAllLikedPosts } from "../services/likeService";
-import { getHiddenPosts } from "../services/userService";
+import { getHiddenPosts, getAllUserPosts } from "../services/userService";
 import { getPosts } from "../services/postService";
-import { getAllUserPosts } from "./../services/userService";
 
 class Posts extends Component {
   state = {
@@ -13,30 +12,55 @@ class Posts extends Component {
     userPosts: [],
   };
 
-  async componentDidMount() {
-    const { userId, profile } = this.props;
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      this.props.userId !== nextProps.userId ||
+      this.props.profile !== nextProps.profile ||
+      this.state.posts !== nextState.posts ||
+      this.state.hiddenPosts !== nextState.hiddenPosts ||
+      this.state.userPosts !== nextState.userPosts
+    )
+      return true;
+    return false;
+  }
+
+  getData = async () => {
+    const { user, profile } = this.props;
     const { data: posts } = await getPosts();
-    const { data: hiddenPosts } = await getHiddenPosts(userId);
-    const { data: likedPosts } = await getAllLikedPosts(userId);
+    const { data: hiddenPosts } = await getHiddenPosts(user._id);
+    const { data: likedPosts } = await getAllLikedPosts(user._id);
     let userPosts = [];
     if (profile) {
-      const { data } = await getAllUserPosts(userId);
+      const { data } = await getAllUserPosts(user._id);
       userPosts = data;
     }
-    this.setState({ posts, likedPosts, hiddenPosts, userPosts });
+    this.setState({
+      posts,
+      likedPosts,
+      hiddenPosts,
+      userPosts,
+    });
+  };
+
+  componentDidUpdate() {
+    this.getData();
+  }
+
+  componentDidMount() {
+    this.getData();
   }
 
   reRenderPosts = async () => {
-    const { userId } = this.props;
+    const { user } = this.props;
     const { data: posts } = await getPosts();
-    const { data: hiddenPosts } = await getHiddenPosts(userId);
-    const { data: likedPosts } = await getAllLikedPosts(userId);
+    const { data: hiddenPosts } = await getHiddenPosts(user._id);
+    const { data: likedPosts } = await getAllLikedPosts(user._id);
     this.setState({ posts, likedPosts, hiddenPosts });
   };
 
   render() {
     let { posts, likedPosts, hiddenPosts, userPosts } = this.state;
-    const { profile, userId } = this.props;
+    const { profile, user } = this.props;
     posts = posts.filter((post) => hiddenPosts.indexOf(post._id) === -1);
 
     if (profile) {
@@ -50,7 +74,7 @@ class Posts extends Component {
             <Post
               key={post._id}
               post={post}
-              userId={userId}
+              user={user}
               liked={likedPosts.indexOf(post._id) > -1 ? true : false}
               reRenderPosts={this.reRenderPosts}
             />

@@ -1,12 +1,16 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
 import $ from "jquery";
 import Comment from "./comment";
 import AddComment from "./addComment";
 import PostButtons from "./postButtons";
-import PostOptions from "./postOptions";
 import { getPost } from "../../services/postService";
 import { getHiddenComments } from "./../../services/userService";
+import ReviewPost from "./reviewPost";
+import DealPost from "./dealPost";
+import DiscountPost from "./discountPost";
+import AnnouncementPost from "./announcementPost";
+import RecommendationAskPost from "./recommendationAskPost";
+import WhatPost from "./whatPost";
 
 class Post extends Component {
   constructor(props) {
@@ -22,16 +26,24 @@ class Post extends Component {
 
   async componentDidMount() {
     // updates the state with the props passed to this component
-    const { data: hiddenComments } = await getHiddenComments(this.props.userId);
-    const { comments, likes } = this.props.post;
+    const { user, post } = this.props;
+
+    const { data: hiddenComments } = await getHiddenComments(user._id);
+    const { comments, likes } = post;
     this.setState({ comments, likes, hiddenComments });
+
     $('[data-toggle="tooltip"]').tooltip({ html: true });
   }
 
   reRenderPost = async () => {
     // re-render the post if a user either likes it or comments on it to show real-time changes
+    const { user } = this.props;
     const { data: post } = await getPost(this.props.post._id);
-    const { data: hiddenComments } = await getHiddenComments(this.props.userId);
+    let hiddenComments = [];
+
+    const { data } = await getHiddenComments(user._id);
+    hiddenComments = data;
+
     this.setState({
       comments: post.comments,
       likes: post.likes,
@@ -77,54 +89,55 @@ class Post extends Component {
 
   render() {
     // destructuring the props and state objects
-    const { post, userId, liked, reRenderPosts } = this.props;
+    const { post, user, liked, reRenderPosts } = this.props;
     const { comments, likes, hiddenComments } = this.state;
     const likers = this.getLikesName();
     const commentators = this.getCommentsName();
 
     return (
       <div className="bg-light pt-3 px-3 pb-2 my-2 rounded-lg">
-        <div className="d-flex justify-content-between">
-          <div className="d-flex">
-            <img
-              className="displayPostPicture"
-              src="https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg?w=1200"
-              alt=""
-            />
-            <div className="d-flex flex-column align-items-start">
-              <NavLink className="userName" to={`/user/${post.postBy._id}`}>
-                {post.postBy.name}
-              </NavLink>
-              <div className="d-flex justify-content-between">
-                <span className="mr-3 postDetails text-muted">
-                  <i className="fa fa-user"></i>
-                </span>
-                <span className="text-muted postDetails mr-3">
-                  <i className="fa fa-clock-o mr-1"></i>
-                  {post.time}
-                </span>
-                <span className="mr-3 postDetails text-muted">
-                  <i className="fa fa-map-marker mr-1"></i>
-                  {post.location}
-                </span>
-                <span className="postDetails text-muted">
-                  <i className="fa fa-money mr-1"></i>
-                  {post.amountSpend}
-                </span>
-              </div>
-            </div>
-          </div>
-          <PostOptions
-            postBy={post.postBy}
-            userId={userId}
-            postId={post._id}
-            postBody={post.postBody}
-            location={post.location}
-            amountSpend={post.amountSpend}
+        {post.postType === "Review" && (
+          <ReviewPost
             reRenderPosts={reRenderPosts}
+            post={post}
+            userId={user._id}
           />
-        </div>
-        <div className="text-left postBody my-3">{post.postBody}</div>
+        )}
+        {post.postType === "Deal" && (
+          <DealPost
+            reRenderPosts={reRenderPosts}
+            post={post}
+            userId={user._id}
+          />
+        )}
+        {post.postType === "Discount" && (
+          <DiscountPost
+            reRenderPosts={reRenderPosts}
+            post={post}
+            userId={user._id}
+          />
+        )}
+        {post.postType === "Announcement" && (
+          <AnnouncementPost
+            reRenderPosts={reRenderPosts}
+            post={post}
+            userId={user._id}
+          />
+        )}
+        {post.postType === "Recommendation" && (
+          <RecommendationAskPost
+            reRenderPosts={reRenderPosts}
+            post={post}
+            userId={user._id}
+          />
+        )}
+        {post.postType === "What" && (
+          <WhatPost
+            reRenderPosts={reRenderPosts}
+            post={post}
+            userId={user._id}
+          />
+        )}
         <div className="d-flex justify-content-between mb-2">
           <span
             className="text-muted postLikeComment"
@@ -148,7 +161,7 @@ class Post extends Component {
         <PostButtons
           commentInputRef={this.commentInputRef}
           post={post._id}
-          userId={userId}
+          user={user}
           liked={liked}
           reRenderPost={this.reRenderPost}
         />
@@ -156,7 +169,7 @@ class Post extends Component {
           <Comment
             key={comment._id}
             comment={comment}
-            userId={userId}
+            userId={user._id}
             post={post._id}
             hidden={hiddenComments.indexOf(comment._id) > -1 ? true : false}
             reRenderPost={this.reRenderPost}
@@ -165,7 +178,7 @@ class Post extends Component {
         <AddComment
           commentInputRef={this.commentInputRef}
           postId={post._id}
-          userId={userId}
+          userId={user._id}
           reRenderPost={this.reRenderPost}
         />
       </div>

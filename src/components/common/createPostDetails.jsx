@@ -14,8 +14,8 @@ class CreatePostDetails extends Component {
           onChange={this.props.onChange}
         />
         <datalist id="locations">
-          {this.props.cities.map(city => (
-            <option key={city} value={city} />
+          {this.props.cities.map((city) => (
+            <option key={city._id} value={city.name} />
           ))}
         </datalist>
         <input

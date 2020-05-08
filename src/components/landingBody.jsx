@@ -1,24 +1,24 @@
-import React, { Component } from "react";
-import Login from "./login";
-import SignUp from "./signUp";
-import About from "./about";
+import React from "react";
+import ImageSlider from "./imageSlider";
+import AboutHome from "./aboutHome";
+import RestaurantsHome from "./restaurantsHome";
+import FoodsHome from "./foodsHome";
+import CityHome from "./cityHome";
+import Footer from "./footer";
 
-class LandingBody extends Component {
-  state = {};
-  render() {
-    return (
-      <div className="container">
-        <div className="row my-3">
-          <div className="d-none d-md-block col-md-6 pr-md-5">
-            <About />
-          </div>
-          <div className="col-md-6 col-12">
-            {this.props.login ? <Login /> : <SignUp />}
-          </div>
-        </div>
+const LandingBody = () => {
+  return (
+    <React.Fragment>
+      <ImageSlider />
+      <div className="container mt-5">
+        <AboutHome />
+        <RestaurantsHome />
+        <FoodsHome />
+        <CityHome />
       </div>
-    );
-  }
-}
+      <Footer />
+    </React.Fragment>
+  );
+};
 
 export default LandingBody;

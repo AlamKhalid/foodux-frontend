@@ -17,6 +17,7 @@ class SignUp extends Form {
         year: "",
       },
       gender: "",
+      isRestaurant: false,
     },
   };
 
@@ -62,12 +63,16 @@ class SignUp extends Form {
         "password",
         "birthday",
         "gender",
+        "isRestaurant",
       ])
     );
     if (!response) {
       toast.error("Email already registered");
     } else {
       localStorage.setItem("token", response.headers["x-auth-token"]);
+      localStorage.setItem("isLoggedIn", true);
+      localStorage.setItem("isVerified", "");
+      localStorage.setItem("filledDetails", "");
       window.location = "/verify";
     }
   };
@@ -75,7 +80,7 @@ class SignUp extends Form {
   render() {
     return (
       <React.Fragment>
-        <h1 className="mb-4">Sign Up</h1>
+        <h5 className="mb-4 text-center text-muted">Enter Credentials</h5>
         <form method="post" onSubmit={this.handleSubmit}>
           {this.renderInput("text", "Name", "name")}
           <br />
@@ -85,25 +90,24 @@ class SignUp extends Form {
           <br />
           {this.renderInput("password", "Confirm Password", "confirmPassword")}
           <br />
-          <h4 className="text-muted">Birthday</h4>
+          <h6 className="text-muted">Birthday</h6>
           <div className="row pl-4">
-            <div className="col-4 col-lg-3">
-              {this.renderSelect("date", "Date")}
-            </div>
-            <div className="col-4 col-lg-3">
-              {this.renderSelect("month", "Month")}
-            </div>
-            <div className="col-4 col-lg-3">
-              {this.renderSelect("year", "Year")}
-            </div>
+            <div className="col-4">{this.renderSelect("date", "Date")}</div>
+            <div className="col-4">{this.renderSelect("month", "Month")}</div>
+            <div className="col-4">{this.renderSelect("year", "Year")}</div>
           </div>
           <br />
-          <h4 className="text-muted">Gender</h4>
+          <h6 className="text-muted">Gender</h6>
           {this.renderRadioButton("gender", "female", "Female")}
           {this.renderRadioButton("gender", "male", "Male")}
           <br /> <br />
-          {this.renderButton("Sign Up", "signUpBtn")}
+          {this.renderButton("Sign Up")}
         </form>
+        <div className="d-flex mt-3">
+          <hr className="popup-row" />
+          <h6 className="mt-1">OR SIGN UP WITH</h6>
+          <hr className="popup-row" />
+        </div>
       </React.Fragment>
     );
   }

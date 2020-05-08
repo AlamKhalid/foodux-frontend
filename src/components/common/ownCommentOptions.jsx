@@ -10,10 +10,10 @@ class OwnCommentOptions extends Component {
   handleDelete = async () => {
     const response = await deleteComment({
       commentId: this.props.comment,
-      postId: this.props.post
+      postId: this.props.post,
     });
     if (response) {
-      toast.info("Comment has been deleted");
+      toast("Comment has been deleted");
       this.props.reRenderPost();
     } else {
       toast.error("Error deleting comment");
@@ -41,7 +41,7 @@ class OwnCommentOptions extends Component {
           <span
             className="dropdown-item"
             data-toggle="modal"
-            data-target="#confirmDelete"
+            data-target="#confirmDeleteComment"
           >
             <i className="fa fa-trash mr-2"></i>Delete Comment
           </span>
@@ -55,6 +55,7 @@ class OwnCommentOptions extends Component {
         <ConfirmDeleteMarkup
           title="Delete Comment"
           message="Are you sure you want to delete it?"
+          id="confirmDeleteComment"
           handleDelete={this.handleDelete}
         />
       </React.Fragment>

@@ -5,12 +5,12 @@ import SearchBox from "./common/searchBox";
 
 class Navbar extends Component {
   state = {
-    sidebarClasses: "d-none"
+    sidebarClasses: "d-none",
   };
 
   componentDidMount() {
     $('[data-toggle-second="tooltip"]').tooltip({ trigger: "hover" });
-    $('[data-toggle-second="tooltip"]').on("click", function() {
+    $('[data-toggle-second="tooltip"]').on("click", function () {
       $(this).tooltip("hide");
     });
   }
@@ -22,13 +22,19 @@ class Navbar extends Component {
   };
 
   render() {
+    const { user, refreshProfile } = this.props;
+    const { sidebarClasses } = this.state;
+
     return (
       <React.Fragment>
-        <div
-          className={`${this.state.sidebarClasses} sidebar shadow-lg bg-light`}
-        >
+        <div className={`${sidebarClasses} sidebar shadow-lg bg-light`}>
           <div className="mx-4 mt-3 w-100">
-            <h3 className="sidebar-brand pb-2">FooDux</h3>
+            <h3
+              className="sidebar-brand pb-2"
+              onClick={() => (window.location = "/")}
+            >
+              FooDux
+            </h3>
             <SearchBox classes="d-block d-sm-none form-inline my-3" />
             <h6 className="sidebar-item sidebar-item-active">Newsfeed</h6>
             <h6 className="sidebar-item">Food Blog</h6>
@@ -36,10 +42,10 @@ class Navbar extends Component {
             <h6 className="sidebar-item d-block d-md-none">Polling</h6>
           </div>
         </div>
-        <nav className="navbar sticky-top navbar-expand navbar-light">
+        <nav className="navbar sticky-top navbar-expand navbar-black">
           <div className="container-fluid container-lg">
             <div className="d-flex">
-              <NavLink className="d-none d-lg-block initial mr-3" to="/home">
+              <NavLink className="d-none d-lg-block initial mr-3" to="/">
                 FD
               </NavLink>
               <button
@@ -58,23 +64,30 @@ class Navbar extends Component {
               <li className="nav-item">
                 <NavLink
                   className="nav-link b-right py-0 px-1 px-sm-3"
-                  to="/home"
+                  to="/newsfeed"
                   data-toggle-second="tooltip"
                   data-placement="bottom"
                   title="Newsfeed"
                 >
-                  Home
+                  Newsfeed
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink
                   className="nav-link b-right py-0 px-1 px-sm-3"
-                  to={`/user/${this.props.user._id}`}
+                  to={
+                    user.isRestaurant
+                      ? `/restaurant/${user._id}`
+                      : `/user/${user._id}`
+                  }
                   data-toggle-second="tooltip"
                   data-placement="bottom"
                   title="Profile"
+                  onClick={() => {
+                    if (refreshProfile) refreshProfile(user._id);
+                  }}
                 >
-                  {this.props.user.name || "Name"}
+                  {user.name}
                 </NavLink>
               </li>
               <li className="nav-item dropdown">
@@ -110,10 +123,17 @@ class Navbar extends Component {
                   className="dropdown-menu dropdown-menu-right"
                   aria-labelledby="navbarDropdown"
                 >
-                  <NavLink className="dropdown-item" to=" ">
+                  <NavLink
+                    className="dropdown-item"
+                    to={
+                      user.isRestaurant
+                        ? `/restaurant/${user._id}/settings`
+                        : `/user/${user._id}/settings`
+                    }
+                  >
                     <i className="fa fa-cog mr-2"></i>Settings
                   </NavLink>
-                  <NavLink className="dropdown-item" to="/user/:id/problem">
+                  <NavLink className="dropdown-item" to="/report-a-problem">
                     <i className="fa fa-question-circle mr-2"></i>Report a
                     Problem
                   </NavLink>

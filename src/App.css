@@ -2,40 +2,45 @@ body {
   background-color: #e9ebee !important;
 }
 
-nav {
-  background-color: #22bf6c;
+.navbar-transparent {
+  background-color: #0003;
+}
+
+.navbar-black {
+  background-color: black;
 }
 
 .app-color {
-  color: #22bf6c;
+  color: black;
 }
 
 .navbar-brand {
-  font-size: 2rem !important;
+  font-size: 1.5rem !important;
   color: white !important;
   letter-spacing: 4px;
+  font-weight: 500;
 }
 
 .text-box:focus {
-  border-color: #22bf6c !important;
+  border-color: black !important;
   outline: 0 !important;
-  box-shadow: 0 0 0 0.2rem #22bf6c !important;
+  box-shadow: 0 0 0 0.2rem black !important;
 }
 
-#loginBtn,
-#signUpBtn,
+.w-10 {
+  width: 10% !important;
+}
+
 .voteBtn,
 .foodux-btn {
-  background-color: #22bf6c !important;
+  background-color: black !important;
   color: #f8f9fa !important;
 }
 
-#loginBtn:hover,
-#signUpBtn:hover,
 #createPostBtn:hover,
 .voteBtn:hover,
 .foodux-btn:hover {
-  background-color: #1da15a !important;
+  background-color: #404241 !important;
 }
 
 .initial {
@@ -49,7 +54,7 @@ nav {
 
 .initial:hover {
   cursor: pointer;
-  color: #22bf6c;
+  color: black;
   text-decoration: none;
   background-color: white;
   letter-spacing: 2px;
@@ -58,10 +63,12 @@ nav {
 .nav-link {
   color: white !important;
   font-size: 1.1rem;
+  transition: 0.5s all;
 }
 
 .nav-link:hover {
-  background-color: #1da15a !important;
+  cursor: pointer;
+  background-color: #404241;
 }
 
 .searchBox {
@@ -91,27 +98,49 @@ nav {
   border-right: 1px solid white;
 }
 
-.active-side {
-  color: white !important;
-  background-color: #22bf6c !important;
-  border-color: #1da15a !important;
+.b-right-black {
+  border-right: 3px solid black;
 }
 
-.createPostBody {
+.pointer-cursor {
+  cursor: pointer;
+}
+
+.active-side {
+  color: white !important;
+  background-color: black !important;
+  border-color: gray !important;
+}
+
+.fit-width {
+  width: fit-content;
+}
+
+.create-post-body {
   width: 100%;
   height: 10vh;
   padding: 5px 10px;
-  resize: none;
+  border: 1px solid silver;
+  background-color: white;
   border-radius: 10px;
+  resize: none;
 }
 
-.createPostBody:focus {
+.w-15 {
+  width: 15%;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.create-post-body:focus {
   outline: none !important;
-  border: 2px solid #22bf6c;
+  border: 2px solid black;
 }
 
 #createPostBtn {
-  background-color: #22bf6c;
+  background-color: black;
   color: white;
 }
 
@@ -183,7 +212,7 @@ nav {
 .commentField:focus {
   outline: none;
   border-radius: 30px;
-  border: 1px solid #22bf6c;
+  border: 1px solid black;
 }
 
 .comment {
@@ -216,10 +245,50 @@ input::-webkit-calendar-picker-indicator {
   background: #ededed url("./icons/dollar.png") no-repeat 9px center;
 }
 
+.restaurant-icon {
+  background: #ededed url("./icons/shop.png") no-repeat 9px center;
+}
+
+.marker-icon {
+  background: #ededed url("./icons/marker.png") no-repeat 9px center;
+}
+
+.eat-icon {
+  background: #ededed url("./icons/eat.png") no-repeat 9px center;
+}
+
+.food-cross-icon {
+  background: #ededed url("./icons/food-cross.png") no-repeat 9px center;
+}
+
+.mouth-icon {
+  background: #ededed url("./icons/mouth.png") no-repeat 9px center;
+}
+
+.lobby-icon {
+  background: #ededed url("./icons/lobby.png") no-repeat 9px center;
+}
+
+.ambience-icon {
+  background: #ededed url("./icons/ambience.png") no-repeat 9px center;
+}
+
+.review-icon {
+  background: #ededed url("./icons/review.png") no-repeat 9px center;
+}
+
+.star-icon {
+  background: #ededed url("./icons/star.png") no-repeat 9px center;
+}
+
 .search-icon {
-  background: #22bf6c url("./icons/search-light.png") no-repeat 9px center;
+  background: black url("./icons/search-light.png") no-repeat 9px center;
   border: 1px solid white !important;
   border-radius: 0.25rem !important;
+}
+
+.search-icon:hover {
+  background: #ededed url("./icons/search.png") no-repeat 9px center;
 }
 
 .search-icon:focus {
@@ -227,7 +296,38 @@ input::-webkit-calendar-picker-indicator {
   width: 20vw !important;
 }
 
-.expand {
+.plus-icon {
+  background: #ededed url("./icons/plus.png") no-repeat 9px center;
+}
+
+.hand-icon {
+  background: #ededed url("./icons/hand.png") no-repeat 9px center;
+}
+
+.close-icon {
+  background: #ededed url("./icons/close.png") no-repeat 9px center;
+}
+
+.tick-icon {
+  background: #ededed url("./icons/tick.png") no-repeat 9px center;
+}
+
+.up-icon {
+  background: #ededed url("./icons/up.png") no-repeat 9px center;
+}
+
+.bin-icon {
+  background: #ededed url("./icons/bin.png") no-repeat 9px center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.expand,
+.dec {
   outline: none;
   box-sizing: content-box;
   border: 1px solid #ccc;
@@ -241,36 +341,18 @@ input::-webkit-calendar-picker-indicator {
 }
 
 .expand:focus {
-  width: 11vw;
+  width: 12vw;
   background-color: #fff;
-  border-color: #22bf6c;
+  border-color: black;
   padding-left: 32px;
   cursor: auto;
-  color: #000;
+  color: #404241;
   border-radius: 15px;
 }
 
-.expand:hover {
-  background-color: #fff;
-}
-
-input[type="radio"]:after,
-input[type="radio"]:checked:after {
-  width: 15px;
-  height: 15px;
-  border-radius: 15px;
-  top: -2px;
-  left: -1px;
-  position: relative;
-  content: "";
-  display: inline-block;
+.expand:hover,
+.dec:hover {
   background-color: white;
-  visibility: visible;
-  border: 2px solid white;
-}
-
-input[type="radio"]:checked:after {
-  background-color: #22bf6c;
 }
 
 .sidebar {
@@ -305,8 +387,8 @@ input[type="radio"]:checked:after {
 
 .sidebar-item-active,
 .sidebar-item-active:hover {
-  color: #22bf6c;
-  border-color: #22bf6c;
+  color: black;
+  border-color: black;
 }
 
 .postLikeComment:hover {
@@ -361,11 +443,12 @@ input[type="radio"]:checked:after {
 }
 
 .profile-nav {
-  border: 2px solid #22bf6c;
+  border: 2px solid black;
 }
 
 .profile-item {
   font-weight: bolder;
+  transition: 0.5 all;
 }
 
 .profile-item:hover {
@@ -374,18 +457,18 @@ input[type="radio"]:checked:after {
 }
 
 .active-profile-item {
-  background-color: #22bf6c !important;
+  background-color: black !important;
   color: white !important;
 }
 
 .foodux-link {
-  color: #22bf6c;
+  color: black;
   cursor: pointer;
 }
 
 .foodux-link:hover {
-  text-decoration: underline;
-  color: #1da15a;
+  text-decoration: underline !important;
+  color: #262626 !important;
 }
 
 .i-lg {
@@ -400,4 +483,104 @@ input[type="radio"]:checked:after {
 .card-img-top {
   width: 100px;
   height: 150px;
+}
+
+.add-spacing {
+  letter-spacing: 5px;
+}
+
+.landing-img {
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+.popup-row,
+.home-hr {
+  display: inline-block;
+  width: 32%;
+  border-color: black;
+}
+
+.home-hr {
+  margin-top: 25px;
+  border-width: 3px;
+}
+
+.footer {
+  background-color: black;
+}
+
+.option:hover {
+  background-color: black !important;
+}
+
+.label-1 {
+  color: black;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.label-2 {
+  font-size: 14px;
+}
+
+.del-branch {
+  font-size: 20px !important;
+}
+
+.del-branch:hover {
+  color: #990f04;
+}
+
+.modal-dialog {
+  overflow-y: initial !important;
+}
+.modal-body {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.bin-pos {
+  position: relative;
+  left: 24px;
+  bottom: 28px;
+  color: #990f04;
+  font-size: 20px !important;
+}
+
+.foodux-btn:disabled {
+  cursor: not-allowed;
+}
+
+.full-display {
+  width: 100vw;
+  height: 100vh;
+}
+
+input:disabled {
+  cursor: not-allowed;
+}
+
+.menu-item {
+  padding: 20px 40px;
+  margin: 5px 10px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.scroll-menu-arrow {
+  padding: 20px;
+  cursor: pointer;
 }

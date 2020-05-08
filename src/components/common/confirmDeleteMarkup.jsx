@@ -2,15 +2,15 @@ import React, { Component } from "react";
 
 class ConfirmDeleteMarkup extends Component {
   render() {
-    const { title, message, handleDelete } = this.props;
+    const { title, message, handleDelete, id } = this.props;
 
     return (
       <div
         className="modal fade"
-        id="confirmDelete"
+        id={id}
         tabIndex="-1"
         role="dialog"
-        aria-labelledby="confirmDeleteTitle"
+        aria-labelledby={`${id}Title`}
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered" role="document">
