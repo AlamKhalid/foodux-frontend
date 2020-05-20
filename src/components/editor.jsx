@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import _ from "lodash";
 import Navbar from "./navbar";
 import YourBlogPosts from "./common/yourBlogPosts";
 import ReactQuill from "react-quill";
@@ -6,13 +7,18 @@ import "react-quill/dist/quill.snow.css";
 import { submitPost } from "../services/blogPostService";
 import { toast } from "react-toastify";
 import { storage } from "../firebase";
+import { getBlogPosts } from "./../services/userService";
+import Spinner from "./common/spinner";
 
 const EditorPage = ({ user }) => {
   const [value, setValue] = useState("");
+  const [title, setTitle] = useState("");
   const [urls, setUrls] = useState([]);
   const [fakeUrls, setFakeUrls] = useState([]);
+  const [blogPosts, setBlogPosts] = useState([]);
   const [img, setImg] = useState("");
   const [disableBtn, setDisableBtn] = useState(true);
+  const [disablePost, setDisablePost] = useState(true);
   const imgBtn = useRef(null);
   const [modules] = useState({
     toolbar: {
@@ -59,6 +65,21 @@ const EditorPage = ({ user }) => {
   ];
 
   useEffect(() => {
+    if (title.length === 0) setDisablePost(true);
+    else setDisablePost(false);
+  }, [title]);
+
+  useEffect(() => {
+    async function getData() {
+      if (!_.isEmpty(user)) {
+        const { data: posts } = await getBlogPosts(user._id);
+        setBlogPosts(posts);
+      }
+    }
+    getData();
+  }, [user]);
+
+  useEffect(() => {
     if (value.length === 0) setDisableBtn(true);
     else setDisableBtn(false);
   }, [value]);
@@ -69,8 +90,8 @@ const EditorPage = ({ user }) => {
       newVal = newVal.replace(fakeUrl, urls[i]);
     });
     const response = await submitPost({
-      title: "wow a post",
       postedBy: user._id,
+      title,
       img,
       value: newVal,
     });
@@ -112,7 +133,7 @@ const EditorPage = ({ user }) => {
     }
   };
 
-  return (
+  return !_.isEmpty(user) ? (
     <React.Fragment>
       <Navbar user={user} />
       <div className="container mt-4">
@@ -135,7 +156,13 @@ const EditorPage = ({ user }) => {
                 </span>
               </h6>
               <div className="blog-posts-div">
-                <YourBlogPosts />
+                {blogPosts.length > 0 ? (
+                  blogPosts.map((post) => <YourBlogPosts post={post} />)
+                ) : (
+                  <p className="text-muted label-2 text-center">
+                    <em>No posts</em>
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -151,7 +178,8 @@ const EditorPage = ({ user }) => {
             />
             <button
               className="pull-right btn foodux-btn mt-2"
-              onClick={handleSubmit}
+              data-toggle="modal"
+              data-target="#addTitle"
               disabled={disableBtn}
             >
               Proceed<i className="fa fa-long-arrow-right ml-2"></i>
@@ -159,7 +187,53 @@ const EditorPage = ({ user }) => {
           </div>
         </div>
       </div>
+      <div
+        class="modal fade"
+        id="addTitle"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="addTitleTitle"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title w-100 text-center text-uppercase add-spacing ml-5">
+                add post title
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <input
+                placeholder="Add title"
+                value={title}
+                onChange={({ target }) => setTitle(target.value)}
+                className="form-control text-box"
+              />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                onClick={handleSubmit}
+                class="btn foodux-btn"
+                disabled={disablePost}
+              >
+                Post
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </React.Fragment>
+  ) : (
+    <Spinner />
   );
 };
 

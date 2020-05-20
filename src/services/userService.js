@@ -50,6 +50,10 @@ export function updateProfilePic(id, body) {
   return http.put(`${endPointUrl}/${id}/change-pic`, body);
 }
 
+export function getBlogPosts(id) {
+  return http.get(`${endPointUrl}/${id}/blog-posts`);
+}
+
 export function getServes(id) {
   return http.get(`${endPointUrl}/${id}/get-serves`);
 }
