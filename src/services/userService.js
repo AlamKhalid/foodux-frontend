@@ -46,6 +46,10 @@ export function getBranches(id) {
   return http.get(`${endPointUrl}/${id}/get-branches`);
 }
 
+export function updateProfilePic(id, body) {
+  return http.put(`${endPointUrl}/${id}/change-pic`, body);
+}
+
 export function getServes(id) {
   return http.get(`${endPointUrl}/${id}/get-serves`);
 }

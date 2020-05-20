@@ -1,6 +1,6 @@
 import React from "react";
 
-const HorizontalMenu = ({ id, items, label }) => {
+const RestaurantsVisitedAbout = ({ id, items }) => {
   const outerWrapper =
     items.length / 4 !== 1 ? Math.ceil(items.length / 4) : items.length / 4;
   const array = [];
@@ -14,7 +14,7 @@ const HorizontalMenu = ({ id, items, label }) => {
   return items.length > 0 ? (
     <div
       id={id}
-      className="carousel slide carousel-multi-item"
+      className="carousel slide carousel-multi-item mt-3"
       data-ride="carousel"
     >
       <div className="carousel-inner" role="listbox">
@@ -33,28 +33,10 @@ const HorizontalMenu = ({ id, items, label }) => {
                     alt=""
                   />
                   <div className="card-body">
-                    <div className="d-flex">
-                      <img
-                        className="displayPostPicture"
-                        src="https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg?w=1200"
-                        alt=""
-                      />
-                      <div className="d-flex flex-column">
-                        <h6 className="card-title mb-0">{item.postBy.name}</h6>
-                        <span className="label-2 text-muted">
-                          <i
-                            className={`fa fa-${
-                              item.creator === "User" ? "user" : "bank"
-                            } text-muted mr-1`}
-                          ></i>
-                          {item.postType === "Recommendation"
-                            ? "Asking"
-                            : item.postType}
-                        </span>
-                      </div>
-                    </div>
-                    <p className="card-text mt-2">{item.postBody}</p>
-                    <button className="btn foodux-btn">Show More</button>
+                    <h4 className="card-title mb-0 text-center">
+                      {item.restaurantId.name}
+                    </h4>
+                    <p className="card-text mt-2 ">Times: {item.times}</p>
                   </div>
                 </div>
               </div>
@@ -74,8 +56,8 @@ const HorizontalMenu = ({ id, items, label }) => {
       )}
     </div>
   ) : (
-    <p>No {label} posts to show</p>
+    <p className="text-muted mt-3">No restaurants to show</p>
   );
 };
 
-export default HorizontalMenu;
+export default RestaurantsVisitedAbout;

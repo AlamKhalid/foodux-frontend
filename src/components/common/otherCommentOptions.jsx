@@ -9,12 +9,12 @@ class OtherCommentOptions extends Component {
   handleHide = async () => {
     const response = await hideComment({
       commentId: this.props.commentId,
-      userId: this.props.userId
+      userId: this.props.userId,
     });
     if (response) {
       this.props.reRenderPost();
       this.props.reRenderComment();
-      toast.info("Comment hidden");
+      toast("Comment hidden");
     } else {
       toast.error("Error hiding comment");
     }
@@ -34,7 +34,7 @@ class OtherCommentOptions extends Component {
             <span
               className="dropdown-item"
               data-toggle="modal"
-              data-target="#confirmHide"
+              data-target="#confirmHideComment"
             >
               <i className="fa fa-times mr-2"></i>Hide Comment
             </span>
@@ -42,6 +42,7 @@ class OtherCommentOptions extends Component {
           <ConfirmHideMarkup
             title="Hide Comment"
             message="Are you sure you want to hide it?"
+            label="Comment"
             handleHide={this.handleHide}
           />
         </React.Fragment>

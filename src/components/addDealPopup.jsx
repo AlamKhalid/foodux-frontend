@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import $ from "jquery";
 import { getServes } from "../services/userService";
 import { submitPost, updatePost } from "../services/postService";
@@ -7,6 +7,9 @@ import DealType from "./dealType";
 import DiscountType from "./discountType";
 import MultiSelect from "./common/multiSelect";
 import EditorPopup from "./editorPopup";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { storage } from "../firebase/index";
 
 const AddDealPopup = ({ user }) => {
   const [postId, setPostId] = useState("");
@@ -22,6 +25,10 @@ const AddDealPopup = ({ user }) => {
   const [foodIncluded, setFoodIncluded] = useState([]);
   const [disableBtn, setDisableBtn] = useState(true);
   const [edit, setEdit] = useState(false);
+  const [images, setImages] = useState([]);
+  const [imageURLS, setImageURLS] = useState([]);
+  const [progress, setProgress] = useState(0);
+  const imgBtn = useRef(null);
 
   useEffect(() => {
     if (postBody.length === 0 || postType.length === 0) setDisableBtn(true);
@@ -66,17 +73,19 @@ const AddDealPopup = ({ user }) => {
     $("#addDeal").on("shown.bs.modal", function () {
       const post = JSON.parse(localStorage.getItem("post"));
       if (post) {
+        const [d, m, y] = post.validTill.split("-");
         setEdit(true);
         setPostBody(post.postBody);
         setPostId(post._id);
         setPrice(post.dealPrice);
         setOldPrice(post.oldPrice);
         setModes(post.validOn);
-        setValidTill(post.validTill);
+        setValidTill(new Date(`${y}-${m}-${d}T10:20:30Z`));
         setFoodIncluded(post.dealItems);
         setDiscount(post.discount);
         setExceptFor(post.exceptFor);
         setPostType(post.postType);
+        setImageURLS(post.images);
       }
     });
     $("#addDeal").on("hidden.bs.modal", function () {
@@ -92,6 +101,7 @@ const AddDealPopup = ({ user }) => {
       setFoodIncluded([]);
       setExceptFor([]);
       setEdit(false);
+      setImageURLS([]);
     });
   }, []);
 
@@ -104,6 +114,23 @@ const AddDealPopup = ({ user }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const date = validTill.toString();
+    let [m, d, y] = date.slice(4, date.indexOf(":") - 3).split(" ");
+    const months = {
+      January: "01",
+      February: "02",
+      March: "03",
+      April: "04",
+      May: "05",
+      June: "06",
+      July: "07",
+      August: "08",
+      September: "09",
+      October: "10",
+      November: "11",
+      December: "12",
+    };
+
     const obj =
       postType === "Deal"
         ? {
@@ -115,7 +142,8 @@ const AddDealPopup = ({ user }) => {
             postBody,
             postType,
             oldPrice,
-            validTill,
+            validTill: `${d}-${months[m]}-${y}`,
+            images: imageURLS,
           }
         : {
             creator: "Restaurant",
@@ -126,7 +154,8 @@ const AddDealPopup = ({ user }) => {
             exceptFor: [...exceptFor],
             postBody,
             postType,
-            validTill,
+            validTill: `${d}-${months[m]}-${y}`,
+            images: imageURLS,
           };
     const obj1 =
       edit && postType === "Deal"
@@ -137,6 +166,7 @@ const AddDealPopup = ({ user }) => {
             postBody,
             oldPrice,
             validTill,
+            images: imageURLS,
           }
         : {
             validOn: modes,
@@ -145,6 +175,7 @@ const AddDealPopup = ({ user }) => {
             exceptFor: [...exceptFor],
             postBody,
             validTill,
+            images: imageURLS,
           };
     const response = edit
       ? await updatePost(postId, obj1)
@@ -154,6 +185,34 @@ const AddDealPopup = ({ user }) => {
       toast(`Post ${edit ? "updated" : "added"} successfully`);
     } else {
       toast.error(`Error while ${edit ? "updating" : "submitting"}`);
+    }
+  };
+
+  const handleUpload = ({ target }) => {
+    if (target.files[0]) {
+      const image = target.files[0];
+      const imageName = Date.now() + image.name;
+      setImages([...images, image]);
+      const uploadTask = storage.ref(`images/${imageName}`).put(image);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const prog = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(prog);
+        },
+        (error) => {
+          toast.error("Error uploading picture");
+        },
+        async () => {
+          const url = await storage
+            .ref("images")
+            .child(imageName)
+            .getDownloadURL();
+          setImageURLS([...imageURLS, url]);
+        }
+      );
     }
   };
 
@@ -175,6 +234,21 @@ const AddDealPopup = ({ user }) => {
         setPostBody={setPostBody}
         edit={edit}
         label="deal or discount"
+        imgDiv={
+          imageURLS.length > 0 ? (
+            <div className="mt-1">
+              {imageURLS.map((image) => (
+                <img
+                  key={image}
+                  src={image}
+                  alt=""
+                  className="rounded-sm mr-2 post-img"
+                />
+              ))}
+            </div>
+          ) : null
+        }
+        prog={progress}
       >
         <div className="modal-footer">
           <form
@@ -183,6 +257,22 @@ const AddDealPopup = ({ user }) => {
             className="d-flex justify-content-between w-100"
           >
             <div>
+              <input
+                type="file"
+                className="d-none"
+                ref={imgBtn}
+                onChange={handleUpload}
+                multiple
+              />
+              <span onClick={() => imgBtn.current.click()}>
+                <input
+                  type="text"
+                  className="dec img-icon mr-2"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Add images"
+                />
+              </span>
               <input
                 type="text"
                 value={postType}
@@ -227,16 +317,19 @@ const AddDealPopup = ({ user }) => {
                     ))}
                     );
                   </datalist>
-                  <input
-                    type="text"
-                    value={validTill}
-                    placeholder="   e.g 28-02-2020"
-                    className="expand up-icon mr-2"
+                  <span
+                    className="mr-2"
                     data-toggle="tooltip"
                     data-placement="top"
                     title={`${postType} valid till`}
-                    onChange={({ target }) => setValidTill(target.value)}
-                  />
+                  >
+                    <DatePicker
+                      dateFormat="dd-MM-yyyy"
+                      className="expand up-icon"
+                      selected={validTill}
+                      onChange={(date) => setValidTill(date)}
+                    />
+                  </span>
                   <span data-toggle="modal" data-target="#dealFoodsPopup">
                     <input
                       type="text"

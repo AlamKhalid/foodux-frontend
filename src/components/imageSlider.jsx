@@ -21,7 +21,7 @@ const ImageSlider = () => {
             alt=""
           />
           <div className="carousel-caption d-none d-md-block">
-            <h5>Restaurants</h5>
+            <h5 style={{ color: "white" }}>Restaurants</h5>
             <p>Eat in over 1000+ cafes with exclusive discounts and reviews</p>
           </div>
         </div>
@@ -32,7 +32,7 @@ const ImageSlider = () => {
             alt=""
           />
           <div className="carousel-caption d-none d-md-block">
-            <h5>Food</h5>
+            <h5 style={{ color: "white" }}>Food</h5>
             <p>Grab on to your favourite food in reasonable price</p>
           </div>
         </div>
@@ -43,7 +43,7 @@ const ImageSlider = () => {
             alt=""
           />
           <div className="carousel-caption d-none d-md-block">
-            <h5>City</h5>
+            <h5 style={{ color: "white" }}>City</h5>
             <p>
               Find anything to eat around the city with any amount in your
               pocket

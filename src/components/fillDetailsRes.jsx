@@ -6,6 +6,7 @@ import ChooseBranch from "./chooseBranch";
 import { getTypes } from "../services/typeService";
 import { getFoods } from "../services/foodService";
 import { addDetails } from "../services/userService";
+import { storage } from "../firebase/index";
 
 const FillDetailsRes = ({ user }) => {
   const [phone, setPhone] = useState("");
@@ -18,6 +19,8 @@ const FillDetailsRes = ({ user }) => {
   const [branchOptions, setBranchOptions] = useState([]);
   const [count, setCount] = useState(1);
   const [branchCount, setBranchCount] = useState([{ id: 1 }]);
+  const [profilePic, setProfilePic] = useState("");
+  const [menuPic, setMenuPic] = useState("");
 
   const commonStyle = {
     inputField: {
@@ -52,27 +55,112 @@ const FillDetailsRes = ({ user }) => {
 
   const submitDetails = async (event) => {
     event.preventDefault();
+    console.log(type);
     const response = await addDetails(user._id, {
       serves,
       type,
       phone,
       branches,
+      menuPic,
+      profilePic,
     });
     if (response) {
       toast("Details added successfully");
       localStorage.setItem("filledDetails", true);
       setTimeout(() => {
         window.location = "/newsfeed";
-      }, 2000);
+      }, 1000);
     } else {
       toast.error("Error adding details");
     }
   };
 
+  const uploadPic = ({ target }) => {
+    if (target.files[0]) {
+      const image = target.files[0];
+      const imageName = Date.now() + image.name;
+      const uploadTask = storage.ref(`images/${imageName}`).put(image);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // progress
+        },
+        (error) => {
+          toast.error("Error uploading picture");
+        },
+        async () => {
+          const url = await storage
+            .ref("images")
+            .child(imageName)
+            .getDownloadURL();
+          target.name === "menu" ? setMenuPic(url) : setProfilePic(url);
+        }
+      );
+    }
+  };
+
   return (
-    <div className="container mt-5 pt-5 text-center">
+    <div className="container mt-3 text-center mb-4">
+      <div className="row">
+        <div className="col-6">
+          <img
+            src={
+              profilePic.length > 0
+                ? profilePic
+                : "https://via.placeholder.com/300"
+            }
+            alt=""
+            width="300"
+            height="300"
+            className="mb-3"
+          />
+        </div>
+        <div className="col-6">
+          <img
+            src={
+              menuPic.length > 0 ? menuPic : "https://via.placeholder.com/300"
+            }
+            alt=""
+            width="300"
+            height="300"
+            className="mb-3"
+          />
+        </div>
+      </div>
+
+      <div className="row mb-2">
+        <div className="col-6">
+          <div className="custom-file mb-3 w-75 text-left">
+            <input
+              type="file"
+              className="custom-file-input"
+              name="profile"
+              onChange={uploadPic}
+              required
+            />
+            <label className="custom-file-label" htmlFor="customFile">
+              Upload your restaurant's picture
+            </label>
+          </div>
+        </div>
+        <div className="col-6">
+          <div className="custom-file mb-3 w-75 text-left">
+            <input
+              type="file"
+              className="custom-file-input"
+              name="menu"
+              onChange={uploadPic}
+              required
+            />
+            <label className="custom-file-label" htmlFor="customFile">
+              Upload your menu picture
+            </label>
+          </div>
+        </div>
+      </div>
+      <hr />
       <form method="post" onSubmit={submitDetails}>
-        <div className="d-flex justify-content-center mb-4">
+        <div className="d-flex justify-content-center mb-4 mt-2">
           <div className="mr-5">
             <label htmlFor="type" className="label-1 mb-0">
               Restaurant Type

@@ -62,15 +62,11 @@ class AddComment extends Component {
   render() {
     // destructuring the state of the class
     const { enterCommentBtnClass, commentBody } = this.state;
-    const { commentInputRef } = this.props;
+    const { commentInputRef, userPic } = this.props;
 
     return (
       <div className="d-flex flex-row">
-        <img
-          className="commentPic"
-          src="https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg?w=1200"
-          alt=""
-        />
+        <img className="commentPic" src={userPic} alt="" />
         <input
           className="commentField mr-2"
           ref={commentInputRef}

@@ -58,7 +58,7 @@ class MyProfile extends Component {
             <div className="profile-pic-div">
               <img
                 className="profile-pic"
-                src="https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg?w=1200"
+                src={userProfile.profilePic}
                 alt=""
               />
             </div>

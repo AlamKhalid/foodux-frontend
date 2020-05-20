@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import $ from "jquery";
 import { submitPost, updatePost } from "../services/postService";
 import { toast } from "react-toastify";
@@ -7,6 +7,7 @@ import { getFoods } from "./../services/foodService";
 import { getCities } from "./../services/cityService";
 import { getRestaurantsCity } from "./../services/userService";
 import EditorPopup from "./editorPopup";
+import { storage } from "../firebase/index";
 
 const WhatYouCanEatPopup = ({ user }) => {
   const [postId, setPostId] = useState("");
@@ -21,6 +22,10 @@ const WhatYouCanEatPopup = ({ user }) => {
   const [edit, setEdit] = useState(false);
   const [restaurantsBeen, setRestaurantBeen] = useState([]);
   const [disableBtn, setDisableBtn] = useState(true);
+  const [images, setImages] = useState([]);
+  const [imageURLS, setImageURLS] = useState([]);
+  const [progress, setProgress] = useState(0);
+  const imgBtn = useRef(null);
 
   useEffect(() => {
     if (
@@ -98,6 +103,7 @@ const WhatYouCanEatPopup = ({ user }) => {
       budget,
       ateFood,
       restaurantsBeen,
+      images: imageURLS,
     };
 
     const response = edit
@@ -116,6 +122,34 @@ const WhatYouCanEatPopup = ({ user }) => {
     }
   };
 
+  const handleUpload = ({ target }) => {
+    if (target.files[0]) {
+      const image = target.files[0];
+      const imageName = Date.now() + image.name;
+      setImages([...images, image]);
+      const uploadTask = storage.ref(`images/${imageName}`).put(image);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const prog = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(prog);
+        },
+        (error) => {
+          toast.error("Error uploading picture");
+        },
+        async () => {
+          const url = await storage
+            .ref("images")
+            .child(imageName)
+            .getDownloadURL();
+          setImageURLS([...imageURLS, url]);
+        }
+      );
+    }
+  };
+
   return (
     <React.Fragment>
       <EditorPopup
@@ -124,6 +158,21 @@ const WhatYouCanEatPopup = ({ user }) => {
         setPostBody={setPostBody}
         edit={edit}
         label="what you can eat post"
+        imgDiv={
+          imageURLS.length > 0 ? (
+            <div className="mt-1">
+              {imageURLS.map((image) => (
+                <img
+                  key={image}
+                  src={image}
+                  alt=""
+                  className="rounded-sm mr-2 post-img"
+                />
+              ))}
+            </div>
+          ) : null
+        }
+        prog={progress}
       >
         <div className="modal-footer">
           <form
@@ -132,6 +181,22 @@ const WhatYouCanEatPopup = ({ user }) => {
             className="d-flex justify-content-between w-100"
           >
             <div>
+              <input
+                type="file"
+                className="d-none"
+                ref={imgBtn}
+                onChange={handleUpload}
+                multiple
+              />
+              <span onClick={() => imgBtn.current.click()}>
+                <input
+                  type="text"
+                  className="dec img-icon mr-2"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Add images"
+                />
+              </span>
               <input
                 type="text"
                 list="cities"

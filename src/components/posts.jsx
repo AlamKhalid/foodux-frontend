@@ -77,6 +77,7 @@ class Posts extends Component {
               user={user}
               liked={likedPosts.indexOf(post._id) > -1 ? true : false}
               reRenderPosts={this.reRenderPosts}
+              profile={profile}
             />
           ))
         ) : (

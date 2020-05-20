@@ -25,8 +25,8 @@ const FollowingNavOption = ({ userProfile, user, refreshProfile }) => {
     <React.Fragment>
       <input
         type="text"
-        className="expand search-icon circle mt-1"
-        placeholder="   Search user..."
+        className="search-icon mt-1"
+        placeholder="Search user..."
       />
       {following.length > 0 ? (
         <React.Fragment>

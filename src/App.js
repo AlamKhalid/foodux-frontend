@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./components/common/protectedRoute";
@@ -9,6 +9,7 @@ import FoodBlog from "./components/foodBlog";
 import Settings from "./components/settings";
 import DealsAndDiscounts from "./components/dealsAndDiscounts";
 import Profile from "./components/profile";
+import NotFound from "./components/notFound";
 import Logout from "./components/logout";
 import Verify from "./components/verify";
 import VerifyUserRoute from "./components/verifyUserRoute";
@@ -16,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./App.css";
 import "./AppMediaQueries.css";
+import EditorPage from "./components/editor";
 
 class App extends Component {
   state = {
@@ -43,12 +45,18 @@ class App extends Component {
             component={Settings}
             user={user}
           />
+          <ProtectedRoute
+            path="/restaurant/:id/settings"
+            component={Settings}
+            user={user}
+          />
           <ProtectedRoute path="/user/:id/" component={Profile} user={user} />
           <ProtectedRoute
             path="/restaurant/:id/"
             component={Profile}
             user={user}
           />
+          <ProtectedRoute path="/editor" component={EditorPage} user={user} />
           <ProtectedRoute path="/newsfeed" component={Home} user={user} />
           <ProtectedRoute path="/foodblog" component={FoodBlog} user={user} />
           <ProtectedRoute
@@ -59,7 +67,9 @@ class App extends Component {
           <Route path="/:id/verify" component={VerifyUserRoute} />
           <Route path="/verify" render={() => <Verify user={user} />} />
           <Route path="/logout" component={Logout} />
+          <Route path="/not-found" component={NotFound} />
           <Route path="/" exact render={() => <LandingPage user={user} />} />
+          <Redirect to="/not-found" />
         </Switch>
       </React.Fragment>
     );

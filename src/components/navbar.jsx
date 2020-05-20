@@ -36,10 +36,18 @@ class Navbar extends Component {
               FooDux
             </h3>
             <SearchBox classes="d-block d-sm-none form-inline my-3" />
-            <h6 className="sidebar-item sidebar-item-active">Newsfeed</h6>
-            <h6 className="sidebar-item">Food Blog</h6>
-            <h6 className="sidebar-item">Deals & Discounts</h6>
-            <h6 className="sidebar-item d-block d-md-none">Polling</h6>
+            <NavLink
+              to="/newsfeed"
+              className="sidebar-item sidebar-item-active"
+            >
+              Newsfeed
+            </NavLink>
+            <NavLink to="/foodblog" className="sidebar-item">
+              Food Blog
+            </NavLink>
+            <NavLink to="/deals-and-discounts" className="sidebar-item">
+              Deals & Discounts
+            </NavLink>
           </div>
         </div>
         <nav className="navbar sticky-top navbar-expand navbar-black">
@@ -133,10 +141,11 @@ class Navbar extends Component {
                   >
                     <i className="fa fa-cog mr-2"></i>Settings
                   </NavLink>
-                  <NavLink className="dropdown-item" to="/report-a-problem">
-                    <i className="fa fa-question-circle mr-2"></i>Report a
-                    Problem
-                  </NavLink>
+                  {user.isEditor && (
+                    <NavLink className="dropdown-item" to="/editor">
+                      <i className="fa fa-pencil mr-2"></i>Editor
+                    </NavLink>
+                  )}
                   <div className="dropdown-divider"></div>
                   <NavLink className="dropdown-item" to="/logout">
                     <i className="fa fa-sign-out mr-2"></i>Logout

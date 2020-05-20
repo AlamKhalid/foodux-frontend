@@ -1,6 +1,15 @@
 import React from "react";
 
-const EditorPopup = ({ children, postBody, setPostBody, id, edit, label }) => {
+const EditorPopup = ({
+  children,
+  postBody,
+  setPostBody,
+  id,
+  edit,
+  label,
+  imgDiv = null,
+  prog = 0,
+}) => {
   return (
     <div
       className="modal fade"
@@ -31,11 +40,13 @@ const EditorPopup = ({ children, postBody, setPostBody, id, edit, label }) => {
           </div>
           <div className="modal-body">
             <textarea
-              style={{ width: "100%", minHeight: "50vh" }}
+              style={{ width: "100%", minHeight: "40vh" }}
               value={postBody}
               className="create-post-body"
               onChange={({ target }) => setPostBody(target.value)}
             ></textarea>
+            {prog > 0 && prog < 100 && <progress value={prog} max="100" />}
+            {imgDiv && imgDiv}
           </div>
           {children}
         </div>

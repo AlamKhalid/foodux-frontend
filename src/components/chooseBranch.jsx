@@ -13,8 +13,11 @@ const ChooseBranch = ({
   setBranchOptions,
   branchCount,
   setCities,
+  defaultCity = {},
+  values = [],
+  edit = false,
 }) => {
-  const [selectedCity, setSelectedCity] = useState({});
+  const [selectedCity, setSelectedCity] = useState(defaultCity);
 
   const handleBranches = (list) => {
     const branch = branches.find((branch) => branch.city === selectedCity.name);
@@ -47,7 +50,9 @@ const ChooseBranch = ({
   };
 
   return (
-    <div className="d-flex justify-content-center ml-5 mb-2">
+    <div
+      className={`d-flex ${edit ? "mb-3" : "justify-content-center ml-5 mb-2"}`}
+    >
       <label htmlFor="" className="label-1 mr-5">
         Branches
       </label>
@@ -64,7 +69,7 @@ const ChooseBranch = ({
             const findCity = cities.find((city) => city.name === cityName);
             setSelectedCity(findCity);
             setBranches([...branches, { city: cityName }]);
-            addSubareas(findCity._id);
+            addSubareas(findCity._id, itemId);
             setCities(cities.filter((city) => city.name !== cityName));
           } else {
             setBranches(
@@ -93,12 +98,13 @@ const ChooseBranch = ({
         closeIcon="cancel"
         onSelect={addBranchSubArea}
         onRemove={RemoveBranchSubArea}
+        selectedValues={values}
         placeholder=""
         emptyRecordMsg="Select city first"
         avoidHighlightFirstOption="true"
         style={{
           multiselectContainer: {
-            width: "25%",
+            width: edit ? "40%" : "25%",
             height: "fit-content",
             border: "none",
             borderRadius: "7px",

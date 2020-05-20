@@ -3,25 +3,33 @@ import OtherProfileCard from "./common/otherProfileCard";
 import { getFollowers, getFollowing } from "../services/userService";
 
 const FollowersNavOption = ({ userProfile, user, refreshProfile }) => {
+  const [isMounted, setIsMounted] = useState(false);
   const [followers, setFollowers] = useState([]);
   const [currentUserFollowing, setCurrentUserFollowing] = useState([]);
 
   useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
+  useEffect(() => {
     async function getData() {
-      const { data: obj1 } = await getFollowers(userProfile._id);
-      const { data: obj2 } = await getFollowing(user._id);
-      setFollowers(obj1.followers);
-      setCurrentUserFollowing(obj2.following);
+      if (isMounted) {
+        const { data: obj1 } = await getFollowers(userProfile._id);
+        const { data: obj2 } = await getFollowing(user._id);
+        setFollowers(obj1.followers);
+        setCurrentUserFollowing(obj2.following);
+      }
     }
     getData();
-  }, [userProfile, user]);
+  }, [userProfile, user, isMounted]);
 
   return (
     <React.Fragment>
       <input
         type="text"
-        className="expand search-icon circle mt-1"
-        placeholder="   Search user..."
+        className="search-icon mt-1"
+        placeholder="Search user..."
       />
       {followers.length > 0 ? (
         <React.Fragment>

@@ -2,20 +2,26 @@ import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import Navbar from "./navbar";
 import BasicSettings from "./basicSettings";
-import { getUser } from "./../services/userService";
+import { getUser, getRestaurants } from "./../services/userService";
 import Spinner from "./common/spinner";
 import ProfileSettings from "./profileSettings";
 import { getCities } from "./../services/cityService";
-import { getRestaurants } from "./../services/restaurantService";
 import { getFoods } from "./../services/foodService";
+import { getTypes } from "./../services/typeService";
 import ChangePassword from "./changePassword";
 import SavedPosts from "./savedPosts";
+import HiddenPosts from "./hiddenPosts";
+import DeleteMyAccount from "./deleteMyAccount";
+import BasicSettingsRes from "./basicSettingsRes";
+import ProfileSettingsRes from "./profileSettingsRes";
+import ChangePicture from "./changePicture";
 
 const Settings = ({ user }) => {
   const [fullUser, setFullUser] = useState({});
   const [cities, setCities] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   const [foods, setFoods] = useState([]);
+  const [types, setTypes] = useState([]);
 
   useEffect(() => {
     async function getData() {
@@ -25,6 +31,8 @@ const Settings = ({ user }) => {
       setRestaurants(res);
       const { data: food } = await getFoods();
       setFoods(food);
+      const { data: type } = await getTypes();
+      setTypes(type);
     }
     getData();
   }, []);
@@ -62,7 +70,11 @@ const Settings = ({ user }) => {
                     </button>
                   </h5>
                 </div>
-                <BasicSettings user={fullUser} setUser={setFullUser} />
+                {user.isRestaurant ? (
+                  <BasicSettingsRes user={fullUser} setUser={setFullUser} />
+                ) : (
+                  <BasicSettings user={fullUser} setUser={setFullUser} />
+                )}
               </div>
               <div className="card">
                 <div className="card-header" id="profile-settings">
@@ -78,13 +90,39 @@ const Settings = ({ user }) => {
                     </button>
                   </h5>
                 </div>
-                <ProfileSettings
-                  user={fullUser}
-                  cities={cities}
-                  restaurants={restaurants}
-                  foods={foods}
-                  setUser={setFullUser}
-                />
+                {user.isRestaurant ? (
+                  <ProfileSettingsRes
+                    user={fullUser}
+                    setUser={setFullUser}
+                    types={types}
+                    foods={foods}
+                    cities={cities}
+                  />
+                ) : (
+                  <ProfileSettings
+                    user={fullUser}
+                    cities={cities}
+                    restaurants={restaurants}
+                    foods={foods}
+                    setUser={setFullUser}
+                  />
+                )}
+              </div>
+              <div className="card">
+                <div className="card-header" id="change-pic">
+                  <h5 className="mb-0">
+                    <button
+                      className="btn foodux-link collapsed"
+                      data-toggle="collapse"
+                      data-target="#collapseSeven"
+                      aria-expanded="false"
+                      aria-controls="collapseSeven"
+                    >
+                      Change Picture
+                    </button>
+                  </h5>
+                </div>
+                <ChangePicture user={fullUser} setUser={setFullUser} />
               </div>
               <div className="card">
                 <div className="card-header" id="change-password">
@@ -116,7 +154,39 @@ const Settings = ({ user }) => {
                     </button>
                   </h5>
                 </div>
-                <SavedPosts />
+                <SavedPosts user={fullUser} />
+              </div>
+              <div className="card">
+                <div className="card-header" id="hidden-posts">
+                  <h5 className="mb-0">
+                    <button
+                      className="btn foodux-link collapsed"
+                      data-toggle="collapse"
+                      data-target="#collapseFive"
+                      aria-expanded="false"
+                      aria-controls="collapseFive"
+                    >
+                      Hidden Posts
+                    </button>
+                  </h5>
+                </div>
+                <HiddenPosts user={fullUser} />
+              </div>
+              <div className="card">
+                <div className="card-header" id="delete-my-account">
+                  <h5 className="mb-0">
+                    <button
+                      className="btn foodux-link collapsed"
+                      data-toggle="collapse"
+                      data-target="#collapseSix"
+                      aria-expanded="false"
+                      aria-controls="collapseSix"
+                    >
+                      Delete Account
+                    </button>
+                  </h5>
+                </div>
+                <DeleteMyAccount user={user} />
               </div>
             </div>
           </div>

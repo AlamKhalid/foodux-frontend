@@ -19,7 +19,7 @@ class ProfileAbout extends Component {
     const { userProfile } = this.props;
 
     return (
-      <div className="bg-light rounded-lg p-3">
+      <div className="bg-light rounded-lg p-3 mb-2">
         {userProfile.isRestaurant ? (
           <React.Fragment>
             <div>

@@ -1,23 +1,23 @@
 import React from "react";
 import HorizontalMenu from "./common/horizontalMenu";
 
-const SavedPosts = ({ user }) => {
+const HiddenPosts = ({ user }) => {
   return (
     <div
-      id="collapseFour"
+      id="collapseFive"
       className="collapse"
-      aria-labelledby="saved-posts"
+      aria-labelledby="hidden-posts"
       data-parent="#accordion"
     >
       <div className="card-body">
         <HorizontalMenu
-          id="saved-posts-items"
-          items={user.savedPosts}
-          label="saved"
+          id="hidden-posts-items"
+          items={user.hiddenPosts}
+          label="hidden"
         />
       </div>
     </div>
   );
 };
 
-export default SavedPosts;
+export default HiddenPosts;

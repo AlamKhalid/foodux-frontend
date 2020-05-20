@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { NavLink } from "react-router-dom";
 import $ from "jquery";
 import { toast } from "react-toastify";
@@ -6,7 +6,7 @@ import OwnCommentOptions from "./ownCommentOptions";
 import OtherCommentOptions from "./otherCommentOptions";
 import { unhideComment } from "./../../services/userService";
 
-class Comment extends Component {
+class Comment extends PureComponent {
   state = {
     commentOptionClass: "d-none", // hides the comment's options, show them only on hover
     hiddenCommentClass: "", // shows hidden comments with low opacity
@@ -42,7 +42,7 @@ class Comment extends Component {
     if (response) {
       this.props.reRenderPost();
       this.setState({ hiddenCommentClass: "" });
-      toast.info("Comment unhidden");
+      toast("Comment unhidden");
     } else {
       toast.error("Error unhiding comment");
     }
@@ -52,7 +52,6 @@ class Comment extends Component {
     // destructuring props and props.comment
     const { commentBody, commentBy, _id } = this.props.comment;
     const { userId, post, hidden } = this.props;
-
     return (
       <React.Fragment>
         <div className="d-flex">
@@ -61,11 +60,7 @@ class Comment extends Component {
             onMouseEnter={this.showOptions}
             onMouseLeave={this.hideOptions}
           >
-            <img
-              className="commentPic"
-              src="https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg?w=1200"
-              alt=""
-            />
+            <img className="commentPic" src={commentBy.profilePic} alt="" />
             <div className="text-justify comment">
               <NavLink className="userName mr-2" to="/">
                 {commentBy.name}

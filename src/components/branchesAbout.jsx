@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getCities } from "./../services/cityService";
 
-const HorizontalMenu = ({ id, items, label }) => {
+const BranchesAbout = ({ id, items }) => {
+  const [cities, setCities] = useState({});
+
+  useEffect(() => {
+    async function getData() {
+      const { data: cities } = await getCities();
+      const cityObjArr = {};
+      cities.forEach((city) => {
+        cityObjArr[city.name] = city.pic;
+      });
+      setCities(cityObjArr);
+    }
+    getData();
+  }, []);
+
   const outerWrapper =
     items.length / 4 !== 1 ? Math.ceil(items.length / 4) : items.length / 4;
   const array = [];
@@ -11,10 +26,11 @@ const HorizontalMenu = ({ id, items, label }) => {
   for (let i = 0; i < items.length; i += 4) {
     subitems.push(items.slice(i, i + 4));
   }
+
   return items.length > 0 ? (
     <div
       id={id}
-      className="carousel slide carousel-multi-item"
+      className="carousel slide carousel-multi-item mt-3"
       data-ride="carousel"
     >
       <div className="carousel-inner" role="listbox">
@@ -29,32 +45,14 @@ const HorizontalMenu = ({ id, items, label }) => {
                 <div className="card mb-2">
                   <img
                     className="card-img-top"
-                    src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg"
+                    src={cities[item.city]}
                     alt=""
                   />
                   <div className="card-body">
-                    <div className="d-flex">
-                      <img
-                        className="displayPostPicture"
-                        src="https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg?w=1200"
-                        alt=""
-                      />
-                      <div className="d-flex flex-column">
-                        <h6 className="card-title mb-0">{item.postBy.name}</h6>
-                        <span className="label-2 text-muted">
-                          <i
-                            className={`fa fa-${
-                              item.creator === "User" ? "user" : "bank"
-                            } text-muted mr-1`}
-                          ></i>
-                          {item.postType === "Recommendation"
-                            ? "Asking"
-                            : item.postType}
-                        </span>
-                      </div>
-                    </div>
-                    <p className="card-text mt-2">{item.postBody}</p>
-                    <button className="btn foodux-btn">Show More</button>
+                    <h4 className="card-title mb-0 text-center">{item.city}</h4>
+                    <p className="card-text mt-2 ">
+                      {item.subareas.toString()}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -74,8 +72,8 @@ const HorizontalMenu = ({ id, items, label }) => {
       )}
     </div>
   ) : (
-    <p>No {label} posts to show</p>
+    <p className="text-muted mt-3">No restaurants to show</p>
   );
 };
 
-export default HorizontalMenu;
+export default React.memo(BranchesAbout);

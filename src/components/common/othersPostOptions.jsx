@@ -31,7 +31,7 @@ class OthersPostOptions extends Component {
           <span
             className="dropdown-item"
             data-toggle="modal"
-            data-target="#confirmHide"
+            data-target="#confirmHidePost"
           >
             <i className="fa fa-eye-slash mr-2"></i>Hide Post
           </span>
@@ -44,6 +44,7 @@ class OthersPostOptions extends Component {
           title="Hide Post"
           message="Are you sure you want to hide it?"
           handleHide={this.handleHide}
+          label="Post"
         />{" "}
       </React.Fragment>
     );

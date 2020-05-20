@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import $ from "jquery";
 import { toast } from "react-toastify";
 import {
@@ -9,6 +9,7 @@ import {
 import { submitPost, updatePost } from "./../services/postService";
 import MultiSelect from "./common/multiSelect";
 import EditorPopup from "./editorPopup";
+import { storage } from "../firebase/index";
 
 const AddReviewPopup = ({ user }) => {
   const [postId, setPostId] = useState("");
@@ -29,6 +30,10 @@ const AddReviewPopup = ({ user }) => {
   const [foodOptions, setFoodOptions] = useState([]);
   const [ateFood, setAteFood] = useState([]);
   const [edit, setEdit] = useState(false);
+  const [images, setImages] = useState([]);
+  const [imageURLS, setImageURLS] = useState([]);
+  const [progress, setProgress] = useState(0);
+  const imgBtn = useRef(null);
 
   useEffect(() => {
     $('[data-toggle="tooltip"]').tooltip({ trigger: "hover" });
@@ -96,6 +101,7 @@ const AddReviewPopup = ({ user }) => {
       overallRating: rating,
       postBody: reviewBody,
       ateFood: [...ateFood],
+      images: imageURLS,
       amountSpend,
       branchArea,
       branchCity,
@@ -107,6 +113,7 @@ const AddReviewPopup = ({ user }) => {
     const response = edit
       ? await updatePost(postId, { ...commonAttr })
       : await submitPost({
+          ...commonAttr,
           postType: "Review",
           postBy: user._id,
           creator: "User",
@@ -119,6 +126,34 @@ const AddReviewPopup = ({ user }) => {
     }
   };
 
+  const handleUpload = ({ target }) => {
+    if (target.files[0]) {
+      const image = target.files[0];
+      const imageName = Date.now() + image.name;
+      setImages([...images, image]);
+      const uploadTask = storage.ref(`images/${imageName}`).put(image);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const prog = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(prog);
+        },
+        (error) => {
+          toast.error("Error uploading picture");
+        },
+        async () => {
+          const url = await storage
+            .ref("images")
+            .child(imageName)
+            .getDownloadURL();
+          setImageURLS([...imageURLS, url]);
+        }
+      );
+    }
+  };
+
   return (
     <React.Fragment>
       <EditorPopup
@@ -127,10 +162,41 @@ const AddReviewPopup = ({ user }) => {
         setPostBody={setReviewBody}
         edit={edit}
         label="review"
+        imgDiv={
+          imageURLS.length > 0 ? (
+            <div className="mt-1">
+              {imageURLS.map((image) => (
+                <img
+                  key={image}
+                  src={image}
+                  alt=""
+                  className="rounded-sm mr-2 post-img"
+                />
+              ))}
+            </div>
+          ) : null
+        }
+        prog={progress}
       >
         <div className="modal-footer">
           <div className="d-flex w-100 justify-content-between">
             <div>
+              <input
+                type="file"
+                className="d-none"
+                ref={imgBtn}
+                onChange={handleUpload}
+                multiple
+              />
+              <span onClick={() => imgBtn.current.click()}>
+                <input
+                  type="text"
+                  className="dec img-icon mr-2"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Add images"
+                />
+              </span>
               <input
                 type="text"
                 list="restaurants"

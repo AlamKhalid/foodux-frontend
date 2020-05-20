@@ -4,9 +4,7 @@ import Spinner from "./common/spinner";
 class Logout extends Component {
   componentDidMount() {
     localStorage.clear();
-    setTimeout(() => {
-      window.location = "/";
-    }, 1000);
+    window.location = "/";
   }
 
   render() {

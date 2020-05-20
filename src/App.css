@@ -282,18 +282,20 @@ input::-webkit-calendar-picker-indicator {
 }
 
 .search-icon {
-  background: black url("./icons/search-light.png") no-repeat 9px center;
-  border: 1px solid white !important;
-  border-radius: 0.25rem !important;
-}
-
-.search-icon:hover {
   background: #ededed url("./icons/search.png") no-repeat 9px center;
+  width: 20vw;
+  background-color: #fff;
+  border: 2px solid white;
+  padding-left: 32px;
+  cursor: auto;
+  color: black;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 .search-icon:focus {
-  background: #ededed url("./icons/search.png") no-repeat 9px center;
-  width: 20vw !important;
+  outline: none;
+  border: 2px solid black;
 }
 
 .plus-icon {
@@ -312,6 +314,10 @@ input::-webkit-calendar-picker-indicator {
   background: #ededed url("./icons/tick.png") no-repeat 9px center;
 }
 
+.img-icon {
+  background: #ededed url("./icons/img.png") no-repeat 9px center;
+}
+
 .up-icon {
   background: #ededed url("./icons/up.png") no-repeat 9px center;
 }
@@ -324,6 +330,11 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.post-img {
+  width: 150px;
+  height: 100px;
 }
 
 .expand,
@@ -363,6 +374,20 @@ input::-webkit-inner-spin-button {
   padding-top: 3rem;
 }
 
+.editor-box {
+  background-color: white;
+}
+
+.blog-posts-side {
+  max-height: 85vh;
+  overflow-y: initial !important;
+}
+
+.blog-posts-div {
+  overflow-y: auto;
+  max-height: 75vh;
+}
+
 .sidebar-brand {
   width: 80%;
   color: black;
@@ -372,7 +397,14 @@ input::-webkit-inner-spin-button {
   border-bottom: 1px solid black;
 }
 
+.sidebar-brand:hover {
+  color: #404241;
+  border-color: #404241;
+  cursor: pointer;
+}
+
 .sidebar-item {
+  display: block;
   margin: 15px 0;
   color: #dedede;
   width: 80%;
@@ -383,6 +415,8 @@ input::-webkit-inner-spin-button {
 .sidebar-item:hover {
   color: black;
   border-color: black;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .sidebar-item-active,
@@ -406,9 +440,24 @@ input::-webkit-inner-spin-button {
   font-size: 2.5rem;
 }
 
+.footer li:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .msg-popup {
   color: #666;
   font-size: 1rem;
+}
+
+.footer-icon {
+  border: 2px solid white;
+  padding: 10px 15px;
+  width: 50px;
+}
+
+.footer-icon:hover {
+  cursor: pointer;
 }
 
 .hidden-comment {
@@ -431,10 +480,6 @@ input::-webkit-inner-spin-button {
   border-radius: 50%;
   height: 160px;
   width: 160px;
-}
-
-.profile-pic:hover {
-  opacity: 0.6;
 }
 
 .profile-name {
@@ -513,9 +558,21 @@ input::-webkit-inner-spin-button {
   border-color: black;
 }
 
+.menu-pic {
+  width: 100%;
+  height: auto;
+}
+
 .home-hr {
   margin-top: 25px;
   border-width: 3px;
+}
+
+.profile-pic-setts {
+  width: 50%;
+  height: 50vh;
+  display: block;
+  margin-bottom: 25px;
 }
 
 .footer {
@@ -571,16 +628,4 @@ input::-webkit-inner-spin-button {
 
 input:disabled {
   cursor: not-allowed;
-}
-
-.menu-item {
-  padding: 20px 40px;
-  margin: 5px 10px;
-  user-select: none;
-  cursor: pointer;
-}
-
-.scroll-menu-arrow {
-  padding: 20px;
-  cursor: pointer;
 }

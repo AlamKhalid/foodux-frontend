@@ -9,7 +9,7 @@ const AnnouncementPost = ({ post, userId, reRenderPosts }) => {
         <div className="d-flex">
           <img
             className="displayPostPicture"
-            src="https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg?w=1200"
+            src={post.postBy.profilePic}
             alt=""
           />
           <div className="d-flex flex-column align-items-start">

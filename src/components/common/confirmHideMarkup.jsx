@@ -2,15 +2,15 @@ import React, { Component } from "react";
 
 class ConfirmHideMarkup extends Component {
   render() {
-    const { title, message, handleHide } = this.props;
+    const { title, message, handleHide, label } = this.props;
 
     return (
       <div
         className="modal fade"
-        id="confirmHide"
+        id={`confirmHide${label}`}
         tabIndex="-1"
         role="dialog"
-        aria-labelledby="confirmHideTitle"
+        aria-labelledby={`confirmHide${label}Title`}
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered" role="document">

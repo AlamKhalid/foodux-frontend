@@ -11,6 +11,7 @@ import DiscountPost from "./discountPost";
 import AnnouncementPost from "./announcementPost";
 import RecommendationAskPost from "./recommendationAskPost";
 import WhatPost from "./whatPost";
+import ImageInPosts from "./imagesInPost";
 
 class Post extends Component {
   constructor(props) {
@@ -89,7 +90,7 @@ class Post extends Component {
 
   render() {
     // destructuring the props and state objects
-    const { post, user, liked, reRenderPosts } = this.props;
+    const { post, user, liked, reRenderPosts, profile } = this.props;
     const { comments, likes, hiddenComments } = this.state;
     const likers = this.getLikesName();
     const commentators = this.getCommentsName();
@@ -138,12 +139,13 @@ class Post extends Component {
             userId={user._id}
           />
         )}
+        <ImageInPosts images={post.images} />
         <div className="d-flex justify-content-between mb-2">
           <span
             className="text-muted postLikeComment"
             role="button"
             data-toggle="tooltip"
-            data-placement="bottom"
+            data-placement="top"
             data-original-title={likers}
           >
             {likes.length} Likes
@@ -152,7 +154,7 @@ class Post extends Component {
             className="text-muted postLikeComment"
             role="button"
             data-toggle="tooltip"
-            data-placement="bottom"
+            data-placement="top"
             data-original-title={commentators}
           >
             {comments.length} Comments
@@ -180,6 +182,7 @@ class Post extends Component {
           postId={post._id}
           userId={user._id}
           reRenderPost={this.reRenderPost}
+          userPic={profile ? user.profilePic : user.pic}
         />
       </div>
     );
