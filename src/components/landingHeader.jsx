@@ -6,7 +6,7 @@ import SignUpPopup from "./signUpPopup";
 import SignUpOptions from "./signUpOptions";
 import SignUpFormRes from "./signUpFormRes";
 
-const LandingHeader = ({ user }) => {
+const LandingHeader = ({ user, isHome = false, active }) => {
   const [navbarClasses, setNavbarClasses] = useState("navbar-transparent");
 
   useEffect(() => {
@@ -23,31 +23,74 @@ const LandingHeader = ({ user }) => {
 
   return (
     <React.Fragment>
-      <nav className={`navbar navbar-expand fixed-top ${navbarClasses}`}>
+      <nav
+        className={`navbar navbar-expand-lg fixed-top ${
+          isHome ? navbarClasses : "navbar-black"
+        }`}
+      >
         <div className="container">
           <NavLink className="navbar-brand" to="/">
             FooDux
           </NavLink>
-          <div>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="fa fa-bars text-white"></span>
+          </button>
+          <div
+            className="collapse navbar-collapse d-lg-flex justify-content-lg-end"
+            id="navbarSupportedContent"
+          >
             <ul className="navbar-nav">
-              <NavLink to="/" className="nav-item nav-link mr-3">
+              <NavLink
+                to="/"
+                className={`nav-item nav-link mr-3 fit-width ${
+                  active === 0 && "b-bot"
+                }`}
+              >
                 Home
               </NavLink>
-              <NavLink to="/" className="nav-item nav-link mr-3">
+              <NavLink
+                to="/about-us"
+                className={`nav-item nav-link mr-3 fit-width ${
+                  active === 1 && "b-bot"
+                }`}
+              >
                 About Us
               </NavLink>
-              <NavLink to="/" className="nav-item nav-link mr-3">
+              <NavLink
+                to="/restaurants"
+                className={`nav-item nav-link mr-3 fit-width ${
+                  active === 2 && "b-bot"
+                }`}
+              >
                 Restaurants
               </NavLink>
-              <NavLink to="/" className="nav-item nav-link mr-3">
+              <NavLink
+                to="/foods"
+                className={`nav-item nav-link mr-3 fit-width ${
+                  active === 3 && "b-bot"
+                }`}
+              >
                 Foods
               </NavLink>
-              <NavLink to="/" className="nav-item nav-link mr-3">
+              <NavLink
+                to="/cities"
+                className={`nav-item nav-link mr-3 fit-width ${
+                  active === 4 && "b-bot"
+                }`}
+              >
                 Cities
               </NavLink>
               {!_.isEmpty(user) ? (
                 <React.Fragment>
-                  <div className="dropdown show">
+                  <div className="dropdown show fit-width">
                     <NavLink
                       className="nav-item nav-link dropdown-toggle"
                       to="#"

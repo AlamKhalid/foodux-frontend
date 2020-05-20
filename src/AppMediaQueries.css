@@ -29,3 +29,59 @@
     border: 0;
   }
 }
+
+@media (max-width: 767.98px) {
+  .timeline::before {
+    left: 8px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .timeline-element {
+    width: 100%;
+    text-align: left;
+    padding-left: 2.5rem;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .timeline-element::before {
+    top: 1.25rem;
+    left: 1px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .timeline-element:nth-child(even) {
+    margin-left: 0rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .timeline-element {
+    width: 100%;
+    text-align: left;
+    padding-left: 2.5rem;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .timeline-element:nth-child(even)::before {
+    left: 1px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .timeline-element::before {
+    top: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8rem !important;
+    width: 50% !important;
+  }
+}

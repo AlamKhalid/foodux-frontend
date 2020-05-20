@@ -3,9 +3,9 @@ import React from "react";
 const Footer = () => {
   return (
     <div className="footer mt-5">
-      <div className="container">
+      <div className="container-flex container-md">
         <div className="row pt-5">
-          <div className="col-4">
+          <div className="col-6 col-md-4">
             <div className="text-center mb-3">
               <span
                 style={{
@@ -21,16 +21,18 @@ const Footer = () => {
             <div className="d-flex w-75 justify-content-center ml-4">
               <div className="d-flex flex-column text-white">
                 <ul className="footer-ul">
-                  <li>Home</li>
-                  <li>About</li>
-                  <li>Restaurant</li>
-                  <li>Food</li>
-                  <li>Cities</li>
+                  <li onClick={() => (window.location = "/")}>Home</li>
+                  <li onClick={() => (window.location = "/about-us")}>About</li>
+                  <li onClick={() => (window.location = "/restaurants")}>
+                    Restaurant
+                  </li>
+                  <li onClick={() => (window.location = "/foods")}>Food</li>
+                  <li onClick={() => (window.location = "/cities")}>Cities</li>
                 </ul>
               </div>
             </div>
           </div>
-          <div className="col-4">
+          <div className="col-6 col-md-4">
             <label className="text-white">Subscribe to our newsletter</label>
             <input
               type="text"
@@ -45,7 +47,7 @@ const Footer = () => {
               </em>
             </label>
           </div>
-          <div className="col-4">
+          <div className="col-12 col-md-4 mt-5 mt-md-0">
             <div className="text-center mb-3">
               <span
                 style={{

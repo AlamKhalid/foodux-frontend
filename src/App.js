@@ -18,6 +18,10 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import "./App.css";
 import "./AppMediaQueries.css";
 import EditorPage from "./components/editor";
+import AboutUs from "./components/aboutUs";
+import Restaurants from "./components/restaurants";
+import Foods from "./components/foods";
+import Cities from "./components/cities";
 
 class App extends Component {
   state = {
@@ -64,6 +68,13 @@ class App extends Component {
             component={DealsAndDiscounts}
             user={user}
           />
+          <Route path="/about-us" render={() => <AboutUs user={user} />} />
+          <Route
+            path="/restaurants"
+            render={() => <Restaurants user={user} />}
+          />
+          <Route path="/foods" render={() => <Foods user={user} />} />
+          <Route path="/cities" render={() => <Cities user={user} />} />
           <Route path="/:id/verify" component={VerifyUserRoute} />
           <Route path="/verify" render={() => <Verify user={user} />} />
           <Route path="/logout" component={Logout} />
